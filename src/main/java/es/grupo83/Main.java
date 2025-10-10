@@ -4,14 +4,43 @@ import es.grupo83.afd.AutomataFinito;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.*;
 
 public class Main {
   public static void main(String[] args) {
     String filePath = args[0];
 
-    // Calcular
+    // Calcular caracteres imprimibles
+    char[] asciiImprimibles = {
+            ' ', '\t', '!', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            ':', ';', '<', '=', '>', '?', '@',
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+            '[', ']', '^', '_', '`',
+            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+            'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+            '{', '|', '}', '~'
+    };
+
+    ArrayList<Character> imprimibles = new ArrayList<>();
+    for(char digito : AutomataFinito.DIGITOS) {
+      imprimibles.add(digito);
+    }
+    for(char letra : AutomataFinito.ALFABETO) {
+      imprimibles.add(letra);
+    }
+
+    imprimibles.add('+');
+    imprimibles.add('-');
+    imprimibles.add('*');
+    imprimibles.add('/');
+
+
 
     AutomataFinito afd = new AutomataFinito(0);
+    afd.agregarTransicionGrupo(0, 0, AutomataFinito.DELIMITADORES, -1);
+
     afd.agregarTransicionGrupo(0, 1, AutomataFinito.ALFABETO, 0);
     afd.agregarTransicion(0, 1, '_', 0);
 
@@ -35,9 +64,11 @@ public class Main {
 
     afd.agregarTransicionOtroCaracter(6, 7, 9);
 
-//    afd.agregarTransicion(0, 8, '\"', 10);
-
-    // TODO: Comillas
+    afd.agregarTransicion(0, 8, '\"', 10);
+    afd.agregarTransicionGrupo(8, 9, imprimibles, 11);
+    afd.agregarTransicion(8, 10, '\\', 12);
+    afd.agregarTransicionGrupo(10, 8, new char[] {'n', '"', '\\'}, 13);
+    afd.agregarTransicion(8, 11, '"', 14);
 
     afd.agregarTransicion(0, 11, '/', 15);
 
@@ -45,13 +76,9 @@ public class Main {
 
     // TODO: Mirar si EOF es valido en comentario
     afd.agregarTransicionOtroCaracter(12, 12, 17);
-
     afd.agregarTransicion(12, 13, '*', 18);
-
     afd.agregarTransicion(13, 13, '*', 19);
-    
     afd.agregarTransicion(13, 0, '/', 20);
-
     // TODO: Mirar si EOF es valido en comentario
     afd.agregarTransicionOtroCaracter(13, 12, 21);
 
@@ -90,8 +117,6 @@ public class Main {
     afd.agregarTransicion(0, 30, ':', 37);
 
     afd.agregarTransicion(0, 31, ';', 38);
-
-    // TODO: Manejar DEL
 
     try {
       AnalizadorLexico alex = new AnalizadorLexico(afd, filePath);
