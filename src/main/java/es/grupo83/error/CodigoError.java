@@ -1,5 +1,10 @@
 package es.grupo83.error;
 
 public enum CodigoError {
+  ID_DEMASIADO_LARGO,
+  CADENA_DEMASIADO_LARGA,
+  ENTERO_FUERA_RANGO,
+  REAL_FUERA_RANGO,
+  CARACTER_NO_RECONOCIDO
   // TODO
 }
