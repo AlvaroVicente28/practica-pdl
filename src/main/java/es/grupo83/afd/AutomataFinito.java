@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AutomataFinito {
-  private ArrayList<Pair<HashMap<Character, Transicion>, Transicion>> transiciones;
+  private HashMap<Integer, Pair<HashMap<Character, Transicion>, Transicion>> transiciones;
 
   private int estado;
 
@@ -19,9 +19,10 @@ public class AutomataFinito {
   public static final char[] ALFABETO = ("abcdefghijklmnopqrstuvwxyz" + "abcdefghijklmnopqrstuvwxyz".toUpperCase())
           .toCharArray();
 
+  public static final char[] DELIMITADORES = new char[] {' ', '\t', '\n'};
 
   public AutomataFinito(int estadoIncial) {
-    this.transiciones = new ArrayList<>();
+    this.transiciones = new HashMap<>();
     this.estadoInicial = estadoIncial;
     this.estado = estadoIncial;
   }
@@ -36,16 +37,15 @@ public class AutomataFinito {
 
   public void agregarTransicion(int estadoInicial, int estadoFinal, char chr, int accion) {
     Transicion tr = new Transicion(estadoFinal, accion);
-    if(this.transiciones.size() > estadoInicial) {
-      // TODO: Puede devolver null
+    if(this.transiciones.containsKey(estadoInicial)) {
       HashMap<Character, Transicion> columna = this.transiciones.get(estadoInicial).getFirst();
       columna.put(chr, tr);
     }
     else {
       HashMap<Character, Transicion> columna = new HashMap<>();
       columna.put(chr, tr);
-      Pair<HashMap<Character, Transicion>, Transicion> data = new Pair<>(columna, null);
-      this.transiciones.set(estadoInicial, data);
+      Pair<HashMap<Character, Transicion>, Transicion> fila = new Pair<>(columna, null);
+      this.transiciones.put(estadoInicial, fila);
     }
   }
 
@@ -55,16 +55,21 @@ public class AutomataFinito {
     }
   }
 
+  public void agregarTransicionGrupo(int estadoInicial, int estadoFinal, Iterable<Character> chrs, int accion) {
+    for(char chr : chrs) {
+      this.agregarTransicion(estadoInicial, estadoFinal, chr, accion);
+    }
+  }
+
   public void agregarTransicionOtroCaracter(int estadoInicial, int estadoFinal, int accion) {
     Transicion tr = new Transicion(estadoFinal, accion);
-    if(this.transiciones.size() > estadoInicial) {
-      // TODO: Puede devolver null
+    if(this.transiciones.containsKey(estadoInicial)) {
       Pair<?, Transicion> columna = this.transiciones.get(estadoInicial);
       columna.setSecond(tr);
     }
     else {
       Pair<HashMap<Character, Transicion>, Transicion> data = new Pair<>(new HashMap<>(), tr);
-      this.transiciones.set(estadoInicial, data);
+      this.transiciones.put(estadoInicial, data);
     }
   }
 
@@ -73,14 +78,14 @@ public class AutomataFinito {
    * @return null si no existe transcion posible
    */
   public Transicion transicionar(char chr) {
-    if(this.transiciones.size() <= this.estado) {
+    if(!this.transiciones.containsKey(this.estado)) {
       return null;
     }
-    Pair<HashMap<Character, Transicion>, Transicion> data = this.transiciones.get(this.estado);
-    // TODO: data puede ser null
-    HashMap<Character, Transicion> columna = data.getFirst();
+    Pair<HashMap<Character, Transicion>, Transicion> fila = this.transiciones.get(this.estado);
+
+    HashMap<Character, Transicion> columna = fila.getFirst();
     Transicion tr = columna.get(chr);
 
-    return tr != null ? tr : data.getSecond();
+    return tr != null ? tr : fila.getSecond();
   }
 }
