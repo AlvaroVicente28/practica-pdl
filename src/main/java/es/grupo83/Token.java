@@ -36,6 +36,12 @@ public class Token {
     DEFAULT,
     BREAK
   }
+
+  public enum ORIENTACION_SIMBOLO {
+    APERTURA,
+    CIERRE
+  }
+
   private TipoToken tipoToken;
 
   private Object attr;
