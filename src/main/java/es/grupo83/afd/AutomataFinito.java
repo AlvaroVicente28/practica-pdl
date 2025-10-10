@@ -2,7 +2,6 @@ package es.grupo83.afd;
 
 import es.grupo83.util.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AutomataFinito {
@@ -11,6 +10,8 @@ public class AutomataFinito {
   private int estado;
 
   private int estadoInicial;
+
+  private int[] estadosFinales;
 
   public static final char EOF = '\0';
 
@@ -21,9 +22,10 @@ public class AutomataFinito {
 
   public static final char[] DELIMITADORES = new char[] {' ', '\t', '\n'};
 
-  public AutomataFinito(int estadoIncial) {
+  public AutomataFinito(int estadoIncial, int[] estadosFinales) {
     this.transiciones = new HashMap<>();
     this.estadoInicial = estadoIncial;
+    this.estadosFinales = estadosFinales;
     this.estado = estadoIncial;
   }
 
@@ -31,11 +33,20 @@ public class AutomataFinito {
     return this.estado;
   }
 
+  public boolean esFinal() {
+    for(int es : this.estadosFinales) {
+      if(this.estadoInicial == es) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public void reset() {
     this.estado = this.estadoInicial;
   }
 
-  public void agregarTransicion(int estadoInicial, int estadoFinal, char chr, int accion) {
+  public void agregarTransicion(int estadoInicial, int estadoFinal, char chr, AccionSemantica accion) {
     Transicion tr = new Transicion(estadoFinal, accion);
     if(this.transiciones.containsKey(estadoInicial)) {
       HashMap<Character, Transicion> columna = this.transiciones.get(estadoInicial).getFirst();
@@ -49,19 +60,19 @@ public class AutomataFinito {
     }
   }
 
-  public void agregarTransicionGrupo(int estadoInicial, int estadoFinal, char[] chrs, int accion) {
+  public void agregarTransicionGrupo(int estadoInicial, int estadoFinal, char[] chrs, AccionSemantica accion) {
     for(char chr : chrs) {
       this.agregarTransicion(estadoInicial, estadoFinal, chr, accion);
     }
   }
 
-  public void agregarTransicionGrupo(int estadoInicial, int estadoFinal, Iterable<Character> chrs, int accion) {
+  public void agregarTransicionGrupo(int estadoInicial, int estadoFinal, Iterable<Character> chrs, AccionSemantica accion) {
     for(char chr : chrs) {
       this.agregarTransicion(estadoInicial, estadoFinal, chr, accion);
     }
   }
 
-  public void agregarTransicionOtroCaracter(int estadoInicial, int estadoFinal, int accion) {
+  public void agregarTransicionOtroCaracter(int estadoInicial, int estadoFinal, AccionSemantica accion) {
     Transicion tr = new Transicion(estadoFinal, accion);
     if(this.transiciones.containsKey(estadoInicial)) {
       Pair<?, Transicion> columna = this.transiciones.get(estadoInicial);
@@ -86,6 +97,16 @@ public class AutomataFinito {
     HashMap<Character, Transicion> columna = fila.getFirst();
     Transicion tr = columna.get(chr);
 
-    return tr != null ? tr : fila.getSecond();
+    if(tr != null) {
+      this.estado = tr.getEstadoFinal();
+      return tr;
+    }
+    Transicion trOtroCaracter = fila.getSecond();
+    if(trOtroCaracter != null) {
+      this.estado = trOtroCaracter.getEstadoFinal();
+      return trOtroCaracter;
+    }
+
+    return null;
   }
 }

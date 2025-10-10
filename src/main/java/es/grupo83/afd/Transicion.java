@@ -3,9 +3,9 @@ package es.grupo83.afd;
 public class Transicion {
   private int estadoFinal;
 
-  private int accionSemantica;
+  private AccionSemantica accionSemantica;
 
-  public Transicion(int estadoFinal, int accionSemantica) {
+  public Transicion(int estadoFinal, AccionSemantica accionSemantica) {
     this.estadoFinal = estadoFinal;
     this.accionSemantica = accionSemantica;
   }
@@ -14,7 +14,7 @@ public class Transicion {
     return this.estadoFinal;
   }
 
-  public int getAccionSemantica() {
+  public AccionSemantica getAccionSemantica() {
     return this.accionSemantica;
   }
 }
