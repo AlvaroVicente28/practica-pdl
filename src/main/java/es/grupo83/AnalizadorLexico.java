@@ -55,6 +55,7 @@ public class AnalizadorLexico {
   }
 
   public Token nextToken() throws IOException {
+    this.afd.reset();
     // Estado interno
     String lexemaId = "";
     int contadorLongitudId = 0;
@@ -100,6 +101,7 @@ public class AnalizadorLexico {
         case CONCATENAR_NUMERO_ENTERO -> {
           entero *= 10;
           entero += this.chrActual - '0';
+          this.leer();
         }
         case GENERAR_TOKEN_CTE_ENTERA -> {
           if(entero > 32767) {
@@ -159,51 +161,67 @@ public class AnalizadorLexico {
           return res;
         }
         case GENERAR_TOKEN_OPERADOR_IGUALDAD -> {
+          this.leer();
           return new Token(Token.TipoToken.IGUALDAD, null);
         }
         case GENERAR_TOKEN_ASIG -> {
+          this.leer();
           return new Token(Token.TipoToken.ASIGNACION, null);
         }
         case GENERAR_TOKEN_AUTOINCREMENTO -> {
+          this.leer();
           return new Token(Token.TipoToken.AUTOINCREMENTO, null);
         }
         case GENERAR_TOKEN_AND -> {
+          this.leer();
           return new Token(Token.TipoToken.AND, null);
         }
         case GENERAR_TOKEN_COMA -> {
+          this.leer();
           return new Token(Token.TipoToken.COMA, null);
         }
         case GENERAR_TOKEN_APERTURA_LLAVES -> {
+          this.leer();
           return new Token(Token.TipoToken.LLAVES, Token.ORIENTACION_SIMBOLO.APERTURA);
         }
         case GENERAR_TOKEN_CIERRE_LLAVES -> {
+          this.leer();
           return new Token(Token.TipoToken.LLAVES, Token.ORIENTACION_SIMBOLO.CIERRE);
         }
         case GENERAR_TOKEN_APERTURA_PAR -> {
+          this.leer();
           return new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.APERTURA);
         }
         case GENERAR_TOKEN_CIERRE_PAR -> {
+          this.leer();
           return new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE);
         }
         case GENERAR_TOKEN_MENOR_ESTRICTO -> {
+          this.leer();
           return new Token(Token.TipoToken.MENOR_ESTRICTO, null);
         }
         case GENERAR_TOKEN_MENOS -> {
+          this.leer();
           return new Token(Token.TipoToken.OP_RESTA, null);
         }
         case GENERAR_TOKEN_MODULO -> {
+          this.leer();
           return new Token(Token.TipoToken.OP_MODULO, null);
         }
         case GENERAR_TOKEN_NOT -> {
+          this.leer();
           return new Token(Token.TipoToken.NOT, null);
         }
         case GENERAR_TOKEN_DOS_PUNTOS -> {
+          this.leer();
           return new Token(Token.TipoToken.DOS_PUNTOS, null);
         }
         case GENERAR_TOKEN_PUNTO_COMA -> {
+          this.leer();
           return new Token(Token.TipoToken.PUNTO_COMA, null);
         }
         case GENERAR_TOKEN_EOF -> {
+          this.leer();
           return new Token(Token.TipoToken.EOF, null);
         }
       }
@@ -214,7 +232,8 @@ public class AnalizadorLexico {
   }
 
   private void leer() throws IOException {
-    this.chrActual = (char) this.lectorFichero.read();
+    int read = this.lectorFichero.read();
+    this.chrActual = read == -1 ? AutomataFinito.EOF : (char) read;
   }
 
 }

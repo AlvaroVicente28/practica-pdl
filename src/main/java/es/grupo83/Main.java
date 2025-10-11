@@ -54,10 +54,10 @@ public class Main {
     afd.agregarTransicionOtroCaracter(6, 7, AccionSemantica.GENERAR_TOKEN_CTE_REAL);
 
     afd.agregarTransicion(0, 8, '\"', AccionSemantica.INICIAR_CADENA);
-    afd.agregarTransicionGrupo(8, 9, asciiImprimibles, AccionSemantica.CONCATENAR_CADENA);
+    afd.agregarTransicionGrupo(8, 8, asciiImprimibles, AccionSemantica.CONCATENAR_CADENA);
     afd.agregarTransicion(8, 10, '\\', AccionSemantica.SOLO_LEER);
     afd.agregarTransicionGrupo(10, 8, new char[] {'n', '"', '\\'}, AccionSemantica.MANEJAR_SECUENCIA_ESCAPE);
-    afd.agregarTransicion(8, 11, '"', AccionSemantica.GENERAR_TOKEN_CTE_CADENA);
+    afd.agregarTransicion(8, 9, '"', AccionSemantica.GENERAR_TOKEN_CTE_CADENA);
 
     afd.agregarTransicion(0, 11, '/', AccionSemantica.SOLO_LEER);
     afd.agregarTransicion(11, 12, '*', AccionSemantica.SOLO_LEER);

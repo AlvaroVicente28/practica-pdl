@@ -20,7 +20,7 @@ public class AutomataFinito {
   public static final char[] ALFABETO = ("abcdefghijklmnopqrstuvwxyz" + "abcdefghijklmnopqrstuvwxyz".toUpperCase())
           .toCharArray();
 
-  public static final char[] DELIMITADORES = new char[] {' ', '\t', '\n'};
+  public static final char[] DELIMITADORES = new char[] {' ', '\t', '\n', '\r'};
 
   public AutomataFinito(int estadoIncial, int[] estadosFinales) {
     this.transiciones = new HashMap<>();

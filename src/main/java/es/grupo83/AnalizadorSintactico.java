@@ -18,7 +18,8 @@ public class AnalizadorSintactico {
     Token token;
     do {
       token = this.alex.nextToken();
-      System.out.println("Token encontrado: " + token.getTipoToken().name() + " con atributo: " + token.getAttr());
+      System.out.println("Token encontrado: " + token.getTipoToken().ordinal()
+              + "(" + token.getTipoToken().name() + ") con atributo: " + token.getAttr());
     }
     while(token.getTipoToken() != Token.TipoToken.EOF);
   }
