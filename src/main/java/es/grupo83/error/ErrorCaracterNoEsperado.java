@@ -1,9 +1,9 @@
 package es.grupo83.error;
 
-public class ErrorNoReconocido extends Error {
+public class ErrorCaracterNoEsperado extends Error {
   private char chr;
 
-  public ErrorNoReconocido(char chr) {
+  public ErrorCaracterNoEsperado(char chr) {
     this.chr = chr;
   }
 
@@ -19,6 +19,6 @@ public class ErrorNoReconocido extends Error {
 
   @Override
   public String getMsg() {
-    return "Caracter no reconocido: " + this.chr;
+    return "Caracter no esperado: " + this.chr;
   }
 }

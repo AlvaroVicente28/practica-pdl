@@ -7,7 +7,6 @@ import es.grupo83.afd.Transicion;
 import es.grupo83.afd.AccionSemantica;
 import es.grupo83.error.*;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -46,8 +45,7 @@ public class AnalizadorLexico {
     this.gestorErrores = gestorErrores;
     this.afd = afd;
 
-    FileReader lector = new FileReader(filePath);
-    this.lectorFichero = lector;
+    this.lectorFichero = new FileReader(filePath);
 
     int read = this.lectorFichero.read();
     // TODO: EOF ES '\0'
@@ -66,7 +64,7 @@ public class AnalizadorLexico {
     while(!this.afd.esFinal()) {
       Transicion tr = this.afd.transicionar(this.chrActual);
       if(tr == null) {
-        this.gestorErrores.agregarError(new ErrorNoReconocido(this.chrActual));
+        this.gestorErrores.agregarError(new ErrorCaracterNoEsperado(this.chrActual));
         this.gestorErrores.pararEnError();
       }
       AccionSemantica accionSem = tr.getAccionSemantica();
