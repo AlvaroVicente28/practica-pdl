@@ -108,9 +108,10 @@ public class Main {
     afd.agregarTransicion(0, 32, AutomataFinito.EOF, AccionSemantica.GENERAR_TOKEN_EOF);
 
     GestorErrores gestorErrores = new GestorErrores();
+    TablaSimbolos tablaSimbolos = new TablaSimbolos();
 
     try {
-      AnalizadorLexico alex = new AnalizadorLexico(gestorErrores, afd, filePath);
+      AnalizadorLexico alex = new AnalizadorLexico(gestorErrores, tablaSimbolos, afd, filePath);
       AnalizadorSintactico asint = new AnalizadorSintactico(gestorErrores, alex);
       asint.run();
     }

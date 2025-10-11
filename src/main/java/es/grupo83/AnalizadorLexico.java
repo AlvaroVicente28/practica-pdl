@@ -14,6 +14,8 @@ import java.io.IOException;
 public class AnalizadorLexico {
   private GestorErrores gestorErrores;
 
+  private TablaSimbolos tablaSimbolos;
+
   private AutomataFinito afd;
 
   private FileReader lectorFichero;
@@ -22,7 +24,8 @@ public class AnalizadorLexico {
 
   private HashMap<String, Token> palabrasReservadas;
 
-  public AnalizadorLexico(GestorErrores gestorErrores, AutomataFinito afd, String filePath) throws IOException {
+  public AnalizadorLexico(GestorErrores gestorErrores, TablaSimbolos tablaSimbolos,
+                          AutomataFinito afd, String filePath) throws IOException {
     this.palabrasReservadas = new HashMap<>();
     palabrasReservadas.put("int", new Token(Token.TipoToken.INT, null));
     palabrasReservadas.put("float", new Token(Token.TipoToken.FLOAT, null));
@@ -39,8 +42,9 @@ public class AnalizadorLexico {
     palabrasReservadas.put("default", new Token(Token.TipoToken.DEFAULT, null));
     palabrasReservadas.put("break", new Token(Token.TipoToken.BREAK, null));
 
-    this.afd = afd;
+    this.tablaSimbolos = tablaSimbolos;
     this.gestorErrores = gestorErrores;
+    this.afd = afd;
 
     FileReader lector = new FileReader(filePath);
     this.lectorFichero = lector;
@@ -90,7 +94,7 @@ public class AnalizadorLexico {
           if(pr != null) {
             return pr;
           }
-          // TODO: Generar TOKEN
+          return new Token(Token.TipoToken.IDENTIFICADOR, this.tablaSimbolos.agregarORecuperarEntrada(lexemaId));
         }
         case INICIAR_NUMERO_ENTERO -> {
           entero = this.chrActual - '0';
