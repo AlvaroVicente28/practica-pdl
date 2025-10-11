@@ -15,6 +15,11 @@ public class AnalizadorSintactico {
   }
 
   public void run() throws IOException {
-    // TODO: Llamar al lexico
+    Token token;
+    do {
+      token = this.alex.nextToken();
+      System.out.println("Token encontrado: " + token.getTipoToken().name() + " con atributo: " + token.getAttr());
+    }
+    while(token.getTipoToken() != Token.TipoToken.EOF);
   }
 }

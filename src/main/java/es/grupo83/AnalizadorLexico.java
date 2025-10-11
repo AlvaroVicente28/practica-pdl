@@ -26,6 +26,8 @@ public class AnalizadorLexico {
   public AnalizadorLexico(GestorErrores gestorErrores, TablaSimbolos tablaSimbolos,
                           AutomataFinito afd, String filePath) throws IOException {
     this.palabrasReservadas = new HashMap<>();
+    this.palabrasReservadas.put("true", new Token(Token.TipoToken.CTE_LOGICA, true));
+    palabrasReservadas.put("false", new Token(Token.TipoToken.CTE_LOGICA, false));
     palabrasReservadas.put("int", new Token(Token.TipoToken.INT, null));
     palabrasReservadas.put("float", new Token(Token.TipoToken.FLOAT, null));
     palabrasReservadas.put("boolean", new Token(Token.TipoToken.BOOLEAN, null));
