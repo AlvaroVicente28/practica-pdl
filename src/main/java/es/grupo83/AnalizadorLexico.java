@@ -67,13 +67,11 @@ public class AnalizadorLexico {
       Transicion tr = this.afd.transicionar(this.chrActual);
       if(tr == null) {
         this.gestorErrores.agregarError(new ErrorNoReconocido(this.chrActual));
-        System.exit(-1);
+        this.gestorErrores.pararEnError();
       }
       AccionSemantica accionSem = tr.getAccionSemantica();
       switch (accionSem) {
-        case SOLO_LEER -> {
-          this.leer();
-        }
+        case SOLO_LEER -> this.leer();
         case INICIAR_CONCATENAR_ID -> {
           lexemaId = "" + this.chrActual;
           contadorLongitudId = 1;
@@ -87,8 +85,6 @@ public class AnalizadorLexico {
         case GENERAR_TOKEN_IDENTIFICADOR -> {
           if (contadorLongitudId > 64) {
             this.gestorErrores.agregarError(new ErrorIDDemasiadoLargo(lexemaId));
-            // TODO: Salida
-            System.exit(-1);
           }
           Token pr = this.palabrasReservadas.get(lexemaId);
           if(pr != null) {
@@ -97,7 +93,7 @@ public class AnalizadorLexico {
           return new Token(Token.TipoToken.IDENTIFICADOR, this.tablaSimbolos.agregarORecuperarEntrada(lexemaId));
         }
         case INICIAR_NUMERO_ENTERO -> {
-          entero = this.chrActual - '0';
+          entero = (long) this.chrActual - '0';
           this.leer();
         }
         case CONCATENAR_NUMERO_ENTERO -> {
@@ -107,10 +103,8 @@ public class AnalizadorLexico {
         case GENERAR_TOKEN_CTE_ENTERA -> {
           if(entero > 32767) {
             this.gestorErrores.agregarError(new ErrorEnteroFueraRango(entero));
-            System.exit(-1);
           }
-          Token res = new Token(Token.TipoToken.CTE_ENTERA, (int) entero);
-          return res;
+          return new Token(Token.TipoToken.CTE_ENTERA, (int) entero);
         }
         case INICIAR_NUMERO_REAL -> {
           contadorDecimales = 0;
@@ -123,13 +117,11 @@ public class AnalizadorLexico {
           this.leer();
         }
         case GENERAR_TOKEN_CTE_REAL -> {
-          double real = entero * Math.pow(10, -1 * contadorDecimales);
+          double real = entero * Math.pow(10, (double) -1 * contadorDecimales);
           if(real > 117549436.0) {
             this.gestorErrores.agregarError(new ErrorRealFueraRango(real));
-            System.exit(-1);
           }
-          Token res = new Token(Token.TipoToken.CTE_REAL, (float) real);
-          return res;
+          return new Token(Token.TipoToken.CTE_REAL, (float) real);
         }
         case INICIAR_CADENA -> {
           cadena = "";
@@ -157,7 +149,6 @@ public class AnalizadorLexico {
         case GENERAR_TOKEN_CTE_CADENA -> {
           if(contadorCaracteresCadena > 64) {
             this.gestorErrores.agregarError(new ErrorCadenaDemasiadoLarga(cadena));
-            System.exit(-1);
           }
           Token res = new Token(Token.TipoToken.CTE_CADENA, cadena);
           this.leer();
@@ -212,6 +203,7 @@ public class AnalizadorLexico {
           return new Token(Token.TipoToken.EOF, null);
         }
       }
+      this.gestorErrores.pararEnError();
     }
 
     throw new RuntimeException("No se retorna un token!");

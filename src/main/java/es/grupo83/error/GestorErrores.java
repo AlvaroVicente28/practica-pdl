@@ -30,4 +30,15 @@ public class GestorErrores {
 
     return res;
   }
+
+  /**
+   * Si existen errores reportados, aborta el programa.
+   * EOC, es NO-OP
+   */
+  public void pararEnError() {
+    if(!this.errores.isEmpty()) {
+      System.out.println(this.mensajes());
+      System.exit(-1);
+    }
+  }
 }
