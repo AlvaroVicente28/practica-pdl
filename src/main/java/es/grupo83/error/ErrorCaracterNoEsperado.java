@@ -19,6 +19,16 @@ public class ErrorCaracterNoEsperado extends Error {
 
   @Override
   public String getMsg() {
-    return "Caracter no esperado: " + this.chr;
+    String repr = "" + this.chr;
+    if(this.chr == ' ') {
+      repr = "< >";
+    }
+    if(this.chr == '\n' || this.chr == '\r') {
+      repr = "<SALTO-LINEA>";
+    }
+    if(this.chr == '\0') {
+      repr = "<NIL>";
+    }
+    return "Caracter no esperado: " + repr;
   }
 }

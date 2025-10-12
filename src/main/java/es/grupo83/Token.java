@@ -24,6 +24,7 @@ public class Token {
     INT,
     FLOAT,
     BOOLEAN,
+    STRING,
     VOID,
     LET,
     WRITE,

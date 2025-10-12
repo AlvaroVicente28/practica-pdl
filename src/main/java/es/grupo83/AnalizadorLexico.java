@@ -26,11 +26,12 @@ public class AnalizadorLexico {
   public AnalizadorLexico(GestorErrores gestorErrores, TablaSimbolos tablaSimbolos,
                           AutomataFinito afd, String filePath) throws IOException {
     this.palabrasReservadas = new HashMap<>();
-    this.palabrasReservadas.put("true", new Token(Token.TipoToken.CTE_LOGICA, true));
+    palabrasReservadas.put("true", new Token(Token.TipoToken.CTE_LOGICA, true));
     palabrasReservadas.put("false", new Token(Token.TipoToken.CTE_LOGICA, false));
     palabrasReservadas.put("int", new Token(Token.TipoToken.INT, null));
     palabrasReservadas.put("float", new Token(Token.TipoToken.FLOAT, null));
     palabrasReservadas.put("boolean", new Token(Token.TipoToken.BOOLEAN, null));
+    palabrasReservadas.put("string", new Token(Token.TipoToken.STRING, null));
     palabrasReservadas.put("void", new Token(Token.TipoToken.VOID, null));
     palabrasReservadas.put("let", new Token(Token.TipoToken.LET, null));
     palabrasReservadas.put("write", new Token(Token.TipoToken.WRITE, null));
