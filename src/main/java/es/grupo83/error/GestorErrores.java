@@ -10,6 +10,7 @@ public class GestorErrores {
   private ArrayList<Pair<Error, Integer>> errores;
 
   public GestorErrores() {
+    this.lineaActual = 1;
     this.errores = new ArrayList<>();
   }
 

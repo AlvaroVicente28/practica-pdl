@@ -50,7 +50,6 @@ public class AnalizadorLexico {
     this.lectorFichero = new FileReader(filePath);
 
     int read = this.lectorFichero.read();
-    // TODO: EOF ES '\0'
     this.chrActual = read == -1 ? AutomataFinito.EOF : (char) read;
   }
 
@@ -65,6 +64,9 @@ public class AnalizadorLexico {
     int contadorCaracteresCadena = 0;
 
     while(!this.afd.esFinal()) {
+      if(this.chrActual == '\n') {
+        this.gestorErrores.pasarLinea();
+      }
       Transicion tr = this.afd.transicionar(this.chrActual);
       if(tr == null) {
         this.gestorErrores.agregarError(new ErrorCaracterNoEsperado(this.chrActual));

@@ -14,6 +14,7 @@ public class AutomataFinito {
 
   private Set<Integer> estadosFinales;
 
+  // TODO: EOF ES '\0'
   public static final char EOF = '\0';
 
   public static final char[] DIGITOS = new char[] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
@@ -56,8 +57,9 @@ public class AutomataFinito {
 
   public void agregarTransicion(int estadoInicial, int estadoFinal, char chr, AccionSemantica accion) {
     Transicion tr = new Transicion(estadoFinal, accion);
-    HashMap<Character, Transicion> columna = this.transiciones.get(estadoInicial).getFirst();
-    if(columna != null) {
+    Pair<HashMap<Character, Transicion>, ?> data = this.transiciones.get(estadoInicial);
+    if(data != null) {
+      HashMap<Character, Transicion> columna = data.getFirst();
       columna.put(chr, tr);
     }
     else {
