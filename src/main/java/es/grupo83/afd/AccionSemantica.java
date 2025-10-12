@@ -1,7 +1,6 @@
 package es.grupo83.afd;
 
 public enum AccionSemantica {
-  NADA,
   SOLO_LEER,
   INICIAR_CONCATENAR_ID,
   CONCATENAR_ID,

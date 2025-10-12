@@ -3,6 +3,7 @@ package es.grupo83.afd;
 import es.grupo83.util.*;
 
 import java.util.HashMap;
+import java.util.Set;
 
 public class AutomataFinito {
   private HashMap<Integer, Pair<HashMap<Character, Transicion>, Transicion>> transiciones;
@@ -11,7 +12,7 @@ public class AutomataFinito {
 
   private int estadoInicial;
 
-  private int[] estadosFinales;
+  private Set<Integer> estadosFinales;
 
   public static final char EOF = '\0';
 
@@ -22,7 +23,19 @@ public class AutomataFinito {
 
   public static final char[] DELIMITADORES = new char[] {' ', '\t', '\n', '\r'};
 
-  public AutomataFinito(int estadoIncial, int[] estadosFinales) {
+  public static final char[] ASCII_IMPRIMIBLES = {
+          ' ', '\t', '!', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/',
+          '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+          ':', ';', '<', '=', '>', '?', '@',
+          'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+          'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+          '[', ']', '^', '_', '`',
+          'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+          'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+          '{', '|', '}', '~'
+  };
+
+  public AutomataFinito(int estadoIncial, Set<Integer> estadosFinales) {
     this.transiciones = new HashMap<>();
     this.estadoInicial = estadoIncial;
     this.estadosFinales = estadosFinales;
@@ -34,12 +47,7 @@ public class AutomataFinito {
   }
 
   public boolean esFinal() {
-    for(int es : this.estadosFinales) {
-      if(this.estadoInicial == es) {
-        return true;
-      }
-    }
-    return false;
+    return this.estadosFinales.contains(this.estado);
   }
 
   public void reset() {
@@ -48,14 +56,14 @@ public class AutomataFinito {
 
   public void agregarTransicion(int estadoInicial, int estadoFinal, char chr, AccionSemantica accion) {
     Transicion tr = new Transicion(estadoFinal, accion);
-    if(this.transiciones.containsKey(estadoInicial)) {
-      HashMap<Character, Transicion> columna = this.transiciones.get(estadoInicial).getFirst();
+    HashMap<Character, Transicion> columna = this.transiciones.get(estadoInicial).getFirst();
+    if(columna != null) {
       columna.put(chr, tr);
     }
     else {
-      HashMap<Character, Transicion> columna = new HashMap<>();
-      columna.put(chr, tr);
-      Pair<HashMap<Character, Transicion>, Transicion> fila = new Pair<>(columna, null);
+      HashMap<Character, Transicion> nuevaColumna = new HashMap<>();
+      nuevaColumna.put(chr, tr);
+      Pair<HashMap<Character, Transicion>, Transicion> fila = new Pair<>(nuevaColumna, null);
       this.transiciones.put(estadoInicial, fila);
     }
   }
@@ -74,8 +82,8 @@ public class AutomataFinito {
 
   public void agregarTransicionOtroCaracter(int estadoInicial, int estadoFinal, AccionSemantica accion) {
     Transicion tr = new Transicion(estadoFinal, accion);
-    if(this.transiciones.containsKey(estadoInicial)) {
-      Pair<?, Transicion> columna = this.transiciones.get(estadoInicial);
+    Pair<?, Transicion> columna = this.transiciones.get(estadoInicial);
+    if(columna != null) {
       columna.setSecond(tr);
     }
     else {
@@ -89,10 +97,11 @@ public class AutomataFinito {
    * @return null si no existe transcion posible
    */
   public Transicion transicionar(char chr) {
-    if(!this.transiciones.containsKey(this.estado)) {
+    Pair<HashMap<Character, Transicion>, Transicion> fila = this.transiciones.get(this.estado);
+
+    if(fila == null) {
       return null;
     }
-    Pair<HashMap<Character, Transicion>, Transicion> fila = this.transiciones.get(this.estado);
 
     HashMap<Character, Transicion> columna = fila.getFirst();
     Transicion tr = columna.get(chr);

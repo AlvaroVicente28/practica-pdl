@@ -86,7 +86,7 @@ public class AnalizadorLexico {
         case GENERAR_TOKEN_IDENTIFICADOR -> {
           if (contadorLongitudId > 64) {
             this.gestorErrores.agregarError(new ErrorIDDemasiadoLargo(lexemaId));
-            break;
+            this.gestorErrores.pararEnError();
           }
           Token pr = this.palabrasReservadas.get(lexemaId);
           if(pr != null) {
@@ -106,7 +106,7 @@ public class AnalizadorLexico {
         case GENERAR_TOKEN_CTE_ENTERA -> {
           if(entero > 32767) {
             this.gestorErrores.agregarError(new ErrorEnteroFueraRango(entero));
-            break;
+            this.gestorErrores.pararEnError();
           }
           return new Token(Token.TipoToken.CTE_ENTERA, (int) entero);
         }
@@ -124,7 +124,7 @@ public class AnalizadorLexico {
           double real = entero * Math.pow(10, (double) -1 * contadorDecimales);
           if(real > 117549436.0) {
             this.gestorErrores.agregarError(new ErrorRealFueraRango(real));
-            break;
+            this.gestorErrores.pararEnError();
           }
           return new Token(Token.TipoToken.CTE_REAL, (float) real);
         }
@@ -154,7 +154,7 @@ public class AnalizadorLexico {
         case GENERAR_TOKEN_CTE_CADENA -> {
           if(contadorCaracteresCadena > 64) {
             this.gestorErrores.agregarError(new ErrorCadenaDemasiadoLarga(cadena));
-            break;
+            this.gestorErrores.pararEnError();
           }
           Token res = new Token(Token.TipoToken.CTE_CADENA, cadena);
           this.leer();
@@ -225,7 +225,6 @@ public class AnalizadorLexico {
           return new Token(Token.TipoToken.EOF, null);
         }
       }
-      this.gestorErrores.pararEnError();
     }
 
     throw new RuntimeException("No se retorna un token!");

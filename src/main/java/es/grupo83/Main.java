@@ -13,21 +13,10 @@ public class Main {
   public static void main(String[] args) {
     String filePath = args[0];
 
-    // Calcular caracteres imprimibles
-    char[] asciiImprimibles = {
-            ' ', '\t', '!', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/',
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-            ':', ';', '<', '=', '>', '?', '@',
-            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-            '[', ']', '^', '_', '`',
-            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-            'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-            '{', '|', '}', '~'
-    };
+    Set<Integer> estadosFinales = Set.of(2, 7, 5, 9, 15, 16, 18, 20, 21, 22, 23, 24, 25,
+            26, 27, 28, 29, 30, 31, 32);
+    AutomataFinito afd = new AutomataFinito(0, estadosFinales);
 
-    AutomataFinito afd = new AutomataFinito(0, new int[] {2, 7, 5, 9, 15, 16, 18, 20, 21, 22, 23, 24, 25,
-                                                                    26, 27, 28, 29, 30, 31, 32});
     afd.agregarTransicionGrupo(0, 0, AutomataFinito.DELIMITADORES, AccionSemantica.SOLO_LEER);
 
     afd.agregarTransicionGrupo(0, 1, AutomataFinito.ALFABETO, AccionSemantica.INICIAR_CONCATENAR_ID);
@@ -54,7 +43,7 @@ public class Main {
     afd.agregarTransicionOtroCaracter(6, 7, AccionSemantica.GENERAR_TOKEN_CTE_REAL);
 
     afd.agregarTransicion(0, 8, '\"', AccionSemantica.INICIAR_CADENA);
-    afd.agregarTransicionGrupo(8, 8, asciiImprimibles, AccionSemantica.CONCATENAR_CADENA);
+    afd.agregarTransicionGrupo(8, 8, AutomataFinito.ASCII_IMPRIMIBLES, AccionSemantica.CONCATENAR_CADENA);
     afd.agregarTransicion(8, 10, '\\', AccionSemantica.SOLO_LEER);
     afd.agregarTransicionGrupo(10, 8, new char[] {'n', '"', '\\'}, AccionSemantica.MANEJAR_SECUENCIA_ESCAPE);
     afd.agregarTransicion(8, 9, '"', AccionSemantica.GENERAR_TOKEN_CTE_CADENA);
