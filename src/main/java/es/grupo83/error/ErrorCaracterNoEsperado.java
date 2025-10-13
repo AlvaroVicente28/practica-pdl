@@ -23,6 +23,9 @@ public class ErrorCaracterNoEsperado extends Error {
     if(this.chr == ' ') {
       repr = "< >";
     }
+    if(this.chr == '\t') {
+      repr = "<TAB>";
+    }
     if(this.chr == '\n' || this.chr == '\r') {
       repr = "<SALTO-LINEA>";
     }
