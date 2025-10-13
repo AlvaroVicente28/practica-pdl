@@ -6,6 +6,7 @@ import es.grupo83.afd.AccionSemantica;
 import es.grupo83.error.GestorErrores;
 
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
@@ -103,6 +104,26 @@ public class Main {
       AnalizadorLexico alex = new AnalizadorLexico(gestorErrores, tablaSimbolos, afd, filePath);
       AnalizadorSintactico asint = new AnalizadorSintactico(gestorErrores, alex);
       asint.run();
+      FileWriter writer = new FileWriter("tokens.txt");
+      for (Token token : asint.getListaTokens()) {
+        Object attr = token.getAttr();
+        String atributeStr;
+        if (attr == null) {
+          atributeStr = "";
+        }
+        else if (attr instanceof Token.ORIENTACION_SIMBOLO) {
+          atributeStr = ((Token.ORIENTACION_SIMBOLO) attr).ordinal() + "";
+        }
+        else if (token.getTipoToken() == Token.TipoToken.CTE_CADENA) {
+          atributeStr = "\"" + attr.toString() + "\"";
+        }
+        else {
+          atributeStr = attr.toString();
+        }
+        writer.write("<" + token.getTipoToken().ordinal() + ", " + atributeStr + ">\r\n");
+      }
+      writer.flush();
+      writer.close();
     }
     catch (FileNotFoundException e) {
       System.err.println("Archivo no encontrado: " + filePath);
