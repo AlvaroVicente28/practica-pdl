@@ -2,7 +2,6 @@ package es.grupo83;
 
 import es.grupo83.afd.AutomataFinito;
 import es.grupo83.afd.AccionSemantica;
-
 import es.grupo83.error.GestorErrores;
 
 import java.io.FileNotFoundException;
@@ -104,26 +103,7 @@ public class Main {
       AnalizadorLexico alex = new AnalizadorLexico(gestorErrores, tablaSimbolos, afd, filePath);
       AnalizadorSintactico asint = new AnalizadorSintactico(gestorErrores, alex);
       asint.run();
-      FileWriter writer = new FileWriter("tokens.txt");
-      for (Token token : asint.getListaTokens()) {
-        Object attr = token.getAttr();
-        String atributeStr;
-        if (attr == null) {
-          atributeStr = "";
-        }
-        else if (attr instanceof Token.ORIENTACION_SIMBOLO) {
-          atributeStr = ((Token.ORIENTACION_SIMBOLO) attr).ordinal() + "";
-        }
-        else if (token.getTipoToken() == Token.TipoToken.CTE_CADENA) {
-          atributeStr = "\"" + attr.toString() + "\"";
-        }
-        else {
-          atributeStr = attr.toString();
-        }
-        writer.write("<" + token.getTipoToken().ordinal() + ", " + atributeStr + ">\r\n");
-      }
-      writer.flush();
-      writer.close();
+      escribirArchivoTokens(asint.getListaTokens());
     }
     catch (FileNotFoundException e) {
       System.err.println("Archivo no encontrado: " + filePath);
@@ -132,6 +112,29 @@ public class Main {
       System.err.println("Error al leer archivo: " + e.getMessage());
       e.printStackTrace();
     }
+    tablaSimbolos.finTablaSimbolos();
+  }
 
+  private static void escribirArchivoTokens(Iterable<Token> tokens) throws IOException {
+    FileWriter writer = new FileWriter("tokens.txt");
+    for (Token token : tokens) {
+      Object attr = token.getAttr();
+      String atributeStr;
+      if (attr == null) {
+        atributeStr = "";
+      }
+      else if (attr instanceof Token.ORIENTACION_SIMBOLO) {
+        atributeStr = ((Token.ORIENTACION_SIMBOLO) attr).ordinal() + "";
+      }
+      else if (token.getTipoToken() == Token.TipoToken.CTE_CADENA) {
+        atributeStr = "\"" + attr.toString() + "\"";
+      }
+      else {
+        atributeStr = attr.toString();
+      }
+      writer.write("<" + token.getTipoToken().ordinal() + ", " + atributeStr + ">\r\n");
+    }
+    writer.flush();
+    writer.close();
   }
 }

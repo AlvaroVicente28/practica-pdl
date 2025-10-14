@@ -1,21 +1,52 @@
 package es.grupo83;
 
-import java.util.ArrayList;
+import tslib.TS_Gestor;
 
 // TODO: Cuando tengamos el A. Semantico, podremos continuar la impl
 public class TablaSimbolos {
-  private ArrayList<String> lexemas;
+  private TS_Gestor gestor;
+
+  private boolean zonaDecl;
 
   public TablaSimbolos() {
-    this.lexemas = new ArrayList<>();
+    this.zonaDecl = false;
+    this.gestor = new TS_Gestor("simbolos.txt");
+    this.gestor.createTPalabrasReservadas();
+    this.gestor.activarDebug();
+    // TODO: Crear los atributos de la tabla de simbolos: Despl, N_Param, ...
+    this.gestor.createAtributo("desplazamiento", TS_Gestor.DescripcionAtributo.DIR, TS_Gestor.TipoDatoAtributo.ENTERO);
+    this.gestor.createTSGlobal();
+  }
+
+  public void inicioZonaDecl() {
+    this.zonaDecl = true;
+  }
+
+  public void finZonaDecl() {
+    this.zonaDecl = false;
+  }
+
+  public void crearAmbitoLocal() {
+    this.gestor.createTSLocal();
+  }
+
+  public void destruirAmbitoLocal() {
+    this.gestor.write(TS_Gestor.Tabla.LOCAL);
+    this.gestor.destroy(TS_Gestor.Tabla.LOCAL);
+  }
+
+  public void finTablaSimbolos() {
+    this.gestor.write(TS_Gestor.Tabla.GLOBAL);
+    this.gestor.destroy(TS_Gestor.Tabla.GLOBAL);
   }
 
   public int agregarORecuperarEntrada(String lexema) {
-    int index = this.lexemas.indexOf(lexema);
-    if(index != -1) {
-      return index;
+    // Buscar en las tablas
+    int pos = this.gestor.getEntradaTS(lexema);
+    if(pos == 0) {
+      // TODO: De momento solo se añade en la tabla global
+      return this.gestor.addEntradaTSGlobal(lexema);
     }
-    this.lexemas.add(lexema);
-    return this.lexemas.size() - 1;
+    return pos;
   }
 }

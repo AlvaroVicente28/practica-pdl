@@ -21,7 +21,7 @@ public class ErrorCaracterNoEsperado extends Error {
   public String getMsg() {
     String repr = "" + this.chr;
     if(this.chr == ' ') {
-      repr = "< >";
+      repr = "<ESPACIO>";
     }
     if(this.chr == '\t') {
       repr = "<TAB>";
