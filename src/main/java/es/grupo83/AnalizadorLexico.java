@@ -168,7 +168,6 @@ public class AnalizadorLexico {
           return new Token(Token.TipoToken.IGUALDAD, null);
         }
         case GENERAR_TOKEN_ASIG -> {
-          this.leer();
           return new Token(Token.TipoToken.ASIGNACION, null);
         }
         case GENERAR_TOKEN_AUTOINCREMENTO -> {
@@ -224,7 +223,6 @@ public class AnalizadorLexico {
           return new Token(Token.TipoToken.PUNTO_COMA, null);
         }
         case GENERAR_TOKEN_EOF -> {
-          this.leer();
           return new Token(Token.TipoToken.EOF, null);
         }
       }
