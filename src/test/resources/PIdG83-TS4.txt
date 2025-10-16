@@ -1,0 +1,24 @@
+let float float_ ;
+let int int_;
+let string string_;
+let boolean boolean_;
+write (00);let  boolean b;
+let  string  s;
+s="Hello?"
+	;function  int function_(int int_1, string string_2, boolean boolean_){
+	int_ = 
+	int_1-i;
+	if (boolean_) string_=string_2;
+	boolean_ = ! true;
+	write float_;
+	return int_
+;}
+
+function void vacia (void){boolean_=int_ == 0;}
+
+
+if (boolean_) vacia();
+write (function_(123,".",boolean_))
+;
+b=boolean_	;
+write (  i);
