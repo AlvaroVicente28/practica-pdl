@@ -1,0 +1,138 @@
+let int kkk;
+let int n1 ;
+let int n2 ;
+let int n3 ;
+let boolean b1;
+let boolean b2;
+let boolean b3;
+let string s1;
+let string s2;
+let string s3 ;
+let float r1;
+let float r2;
+let float r3;
+let float mmh;
+/** cosas raritas **/
+
+
+
+
+
+function float pp_ (float pp_)
+{return ((((pp_)-(pp_))));}
+
+function float _pp (boolean _pp)
+{
+	if ((_pp))
+	return ((pp_(mmh)));
+}
+
+write (((_pp(((mmh==pp_
+(((mmh)))))))));
+
+function void f1 (void)
+{
+	let 			string nn
+;
+	let 			boolean n1
+;
+	write n % 8;
+}
+function void f2(boolean b4, int n4)
+{
+	let string b5  ;
+	let int n2 ;
+	let string s3 ;
+	n4=n2;
+	b5=s2;
+	if (n2 == n4) f1 ();
+}
+
+function  int f3(int n2)
+{
+	let string k ;
+	let 
+	  string s2 ;
+	let
+	  int n4 ;
+	s3=s2;
+	if (n1 < n2) n4= f3 (n3 - 3);
+	return n3;
+}
+
+function  boolean f4(string b1, boolean n1, int s1)
+{
+	let string f6 ;
+	let string sbn;
+	n=33;
+	let string n;
+	n=b1;
+	return n1 && b2;
+}
+
+
+function string f5  (string f2, boolean f3, int f4, int f5, boolean  f7)
+{
+	let  int ff;
+	if (ff == f5) return f2;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+b2
+   = 
+      (n1 < f3 (n1));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+b3 
+	=
+	
+		b1&& f4 ("fin", b3, f3(nnnn));
