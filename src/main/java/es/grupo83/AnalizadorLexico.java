@@ -230,6 +230,18 @@ public class AnalizadorLexico {
         case GENERAR_TOKEN_EOF -> {
           return new Token(Token.TipoToken.EOF, null);
         }
+        case GEN_ERROR_REAL_MAL_ESCRITO -> {
+          this.gestorErrores.agregarError(new ErrorRealMalEscrito(entero, this.chrActual));
+          this.gestorErrores.pararEnError();
+        }
+        case GEN_ERROR_SECUENCIA_ESCAPE_INVALIDO -> {
+          this.gestorErrores.agregarError(new ErrorSecuenciaEscapeInvalida(this.chrActual));
+          this.gestorErrores.pararEnError();
+        }
+        case GEN_ERROR_COMENTARIO_SIN_FIN -> {
+          this.gestorErrores.agregarError(new ErrorComentarioSinFin());
+          this.gestorErrores.pararEnError();
+        }
       }
     }
 

@@ -29,6 +29,8 @@ public class ImplementacionAFD {
 
     afd.agregarTransicionOtroCaracter(3, 5, AccionSemantica.GENERAR_TOKEN_CTE_ENTERA);
 
+    afd.agregarTransicionOtroCaracter(4, 401, AccionSemantica.GEN_ERROR_REAL_MAL_ESCRITO);
+
     afd.agregarTransicionGrupo(4, 6, AutomataFinito.DIGITOS, AccionSemantica.CONCATENAR_NUMERO_REAL);
 
     afd.agregarTransicionGrupo(6, 6, AutomataFinito.DIGITOS, AccionSemantica.CONCATENAR_NUMERO_REAL);
@@ -39,16 +41,17 @@ public class ImplementacionAFD {
     afd.agregarTransicionGrupo(8, 8, AutomataFinito.ASCII_IMPRIMIBLES, AccionSemantica.CONCATENAR_CADENA);
     afd.agregarTransicion(8, 10, '\\', AccionSemantica.SOLO_LEER);
     afd.agregarTransicionGrupo(10, 8, new char[]{'n', '"', '\\'}, AccionSemantica.MANEJAR_SECUENCIA_ESCAPE);
+    afd.agregarTransicionOtroCaracter(10, 402, AccionSemantica.GEN_ERROR_SECUENCIA_ESCAPE_INVALIDO);
     afd.agregarTransicion(8, 9, '"', AccionSemantica.GENERAR_TOKEN_CTE_CADENA);
 
     afd.agregarTransicion(0, 11, '/', AccionSemantica.SOLO_LEER);
     afd.agregarTransicion(11, 12, '*', AccionSemantica.SOLO_LEER);
-    // TODO: Mirar si EOF es valido en comentario
+    afd.agregarTransicion(12, 403, AutomataFinito.EOF, AccionSemantica.GEN_ERROR_COMENTARIO_SIN_FIN);
     afd.agregarTransicionOtroCaracter(12, 12, AccionSemantica.SOLO_LEER);
     afd.agregarTransicion(12, 13, '*', AccionSemantica.SOLO_LEER);
     afd.agregarTransicion(13, 13, '*', AccionSemantica.SOLO_LEER);
     afd.agregarTransicion(13, 0, '/', AccionSemantica.SOLO_LEER);
-    // TODO: Mirar si EOF es valido en comentario
+    afd.agregarTransicion(13, 403, AutomataFinito.EOF, AccionSemantica.GEN_ERROR_COMENTARIO_SIN_FIN);
     afd.agregarTransicionOtroCaracter(13, 12, AccionSemantica.SOLO_LEER);
 
     afd.agregarTransicion(0, 14, '=', AccionSemantica.SOLO_LEER);

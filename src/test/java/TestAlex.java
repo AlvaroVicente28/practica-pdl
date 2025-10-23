@@ -4,8 +4,7 @@ import es.grupo83.TablaSimbolos;
 import es.grupo83.Token;
 import es.grupo83.afd.AutomataFinito;
 import es.grupo83.afd.ImplementacionAFD;
-import es.grupo83.error.ErrorCaracterNoEsperado;
-import es.grupo83.error.GestorErrores;
+import es.grupo83.error.*;
 import es.grupo83.util.Pair;
 
 import java.io.File;
@@ -21,7 +20,9 @@ class TestAlex {
   Pair<Iterable<Token>, GestorErrores> testearRecurso(String nombreRecurso) throws IOException {
     new MockUp<System>() {
       @Mock
-      public void exit(int status) { }
+      public void exit(int status) {
+        throw new TestExitException();
+      }
     };
 
     File recurso = new File(this.getClass().getResource(nombreRecurso).getPath());
@@ -37,9 +38,9 @@ class TestAlex {
     try {
       asint.run();
     }
-    catch(NullPointerException e) {
-      // Tras parar en GestorErrores.pararEnError, la transicion a ejecutar es null
-      // Para continuar con el test, permitimos que el ALex pare inmediatamente sin abortar el programa
+    catch(TestExitException e) {
+      // Tras parar en GestorErrores.pararEnError, se devuelve el control al test.
+      // Permitimos que el ALex pare inmediatamente sin abortar el programa
     }
     return new Pair<>(asint.getListaTokens(), gestorErrores);
   }
@@ -50,7 +51,7 @@ class TestAlex {
 
     GestorErrores expected = new GestorErrores();
     expected.setLinea(14);
-    expected.agregarError(new ErrorCaracterNoEsperado('\t'));
+    expected.agregarError(new ErrorRealMalEscrito(99, '\t'));
 
     assertEquals(expected.mensajes(), current.mensajes());
   }
