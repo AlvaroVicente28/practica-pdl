@@ -25,6 +25,11 @@ public class AnalizadorLexico {
 
   public AnalizadorLexico(GestorErrores gestorErrores, TablaSimbolos tablaSimbolos,
                           AutomataFinito afd, String filePath) throws IOException {
+    this(gestorErrores, tablaSimbolos, afd, new FileReader(filePath));
+  }
+
+  public AnalizadorLexico(GestorErrores gestorErrores, TablaSimbolos tablaSimbolos,
+                          AutomataFinito afd, FileReader file) throws IOException {
     this.palabrasReservadas = new HashMap<>();
     palabrasReservadas.put("true", new Token(Token.TipoToken.CTE_LOGICA, true));
     palabrasReservadas.put("false", new Token(Token.TipoToken.CTE_LOGICA, false));
@@ -48,7 +53,7 @@ public class AnalizadorLexico {
     this.gestorErrores = gestorErrores;
     this.afd = afd;
 
-    this.lectorFichero = new FileReader(filePath);
+    this.lectorFichero = file;
 
     int read = this.lectorFichero.read();
     this.chrActual = read == -1 ? AutomataFinito.EOF : (char) read;

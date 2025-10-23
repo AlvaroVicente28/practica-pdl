@@ -18,6 +18,14 @@ public class GestorErrores {
     ++this.lineaActual;
   }
 
+  /**
+   * Se usa para probar el gestor. No se verifica nada sobre la linea dada.
+   * @param linea La nueva linea
+   */
+  public void setLinea(int linea) {
+    this.lineaActual = linea;
+  }
+
   public void agregarError(Error error) {
     this.errores.add(new Pair<>(error, this.lineaActual));
   }
