@@ -10,6 +10,8 @@ import es.grupo83.util.Pair;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import mockit.Mock;
 import mockit.MockUp;
@@ -17,7 +19,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TestAlex {
-  Pair<Iterable<Token>, GestorErrores> testearRecurso(String nombreRecurso) throws IOException {
+  private Pair<Iterable<Token>, GestorErrores> testearRecurso(String nombreRecurso) throws IOException {
     new MockUp<System>() {
       @Mock
       public void exit(int status) {
@@ -45,6 +47,35 @@ class TestAlex {
     return new Pair<>(asint.getListaTokens(), gestorErrores);
   }
 
+  private String leerSolucion(String nombreRecurso) throws IOException {
+    File file = new File(this.getClass().getResource("soluciones/" + nombreRecurso).getPath());
+    return Files.readString(Path.of(file.getPath()));
+  }
+
+  private String tokensToString(Iterable<Token> tokens) {
+    String res = "";
+
+    for(Token token : tokens) {
+      Object attr = token.getAttr();
+      String atributeStr;
+      if (attr == null) {
+        atributeStr = "";
+      }
+      else if (attr instanceof Token.ORIENTACION_SIMBOLO) {
+        atributeStr = ((Token.ORIENTACION_SIMBOLO) attr).ordinal() + "";
+      }
+      else if (token.getTipoToken() == Token.TipoToken.CTE_CADENA) {
+        atributeStr = "\"" + attr.toString() + "\"";
+      }
+      else {
+        atributeStr = attr.toString();
+      }
+      res += "<" + token.getTipoToken().ordinal() + ", " + atributeStr + ">\r\n";
+    }
+
+    return res;
+  }
+
   @Test
   void test1() throws IOException {
     GestorErrores current = testearRecurso("PidG83-1.txt").getSecond();
@@ -66,9 +97,28 @@ class TestAlex {
 
   @Test
   void test3() throws IOException {
-    Pair<Iterable<Token>, GestorErrores> current = testearRecurso("PidG83-3.txt");
+    final String RECURSO = "PidG83-3.txt";
+
+    Pair<Iterable<Token>, GestorErrores> current = testearRecurso(RECURSO);
 
     assertTrue(current.getSecond().mensajes().isEmpty());
-    // TODO: Comprobar tokens
+
+    String actual = tokensToString(current.getFirst());
+
+    String expected = leerSolucion(RECURSO);
+
+    assertEquals(expected.trim(), actual.trim());
+  }
+
+  @Test
+  void test4() throws IOException {
+    final String RECURSO = "PidG83-4.txt";
+
+    Pair<Iterable<Token>, GestorErrores> current = testearRecurso(RECURSO);
+
+    String expectedTokens = leerSolucion(RECURSO);
+
+    assertTrue(current.getSecond().mensajes().isEmpty());
+    assertEquals(expectedTokens.trim(), tokensToString(current.getFirst()).trim());
   }
 }
