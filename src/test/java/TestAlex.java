@@ -78,7 +78,8 @@ class TestAlex {
 
   @Test
   void test1() throws IOException {
-    GestorErrores current = testearRecurso("PidG83-1.txt").getSecond();
+    final String RECURSO = "PIdG83-1.txt";
+    GestorErrores current = testearRecurso(RECURSO).getSecond();
 
     GestorErrores expected = new GestorErrores();
     expected.setLinea(14);
@@ -89,7 +90,8 @@ class TestAlex {
 
   @Test
   void test2() throws IOException {
-    Pair<Iterable<Token>, GestorErrores> current = testearRecurso("PidG83-2.txt");
+    final String RECURSO = "PIdG83-2.txt";
+    Pair<Iterable<Token>, GestorErrores> current = testearRecurso(RECURSO);
 
     assertTrue(current.getSecond().mensajes().isEmpty());
     // TODO: Comprobar tokens
@@ -97,7 +99,7 @@ class TestAlex {
 
   @Test
   void test3() throws IOException {
-    final String RECURSO = "PidG83-3.txt";
+    final String RECURSO = "PIdG83-3.txt";
 
     Pair<Iterable<Token>, GestorErrores> current = testearRecurso(RECURSO);
 
@@ -112,7 +114,19 @@ class TestAlex {
 
   @Test
   void test4() throws IOException {
-    final String RECURSO = "PidG83-4.txt";
+    final String RECURSO = "PIdG83-4.txt";
+
+    Pair<Iterable<Token>, GestorErrores> current = testearRecurso(RECURSO);
+
+    String expectedTokens = leerSolucion(RECURSO);
+
+    assertTrue(current.getSecond().mensajes().isEmpty());
+    assertEquals(expectedTokens.trim(), tokensToString(current.getFirst()).trim());
+  }
+
+  @Test
+  void test5() throws IOException {
+    final String RECURSO = "PIdG83-5.txt";
 
     Pair<Iterable<Token>, GestorErrores> current = testearRecurso(RECURSO);
 
