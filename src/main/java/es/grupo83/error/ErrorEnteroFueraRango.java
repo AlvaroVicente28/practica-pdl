@@ -19,6 +19,6 @@ public class ErrorEnteroFueraRango extends Error {
 
   @Override
   public String getMsg() {
-    return "Entero ilegal: " + this.enteroIlegal;
+    return "Entero fuera de rango: " + this.enteroIlegal;
   }
 }

@@ -10,6 +10,10 @@ import java.io.IOException;
 
 public class Main {
   public static void main(String[] args) {
+    if(args.length != 1) {
+      System.err.println("Se necesita exactamente un argumento");
+      System.exit(-1);
+    }
     String filePath = args[0];
 
     AutomataFinito afd = ImplementacionAFD.getAutomataFinito();
@@ -31,6 +35,7 @@ public class Main {
       e.printStackTrace();
     }
     tablaSimbolos.finTablaSimbolos();
+    System.out.println("ANALISIS CORRECTO");
   }
 
   private static void escribirArchivoTokens(Iterable<Token> tokens) throws IOException {

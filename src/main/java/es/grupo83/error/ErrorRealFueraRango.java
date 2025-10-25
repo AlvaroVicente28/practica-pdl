@@ -19,6 +19,6 @@ public class ErrorRealFueraRango extends Error {
 
   @Override
   public String getMsg() {
-    return "Real ilegal: " + this.realIlegal;
+    return "Real fuera de rango: " + this.realIlegal;
   }
 }
