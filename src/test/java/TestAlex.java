@@ -135,4 +135,17 @@ class TestAlex {
     assertTrue(current.getSecond().mensajes().isEmpty());
     assertEquals(expectedTokens.trim(), tokensToString(current.getFirst()).trim());
   }
+
+  @Test
+  void test6() throws IOException {
+    final String RECURSO = "PIdG83-6.txt";
+
+    GestorErrores actual = testearRecurso(RECURSO).getSecond();
+
+    GestorErrores expected = new GestorErrores();
+    expected.setLinea(20);
+    expected.agregarError(new ErrorEnteroFueraRango(32769));
+
+    assertEquals(expected.mensajes(), actual.mensajes());
+  }
 }
