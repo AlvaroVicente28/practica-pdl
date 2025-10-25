@@ -1,0 +1,66 @@
+/* Un comentario de linea empieza con // (aunque tu grupo no lo tiene)
+El de bloque comienza con /* y termina con */
+let int entero;
+let string cadena;
+let boolean logico;
+let float real;
+function void pp_(void)
+{
+ let int  abcdefghijklmnopqrstuvwxyz  ;
+  ___pp__  = 0;
+}function void FuncionNumero 	(void)
+{
+  let  int i ;
+
+  
+  i=entero;
+  entero = 9  %  i;
+}
+function string FuncionRetorno (string otracadena, int x, boolean z)
+{
+  x = 33  -  (x  %  entero); return otracadena;
+}
+function void FuncionSentencia(int b_b, boolean z)
+{
+	let  int a ;
+  switch (b_b)
+  {
+	case 1  : if (z) write 88;
+	case 11 : read entero; a=entero;
+	case 111: 
+			  read cadena;
+	case 1111: write (b); break;
+  }
+}
+function void Funcion(int x, boolean b)
+{
+	write FuncionRetorno("",0,b);
+  write 
+    (cadena);return;
+}
+let int iii  ;
+let boolean bbb  ;
+let float fff	;
+
+/* 
+esto 
+es 
+un 
+comentario! 
+multi 
+//linea */
+
+read iii;
+write iii  ;  
+
+iii = iii;
+bbb = bbb;
+fff = real;
+
+a__a = 12345 ; 	
+
+
+Funcion
+ ( a__a, 
+   bbb )
+;

@@ -148,4 +148,15 @@ class TestAlex {
 
     assertEquals(expected.mensajes(), actual.mensajes());
   }
+
+  @Test
+  void test7() throws IOException {
+    final String RECURSO = "PIdG83-7.txt";
+
+    Pair<Iterable<Token>, GestorErrores> actual = testearRecurso(RECURSO);
+    String expectedTokens = leerSolucion(RECURSO);
+
+    assertTrue(actual.getSecond().mensajes().isEmpty());
+    assertEquals(expectedTokens, tokensToString(actual.getFirst()));
+  }
 }
