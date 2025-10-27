@@ -1,0 +1,15 @@
+let int trobbio;
+let String dante;
+
+	write("asdfgh");;
+
+trobbio = 8;
+++trobbio;
+switch(trobbio) {
+	case trobbio=7:
+		dante = true;
+	break;
+	case trobbio=9:
+		dante = false;
+	break;
+}

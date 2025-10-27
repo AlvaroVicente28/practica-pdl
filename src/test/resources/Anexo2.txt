@@ -1,0 +1,8 @@
+/*Este documento 
+	será muy largo*/
+
+fffa_n="Nope";
+
+
+	qwertyuiopasdfghjklnyzxcvbnm=32765;
+write("Dirias que esto esta bien");

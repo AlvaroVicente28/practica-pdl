@@ -1,0 +1,8 @@
+/*POTASIUM
+it's Good for you*/
+
+let int lancer;
+
+lancer = 64%3;
+
+read lancer;;::

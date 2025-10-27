@@ -1,0 +1,6 @@
+esteIDEsDemasiadolargoProbablementeNoDeberiaSerloPeroHayQueProbarTodosLosErrores = "He dicho que era largo";
+					
+    	 	 	   if true {
+   float asdfg=12.3;
+	xy="1234"
+}

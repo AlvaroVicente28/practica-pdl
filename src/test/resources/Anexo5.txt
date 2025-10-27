@@ -1,0 +1,7 @@
+/*Microsoft presenta*/
+function blocked() {
+	let String steve;
+	steve="mojang trabaja";
+   write 64-1;
+		return 64<5;
+}

@@ -1,0 +1,13 @@
+/*Hola 
+buenos dias*/
+function x(){	
+   
+	x=1.2;
+}
+	
+ 
+ff_l = "PDL";
+
+	/*Este comentario en 		bloque	
+ no está cerrado
+	
