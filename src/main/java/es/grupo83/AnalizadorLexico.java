@@ -63,7 +63,6 @@ public class AnalizadorLexico {
     this.afd.reset();
     // Estado interno
     String lexemaId = "";
-    int contadorLongitudId = 0;
     long entero = 0;
     int contadorDecimales = 0;
     String cadena = "";
@@ -83,12 +82,10 @@ public class AnalizadorLexico {
         case SOLO_LEER -> this.leer();
         case INICIAR_CONCATENAR_ID -> {
           lexemaId = "" + this.chrActual;
-          contadorLongitudId = 1;
           this.leer();
         }
         case CONCATENAR_ID -> {
           lexemaId += "" + this.chrActual;
-          ++contadorLongitudId;
           this.leer();
         }
         case GENERAR_TOKEN_IDENTIFICADOR -> {

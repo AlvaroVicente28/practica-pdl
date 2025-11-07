@@ -1,0 +1,5 @@
+function main() {
+    /* Comentario con simbolos UNICODE: á ❤️ ﭲﮂﮑﮘשּׁﬔ */
+    let string x = "Hola 😊";
+    let string y = "Hola en Dzongkha es སྐུ༌གཟུགས༌བཟང༌པོ༌";
+}
