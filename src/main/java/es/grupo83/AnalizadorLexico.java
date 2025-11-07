@@ -92,10 +92,6 @@ public class AnalizadorLexico {
           this.leer();
         }
         case GENERAR_TOKEN_IDENTIFICADOR -> {
-          if (contadorLongitudId > 64) {
-            this.gestorErrores.agregarError(new ErrorIDDemasiadoLargo(lexemaId));
-            this.gestorErrores.pararEnError();
-          }
           Token pr = this.palabrasReservadas.get(lexemaId);
           if(pr != null) {
             return pr;
