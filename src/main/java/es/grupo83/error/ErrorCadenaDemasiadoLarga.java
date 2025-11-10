@@ -19,6 +19,6 @@ public class ErrorCadenaDemasiadoLarga extends Error {
 
   @Override
   public String getMsg() {
-    return "Cadena demasiado larga: " + this.cadenaIlegal;
+    return "Cadena demasiado larga: " + this.cadenaIlegal + " - Longitud = " + this.cadenaIlegal.length();
   }
 }
