@@ -1,5 +1,10 @@
 package es.grupo83.util;
 
+/**
+ * Tipo que representa una tupla de dos elementos
+ * @param <F> Tipo del primer elemento
+ * @param <S> Tipo del segundo elemento
+ */
 public class Pair<F, S> {
   private F first;
   private S second;

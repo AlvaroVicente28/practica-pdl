@@ -32,7 +32,8 @@ public class ImplementacionAFD {
 
     // Cadenas
     afd.agregarTransicion(0, 8, '\"', AccionSemantica.INICIAR_CADENA);
-    afd.agregarTransicionGrupo(8, 8, AutomataFinito.ASCII_IMPRIMIBLES, AccionSemantica.CONCATENAR_CADENA);
+    afd.asignarFuncionCalculo(8,
+            chr -> (!Character.isISOControl(chr)) ? new Transicion(8, AccionSemantica.CONCATENAR_CADENA) : null);
     afd.agregarTransicion(8, 10, '\\', AccionSemantica.SOLO_LEER);
     afd.agregarTransicionGrupo(10, 8, new char[]{'n', '"', '\\'}, AccionSemantica.MANEJAR_SECUENCIA_ESCAPE);
     afd.agregarTransicionOtroCaracter(10, 402, AccionSemantica.GEN_ERROR_SECUENCIA_ESCAPE_INVALIDO);
