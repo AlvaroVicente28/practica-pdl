@@ -49,7 +49,7 @@ class TestAlex {
 
   private String leerSolucion(String nombreRecurso) throws IOException {
     File file = new File(this.getClass().getResource("soluciones/" + nombreRecurso).getPath());
-    return Files.readString(Path.of(file.getPath()));
+    return Files.readString(Path.of(file.getPath())).replace("\r", "");
   }
 
   private String tokensToString(Iterable<Token> tokens) {
@@ -65,12 +65,12 @@ class TestAlex {
         atributeStr = ((Token.ORIENTACION_SIMBOLO) attr).ordinal() + "";
       }
       else if (token.getTipoToken() == Token.TipoToken.CTE_CADENA) {
-        atributeStr = "\"" + attr.toString() + "\"";
+        atributeStr = "\"" + attr + "\"";
       }
       else {
         atributeStr = attr.toString();
       }
-      res += "<" + token.getTipoToken().ordinal() + ", " + atributeStr + ">\r\n";
+      res += "<" + token.getTipoToken().ordinal() + ", " + atributeStr + ">\n";
     }
 
     return res;
