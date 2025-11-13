@@ -59,4 +59,31 @@ public class Token {
   public Object getAttr() {
     return this.attr;
   }
+
+  @Override
+  public boolean equals(Object obj) {
+    if(obj == this) {
+      return true;
+    }
+    if(obj == null) {
+      return false;
+    }
+
+    if(!(obj instanceof Token)) {
+      return false;
+    }
+    Token other = (Token) obj;
+
+    if(!this.tipoToken.equals(other.tipoToken)) {
+      return false;
+    }
+
+    if(this.attr == null) {
+      return other.attr == null;
+    }
+    if(other.attr == null) {
+      return false;
+    }
+    return this.attr.equals(other.attr);
+  }
 }
