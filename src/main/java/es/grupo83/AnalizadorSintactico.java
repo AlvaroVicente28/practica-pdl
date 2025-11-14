@@ -27,6 +27,7 @@ public class AnalizadorSintactico {
 
   public void run() throws IOException {
     this.next_tok = this.alex.nextToken();
+    this.listaTokens.add(this.next_tok);
     this.P();
     if(this.next_tok.getTipoToken() != Token.TipoToken.EOF) {
       throw new RuntimeException("Hay un error - Faltan pulir los errores");

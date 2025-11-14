@@ -1,6 +1,6 @@
 Terminales = { entero cadena real booleano id && - == < % ! ++ ( ) = ; write read return , if let switch break case default { } : int float string boolean void function }
  
-NoTerminales = {E E2 R R2 U U2 V V2 W W2 X Y Y2 S S2 R1 L Q B B2 SW SWC T F H A K C P }
+NoTerminales = { E E2 R R2 U U2 V V2 W W2 X Y Y2 S S2 R1 L Q B B2 SW SWC T F H A K C P }
 
 Axioma = P
 
