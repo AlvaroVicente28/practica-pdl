@@ -26,6 +26,7 @@ public class Main {
       AnalizadorSintactico asint = new AnalizadorSintactico(gestorErrores, alex);
       asint.run();
       escribirArchivoTokens(asint.getListaTokens());
+      escribirParse(asint.getParse());
     }
     catch (FileNotFoundException e) {
       System.err.println("Archivo no encontrado: " + filePath);
@@ -59,5 +60,15 @@ public class Main {
     }
     writer.flush();
     writer.close();
+  }
+
+  private static void escribirParse(Iterable<Integer> parse) throws IOException {
+    try(FileWriter writer = new FileWriter("parse.txt")) {
+      writer.write("D");
+      for(Integer regla : parse) {
+        writer.write(" " + regla);
+      }
+      writer.flush();
+    }
   }
 }
