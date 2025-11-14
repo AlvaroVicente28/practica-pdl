@@ -57,12 +57,12 @@ public class AnalizadorSintactico {
       this.B();
       this.P();
     }
-    if(first2.contains(next_tok)) {
+    else if(first2.contains(next_tok)) {
       this.parse.add(66);
       this.F();
       this.P();
     }
-    if(follow.contains(next_tok)) {
+    else if(follow.contains(next_tok)) {
       this.parse.add(67);
       // lambda
     }
@@ -80,14 +80,14 @@ public class AnalizadorSintactico {
       this.equipara(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE));
       this.S();
     }
-    if(this.next_tok.getTipoToken() == Token.TipoToken.LET) {
+    else if(this.next_tok.getTipoToken() == Token.TipoToken.LET) {
       this.parse.add(41);
       this.equipara(new Token(Token.TipoToken.LET, null));
       this.T();
       this.equipara(new Token(Token.TipoToken.IDENTIFICADOR, null));
       this.B2();
     }
-    if(this.next_tok.getTipoToken() == Token.TipoToken.SWITCH) {
+    else if(this.next_tok.getTipoToken() == Token.TipoToken.SWITCH) {
       this.parse.add(45);
       this.equipara(new Token(Token.TipoToken.SWITCH, null));
       this.equipara(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.APERTURA));
@@ -97,7 +97,7 @@ public class AnalizadorSintactico {
       this.SW();
       this.equipara(new Token(Token.TipoToken.LLAVES, Token.ORIENTACION_SIMBOLO.CIERRE));
     }
-    if(Set.of(new Token(Token.TipoToken.RETURN, null),
+    else if(Set.of(new Token(Token.TipoToken.RETURN, null),
             new Token(Token.TipoToken.WRITE, null),
             new Token(Token.TipoToken.READ, null),
             new Token(Token.TipoToken.IDENTIFICADOR, 0))
@@ -115,7 +115,7 @@ public class AnalizadorSintactico {
       this.parse.add(42);
       this.equipara(new Token(Token.TipoToken.PUNTO_COMA, null));
     }
-    if(this.next_tok.getTipoToken() == Token.TipoToken.ASIGNACION) {
+    else if(this.next_tok.getTipoToken() == Token.TipoToken.ASIGNACION) {
       this.parse.add(43);
       this.equipara(new Token(Token.TipoToken.ASIGNACION, null));
       this.E();
@@ -148,7 +148,7 @@ public class AnalizadorSintactico {
       this.parse.add(57);
       this.T();
     }
-    if(this.next_tok.getTipoToken() == Token.TipoToken.VOID) {
+    else if(this.next_tok.getTipoToken() == Token.TipoToken.VOID) {
       this.parse.add(58);
       this.equipara(new Token(Token.TipoToken.VOID, null));
     }
@@ -168,7 +168,7 @@ public class AnalizadorSintactico {
       this.equipara(new Token(Token.TipoToken.IDENTIFICADOR, null));
       this.K();
     }
-    if(this.next_tok.getTipoToken() == Token.TipoToken.VOID) {
+    else if(this.next_tok.getTipoToken() == Token.TipoToken.VOID) {
       this.parse.add(60);
       this.equipara(new Token(Token.TipoToken.VOID, null));
     }
@@ -182,15 +182,15 @@ public class AnalizadorSintactico {
       this.parse.add(52);
       this.equipara(new Token(Token.TipoToken.INT, null));
     }
-    if(this.next_tok.getTipoToken() == Token.TipoToken.FLOAT) {
+    else if(this.next_tok.getTipoToken() == Token.TipoToken.FLOAT) {
       this.parse.add(53);
       this.equipara(new Token(Token.TipoToken.FLOAT, null));
     }
-    if(this.next_tok.getTipoToken() == Token.TipoToken.STRING) {
+    else if(this.next_tok.getTipoToken() == Token.TipoToken.STRING) {
       this.parse.add(55);
       this.equipara(new Token(Token.TipoToken.STRING, null));
     }
-    if(this.next_tok.getTipoToken() == Token.TipoToken.BOOLEAN){
+    else if(this.next_tok.getTipoToken() == Token.TipoToken.BOOLEAN){
       this.parse.add(54);
       this.equipara(new Token(Token.TipoToken.BOOLEAN, null));
     } else {
@@ -210,7 +210,7 @@ public class AnalizadorSintactico {
       this.B();
       this.C();
     }
-    if(this.next_tok.equals(new Token(Token.TipoToken.LLAVES, Token.ORIENTACION_SIMBOLO.CIERRE))) {
+    else if(this.next_tok.equals(new Token(Token.TipoToken.LLAVES, Token.ORIENTACION_SIMBOLO.CIERRE))) {
       this.parse.add(64);
       // lambda
     }
@@ -225,17 +225,19 @@ public class AnalizadorSintactico {
       this.equipara(new Token(Token.TipoToken.IDENTIFICADOR, null));
       this.S2();
     }
-    if(this.next_tok.getTipoToken() == Token.TipoToken.WRITE) {
+    else if(this.next_tok.getTipoToken() == Token.TipoToken.WRITE) {
       this.parse.add(31);
       this.equipara(new Token(Token.TipoToken.WRITE, null));
       this.E();
+      this.equipara(new Token(Token.TipoToken.PUNTO_COMA, null));
     }
-    if(this.next_tok.getTipoToken() == Token.TipoToken.READ) {
+    else if(this.next_tok.getTipoToken() == Token.TipoToken.READ) {
       this.parse.add(32);
       this.equipara(new Token(Token.TipoToken.READ, null));
       this.equipara(new Token(Token.TipoToken.IDENTIFICADOR, 0));
+      this.equipara(new Token(Token.TipoToken.PUNTO_COMA, null));
     }
-    if(this.next_tok.getTipoToken() == Token.TipoToken.RETURN) {
+    else if(this.next_tok.getTipoToken() == Token.TipoToken.RETURN) {
       this.parse.add(33);
       this.equipara(new Token(Token.TipoToken.RETURN, null));
       this.R1();
@@ -252,7 +254,7 @@ public class AnalizadorSintactico {
       this.E();
       this.equipara(new Token(Token.TipoToken.PUNTO_COMA, null));
     }
-    if(this.next_tok.equals(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.APERTURA))) {
+    else if(this.next_tok.equals(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.APERTURA))) {
       this.parse.add(30);
       this.equipara(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.APERTURA));
       this.L();
@@ -279,7 +281,7 @@ public class AnalizadorSintactico {
       this.E();
       this.equipara(new Token(Token.TipoToken.PUNTO_COMA, null));
     }
-    if(this.next_tok.getTipoToken() == Token.TipoToken.PUNTO_COMA) {
+    else if(this.next_tok.getTipoToken() == Token.TipoToken.PUNTO_COMA) {
       this.parse.add(35);
       this.equipara(new Token(Token.TipoToken.PUNTO_COMA, null));
     }
@@ -303,7 +305,7 @@ public class AnalizadorSintactico {
       this.E();
       this.Q();
     }
-    if(this.next_tok.equals(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE))) {
+    else if(this.next_tok.equals(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE))) {
       this.parse.add(37);
       // lambda
     }
@@ -319,7 +321,7 @@ public class AnalizadorSintactico {
       this.E();
       this.Q();
     }
-    if(this.next_tok.equals(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE))) {
+    else if(this.next_tok.equals(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE))) {
       this.parse.add(39);
       // lambda
     }
@@ -337,14 +339,14 @@ public class AnalizadorSintactico {
       this.SWC();
       this.SW();
     }
-    if(this.next_tok.getTipoToken() == Token.TipoToken.DEFAULT) {
+    else if(this.next_tok.getTipoToken() == Token.TipoToken.DEFAULT) {
       this.parse.add(47);
       this.equipara(new Token(Token.TipoToken.DEFAULT, null));
       this.equipara(new Token(Token.TipoToken.DOS_PUNTOS, null));
       this.SWC();
       this.SW();
     }
-    if(this.next_tok.equals(new Token(Token.TipoToken.LLAVES, Token.ORIENTACION_SIMBOLO.CIERRE))) {
+    else if(this.next_tok.equals(new Token(Token.TipoToken.LLAVES, Token.ORIENTACION_SIMBOLO.CIERRE))) {
       this.parse.add(48);
       // lambda
     }
@@ -361,13 +363,13 @@ public class AnalizadorSintactico {
       this.B();
       this.SWC();
     }
-    if(this.next_tok.getTipoToken() == Token.TipoToken.BREAK) {
+    else if(this.next_tok.getTipoToken() == Token.TipoToken.BREAK) {
       this.parse.add(50);
       this.equipara(new Token(Token.TipoToken.BREAK, null));
       this.equipara(new Token(Token.TipoToken.PUNTO_COMA, null));
       this.SWC();
     }
-    if(Set.of(new Token(Token.TipoToken.CASE, null), new Token(Token.TipoToken.DEFAULT, null),
+    else if(Set.of(new Token(Token.TipoToken.CASE, null), new Token(Token.TipoToken.DEFAULT, null),
             new Token(Token.TipoToken.LLAVES, Token.ORIENTACION_SIMBOLO.CIERRE))
             .contains(this.next_tok)) {
       this.parse.add(51);
@@ -386,7 +388,7 @@ public class AnalizadorSintactico {
       this.equipara(new Token(Token.TipoToken.IDENTIFICADOR, 0));
       this.K();
     }
-    if(this.next_tok.equals(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE))) {
+    else if(this.next_tok.equals(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE))) {
       this.parse.add(62);
       // lambda
     }
@@ -408,7 +410,7 @@ public class AnalizadorSintactico {
       this.R();
       this.E2();
     }
-    if(Set.of(new Token(Token.TipoToken.COMA, null),
+    else if(Set.of(new Token(Token.TipoToken.COMA, null),
             new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE),
             new Token(Token.TipoToken.PUNTO_COMA, null))
             .contains(this.next_tok)) {
@@ -433,7 +435,7 @@ public class AnalizadorSintactico {
       this.U();
       this.R2();
     }
-    if(Set.of(new Token(Token.TipoToken.PUNTO_COMA, null),
+    else if(Set.of(new Token(Token.TipoToken.PUNTO_COMA, null),
             new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE),
             new Token(Token.TipoToken.AND, null),
             new Token(Token.TipoToken.COMA, null))
@@ -459,7 +461,7 @@ public class AnalizadorSintactico {
       this.V();
       this.U2();
     }
-    if(Set.of(new Token(Token.TipoToken.AND, null),
+    else if(Set.of(new Token(Token.TipoToken.AND, null),
             new Token(Token.TipoToken.PUNTO_COMA, null),
             new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE),
             new Token(Token.TipoToken.IGUALDAD, null),
@@ -486,7 +488,7 @@ public class AnalizadorSintactico {
       this.W();
       this.V2();
     }
-    if(Set.of(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE),
+    else if(Set.of(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE),
             new Token(Token.TipoToken.COMA, null),
             new Token(Token.TipoToken.MENOR_ESTRICTO, null),
             new Token(Token.TipoToken.PUNTO_COMA, null),
@@ -514,7 +516,7 @@ public class AnalizadorSintactico {
       this.X();
       this.W2();
     }
-    if(Set.of(new Token(Token.TipoToken.PUNTO_COMA, null),
+    else if(Set.of(new Token(Token.TipoToken.PUNTO_COMA, null),
             new Token(Token.TipoToken.COMA, null),
             new Token(Token.TipoToken.IGUALDAD, null),
             new Token(Token.TipoToken.MENOR_ESTRICTO, null),
@@ -536,17 +538,17 @@ public class AnalizadorSintactico {
       this.equipara(new Token(Token.TipoToken.NOT, null));
       this.X();
     }
-    if(this.next_tok.getTipoToken() == Token.TipoToken.AUTOINCREMENTO) {
+    else if(this.next_tok.getTipoToken() == Token.TipoToken.AUTOINCREMENTO) {
       this.parse.add(17);
       this.equipara(new Token(Token.TipoToken.AUTOINCREMENTO, null));
       this.equipara(new Token(Token.TipoToken.IDENTIFICADOR, 0));
     }
-    if(this.next_tok.getTipoToken() == Token.TipoToken.OP_RESTA) {
+    else if(this.next_tok.getTipoToken() == Token.TipoToken.OP_RESTA) {
       this.parse.add(18);
       this.equipara(new Token(Token.TipoToken.OP_RESTA, null));
       this.X();
     }
-    if(Set.of(new Token(Token.TipoToken.CTE_LOGICA, false),
+    else if(Set.of(new Token(Token.TipoToken.CTE_LOGICA, false),
             new Token(Token.TipoToken.CTE_REAL, 0.0),
             new Token(Token.TipoToken.CTE_ENTERA, 0),
             new Token(Token.TipoToken.CTE_CADENA, ""),
@@ -568,23 +570,23 @@ public class AnalizadorSintactico {
       this.E();
       this.equipara(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE));
     }
-    if(this.next_tok.getTipoToken() == Token.TipoToken.CTE_ENTERA) {
+    else if(this.next_tok.getTipoToken() == Token.TipoToken.CTE_ENTERA) {
       this.parse.add(22);
       this.equipara(new Token(Token.TipoToken.CTE_ENTERA, null));
     }
-    if(this.next_tok.getTipoToken() == Token.TipoToken.CTE_REAL) {
+    else if(this.next_tok.getTipoToken() == Token.TipoToken.CTE_REAL) {
       this.parse.add(24);
       this.equipara(new Token(Token.TipoToken.CTE_REAL, null));
     }
-    if(this.next_tok.getTipoToken() == Token.TipoToken.CTE_CADENA) {
+    else if(this.next_tok.getTipoToken() == Token.TipoToken.CTE_CADENA) {
       this.parse.add(23);
       this.equipara(new Token(Token.TipoToken.CTE_CADENA, null));
     }
-    if(this.next_tok.getTipoToken() == Token.TipoToken.CTE_LOGICA) {
+    else if(this.next_tok.getTipoToken() == Token.TipoToken.CTE_LOGICA) {
       this.parse.add(25);
       this.equipara(new Token(Token.TipoToken.CTE_LOGICA, null));
     }
-    if(this.next_tok.getTipoToken() == Token.TipoToken.IDENTIFICADOR) {
+    else if(this.next_tok.getTipoToken() == Token.TipoToken.IDENTIFICADOR) {
       this.parse.add(20);
       this.equipara(new Token(Token.TipoToken.IDENTIFICADOR, 0));
       this.Y2();
@@ -601,7 +603,7 @@ public class AnalizadorSintactico {
       this.L();
       this.equipara(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE));
     }
-    if(Set.of(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE),
+    else if(Set.of(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE),
             new Token(Token.TipoToken.PUNTO_COMA, null),
             new Token(Token.TipoToken.MENOR_ESTRICTO, null),
             new Token(Token.TipoToken.IGUALDAD, null),
