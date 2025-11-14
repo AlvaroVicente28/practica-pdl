@@ -78,12 +78,21 @@ public class Token {
       return false;
     }
 
-    if(this.attr == null) {
-      return other.attr == null;
+    // En este equals solo se comprueba que los atributos son iguales si son del tipo ORIENTACION_SIMBOLO
+
+    if(this.attr == null || other.attr == null) {
+      return true;
     }
-    if(other.attr == null) {
-      return false;
+
+    if(this.attr instanceof ORIENTACION_SIMBOLO) {
+      return (ORIENTACION_SIMBOLO) (this.attr) == (ORIENTACION_SIMBOLO) (other.attr);
     }
-    return this.attr.equals(other.attr);
+
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    return this.tipoToken.ordinal();
   }
 }
