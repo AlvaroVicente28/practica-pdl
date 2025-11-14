@@ -1,0 +1,79 @@
+Terminales = { entero cadena real booleano id && - == < % ! ++ ( ) = ; write read return , if let switch break case default { } : int float string boolean void function }
+ 
+NoTerminales = {E E2 R R2 U U2 V V2 W W2 X Y Y2 S S2 R1 L Q B B2 SW SWC T F H A K C P }
+
+Axioma = P
+
+Producciones = {
+    E -> R E2   //// Expresiones
+    E2 -> && R E2
+    E2 -> lambda
+    R -> U R2
+    R2 -> == U R2
+    R2 -> lambda
+    U -> V U2
+    U2 -> < V U2
+    U2 -> lambda
+    V -> W V2
+    V2 -> - W V2
+    V2 -> lambda
+    W -> X W2
+    W2 -> % X W2
+    W2 -> lambda
+    X -> ! X
+    X -> ++ id
+    X -> - X
+    X -> Y
+    Y -> id Y2
+    Y -> ( E )
+    Y -> entero
+    Y -> cadena
+    Y -> real
+    Y -> booleano
+    Y2 -> lambda
+    Y2 -> ( L )
+
+    S -> id S2  //// Sentencias simples
+    S2 -> = E ;
+    S2 -> ( L ) ;
+    S -> write E ;
+    S -> read id ;
+    S -> return R1
+    R1 -> E ;
+    R1 -> ;
+    L -> E Q
+    L -> lambda 
+    Q -> , E Q
+    Q -> lambda
+
+    B -> if ( E ) S  //// Sentencias compuestas
+    B -> let T id B2
+    B2 -> ;
+    B2 -> = E ;
+    B -> S
+    B -> switch ( E ) { SW }
+    SW -> case entero : SWC SW
+    SW -> default : SWC SW
+    SW -> lambda
+    SWC -> B SWC
+    SWC -> break ; SWC
+    SWC -> lambda
+    T -> int
+    T -> float
+    T -> boolean
+    T -> string
+
+    F -> function H id ( A ) { C }  //// Declaracion de funciones
+    H -> T
+    H -> void
+    A -> T id K
+    A -> void
+    K -> , T id K
+    K -> lambda
+    C -> B C 
+    C -> lambda
+
+    P -> B P //// Declaracion del programa
+    P -> F P
+    P -> lambda
+}
