@@ -1,4 +1,9 @@
 let int x = 10;
 function void a( void ) {
     write("Hola mundo");
+    if(1 == 1) read x;
+    switch(3 - 1) {
+        case 2: write("OK");
+        default: write("Unreachable");
+    }
 }

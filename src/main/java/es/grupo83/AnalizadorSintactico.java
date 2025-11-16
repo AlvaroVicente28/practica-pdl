@@ -38,7 +38,7 @@ public class AnalizadorSintactico {
   }
 
   private void equipara(Token token, ContextoSintactico ctx) throws IOException {
-    if(this.next_tok.getTipoToken() == token.getTipoToken()) {
+    if(this.next_tok.equals(token)) {
       this.next_tok = this.alex.nextToken();
       this.listaTokens.add(this.next_tok);
     }
@@ -94,8 +94,16 @@ public class AnalizadorSintactico {
       this.equipara(new Token(Token.TipoToken.IDENTIFICADOR, null), ContextoSintactico.SENTENCIA_COMPUESTA);
       this.B2();
     }
+    else if(Set.of(new Token(Token.TipoToken.RETURN, null),
+                    new Token(Token.TipoToken.WRITE, null),
+                    new Token(Token.TipoToken.READ, null),
+                    new Token(Token.TipoToken.IDENTIFICADOR, 0))
+            .contains(this.next_tok)) {
+      this.parse.add(42);
+      this.S();
+    }
     else if(this.next_tok.getTipoToken() == Token.TipoToken.SWITCH) {
-      this.parse.add(45);
+      this.parse.add(43);
       this.equipara(new Token(Token.TipoToken.SWITCH, null), ContextoSintactico.SENTENCIA_COMPUESTA);
       this.equipara(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.APERTURA), ContextoSintactico.SENTENCIA_COMPUESTA);
       this.E();
@@ -103,14 +111,6 @@ public class AnalizadorSintactico {
       this.equipara(new Token(Token.TipoToken.LLAVES, Token.ORIENTACION_SIMBOLO.APERTURA), ContextoSintactico.SENTENCIA_COMPUESTA);
       this.SW();
       this.equipara(new Token(Token.TipoToken.LLAVES, Token.ORIENTACION_SIMBOLO.CIERRE), ContextoSintactico.SENTENCIA_COMPUESTA);
-    }
-    else if(Set.of(new Token(Token.TipoToken.RETURN, null),
-            new Token(Token.TipoToken.WRITE, null),
-            new Token(Token.TipoToken.READ, null),
-            new Token(Token.TipoToken.IDENTIFICADOR, 0))
-            .contains(this.next_tok)) {
-      this.parse.add(44);
-      this.S();
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.SENTENCIA_COMPUESTA));
@@ -120,11 +120,11 @@ public class AnalizadorSintactico {
 
   private void B2() throws IOException {
     if(this.next_tok.getTipoToken() == Token.TipoToken.PUNTO_COMA) {
-      this.parse.add(42);
+      this.parse.add(44);
       this.equipara(new Token(Token.TipoToken.PUNTO_COMA, null), ContextoSintactico.SENTENCIA_COMPUESTA);
     }
     else if(this.next_tok.getTipoToken() == Token.TipoToken.ASIGNACION) {
-      this.parse.add(43);
+      this.parse.add(45);
       this.equipara(new Token(Token.TipoToken.ASIGNACION, null), ContextoSintactico.SENTENCIA_COMPUESTA);
       this.E();
       this.equipara(new Token(Token.TipoToken.PUNTO_COMA, null), ContextoSintactico.SENTENCIA_COMPUESTA);
@@ -239,19 +239,19 @@ public class AnalizadorSintactico {
       this.S2();
     }
     else if(this.next_tok.getTipoToken() == Token.TipoToken.WRITE) {
-      this.parse.add(31);
+      this.parse.add(29);
       this.equipara(new Token(Token.TipoToken.WRITE, null), ContextoSintactico.SENTENCIA_SIMPLE);
       this.E();
       this.equipara(new Token(Token.TipoToken.PUNTO_COMA, null), ContextoSintactico.SENTENCIA_SIMPLE);
     }
     else if(this.next_tok.getTipoToken() == Token.TipoToken.READ) {
-      this.parse.add(32);
+      this.parse.add(30);
       this.equipara(new Token(Token.TipoToken.READ, null), ContextoSintactico.SENTENCIA_SIMPLE);
       this.equipara(new Token(Token.TipoToken.IDENTIFICADOR, 0), ContextoSintactico.SENTENCIA_SIMPLE);
       this.equipara(new Token(Token.TipoToken.PUNTO_COMA, null), ContextoSintactico.SENTENCIA_SIMPLE);
     }
     else if(this.next_tok.getTipoToken() == Token.TipoToken.RETURN) {
-      this.parse.add(33);
+      this.parse.add(31);
       this.equipara(new Token(Token.TipoToken.RETURN, null), ContextoSintactico.SENTENCIA_SIMPLE);
       this.R1();
     }
@@ -263,13 +263,13 @@ public class AnalizadorSintactico {
 
   private void S2() throws IOException {
     if(this.next_tok.getTipoToken() == Token.TipoToken.ASIGNACION) {
-      this.parse.add(29);
+      this.parse.add(32);
       this.equipara(new Token(Token.TipoToken.ASIGNACION, null), ContextoSintactico.SENTENCIA_SIMPLE);
       this.E();
       this.equipara(new Token(Token.TipoToken.PUNTO_COMA, null), ContextoSintactico.SENTENCIA_SIMPLE);
     }
     else if(this.next_tok.equals(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.APERTURA))) {
-      this.parse.add(30);
+      this.parse.add(33);
       this.equipara(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.APERTURA), ContextoSintactico.SENTENCIA_SIMPLE);
       this.L();
       this.equipara(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE), ContextoSintactico.SENTENCIA_SIMPLE);

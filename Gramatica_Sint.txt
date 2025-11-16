@@ -34,11 +34,11 @@ Producciones = {
     Y2 -> ( L )
 
     S -> id S2  //// Sentencias simples
-    S2 -> = E ;
-    S2 -> ( L ) ;
     S -> write E ;
     S -> read id ;
     S -> return R1
+    S2 -> = E ;
+    S2 -> ( L ) ;
     R1 -> E ;
     R1 -> ;
     L -> E Q
@@ -48,10 +48,10 @@ Producciones = {
 
     B -> if ( E ) S  //// Sentencias compuestas
     B -> let T id B2
-    B2 -> ;
-    B2 -> = E ;
     B -> S
     B -> switch ( E ) { SW }
+    B2 -> ;
+    B2 -> = E ;
     SW -> case entero : SWC SW
     SW -> default : SWC SW
     SW -> lambda
