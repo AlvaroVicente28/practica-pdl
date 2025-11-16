@@ -27,7 +27,7 @@ class TestAlex {
       }
     };
 
-    File recurso = new File(this.getClass().getResource(nombreRecurso).getPath());
+    File recurso = new File(this.getClass().getResource("ALex/" + nombreRecurso).getPath());
     FileReader file = new FileReader(recurso);
 
     GestorErrores gestorErrores = new GestorErrores();
@@ -48,7 +48,7 @@ class TestAlex {
   }
 
   private String leerSolucion(String nombreRecurso) throws IOException {
-    File file = new File(this.getClass().getResource("soluciones/" + nombreRecurso).getPath());
+    File file = new File(this.getClass().getResource("ALex/soluciones/" + nombreRecurso).getPath());
     return Files.readString(Path.of(file.getPath())).replace("\r", "");
   }
 

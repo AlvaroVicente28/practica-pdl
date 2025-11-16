@@ -1,0 +1,28 @@
+let    int a   ;
+let    int b       ;
+let    float cc ;
+let    int number  ;
+write  "Introduce el primer operando" ;
+read a;
+write "Introduce el segundo operando";read  
+	b;
+
+function float real (float num1)
+{
+	return num1-num1;
+}
+
+
+let float _F_;
+write "PdL";
+read esto_es_un_nombre_de_variable_global_de_tipo_entero_que_tiene_que_aparecer_en_la_TS_global;
+write ++x__x;
+write _F_;
+function int operacion(int num2,int num1)
+{
+	let int  res;
+	res=num1%num2;
+	return ((res));
+}
+number = 0;
+write operacion(b,a);
