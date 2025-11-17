@@ -96,4 +96,15 @@ public class TestASint {
     assertTrue(current.getSecond().mensajes().isEmpty());
     assertIterableEquals(expectedParse, current.getFirst());
   }
+
+  @Test
+  void test4() throws IOException {
+    final String RECURSO = "PIdG83-4.txt";
+
+    Pair<Iterable<Integer>, GestorErrores> current = testearRecurso(RECURSO);
+    Iterable<Integer> expectedParse = leerSolucion(RECURSO);
+
+    assertTrue(current.getSecond().mensajes().isEmpty());
+    assertIterableEquals(expectedParse, current.getFirst());
+  }
 }
