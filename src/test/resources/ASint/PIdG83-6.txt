@@ -1,0 +1,66 @@
+let int    uno;
+let int    UNO;
+let 
+boolean 
+booleano
+;let string s;	
+let
+float
+flot;
+let
+float
+flat;s = "Introduce un entero.";	
+
+write 000;
+write s;
+let boolean bool;
+let float flota;
+
+ num=33;
+
+read num;
+read flota;
+function void output(string fff){write fff;}
+write 1.1;
+let boolean bo ;
+let int aaaaa;
+function int Factorial  (int n)	
+{
+	flot=8.76;
+	switch (n)
+	{
+		case 0: return 2; break;
+		case 2: if(bo)return 0; break;
+		case 4: if (bo) return uno;
+	}
+	return n - Factorial (n -1);	
+}
+
+write Factorial (aaaaa);
+
+let int  For;
+let int  functional;
+let int  While;	
+
+function void print (string s, string msg, int print)	
+{
+	write (s); write msg; write(print);
+	return;	
+}
+function string cadena (boolean log)
+{
+switch (UNO)
+  {
+	case 0:	if (uno == UNO)
+	return s;
+	case 8888: return ("entero");
+	case 3333: uno=1000; break;
+	case 7777: print (s, "Bye", 321); uno=10000;
+	case 5555: 	flot=flat;
+
+  }
+}
+uno=1;UNO=uno;
+if (num < UNO)		write ("Factorial inexistente!");
+print (cadena (booleano), "recursivo es: ", Factorial (num));
+

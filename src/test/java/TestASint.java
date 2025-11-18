@@ -125,4 +125,15 @@ public class TestASint {
 
     assertEquals(expected.mensajes(), current.mensajes());
   }
+
+  @Test
+  void tets6() throws IOException {
+    final String RECURSO = "PIdG83-6.txt";
+
+    Pair<Iterable<Integer>, GestorErrores> current = testearRecurso(RECURSO);
+    Iterable<Integer> expectedParse = leerSolucion(RECURSO);
+
+    assertTrue(current.getSecond().mensajes().isEmpty());
+    assertIterableEquals(expectedParse, current.getFirst());
+  }
 }
