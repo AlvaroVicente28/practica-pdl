@@ -1,8 +1,10 @@
 import es.grupo83.AnalizadorLexico;
 import es.grupo83.AnalizadorSintactico;
 import es.grupo83.TablaSimbolos;
+import es.grupo83.Token;
 import es.grupo83.afd.AutomataFinito;
 import es.grupo83.afd.ImplementacionAFD;
+import es.grupo83.error.ErrorTokenNoEsperado;
 import es.grupo83.error.GestorErrores;
 
 import es.grupo83.util.Pair;
@@ -106,5 +108,21 @@ public class TestASint {
 
     assertTrue(current.getSecond().mensajes().isEmpty());
     assertIterableEquals(expectedParse, current.getFirst());
+  }
+
+  @Test
+  void test5() throws IOException {
+    final String RECURSO = "PIdG83-5.txt";
+
+    GestorErrores current = testearRecurso(RECURSO).getSecond();
+
+    GestorErrores expected = new GestorErrores();
+    expected.setLinea(26);
+    expected.agregarError(
+            new ErrorTokenNoEsperado(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE),
+                    ErrorTokenNoEsperado.ContextoSintactico.DECLARACION_FUNCION)
+    );
+
+    assertEquals(expected.mensajes(), current.mensajes());
   }
 }
