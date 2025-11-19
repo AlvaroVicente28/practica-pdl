@@ -127,8 +127,19 @@ public class TestASint {
   }
 
   @Test
-  void tets6() throws IOException {
+  void test6() throws IOException {
     final String RECURSO = "PIdG83-6.txt";
+
+    Pair<Iterable<Integer>, GestorErrores> current = testearRecurso(RECURSO);
+    Iterable<Integer> expectedParse = leerSolucion(RECURSO);
+
+    assertTrue(current.getSecond().mensajes().isEmpty());
+    assertIterableEquals(expectedParse, current.getFirst());
+  }
+
+  @Test
+  void test7() throws IOException {
+    final String RECURSO = "PIdG83-7.txt";
 
     Pair<Iterable<Integer>, GestorErrores> current = testearRecurso(RECURSO);
     Iterable<Integer> expectedParse = leerSolucion(RECURSO);
