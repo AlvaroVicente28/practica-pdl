@@ -147,4 +147,20 @@ public class TestASint {
     assertTrue(current.getSecond().mensajes().isEmpty());
     assertIterableEquals(expectedParse, current.getFirst());
   }
+
+  @Test
+  void test8() throws IOException {
+    final String RECURSO = "PIdG83-8.txt";
+
+    GestorErrores current = testearRecurso(RECURSO).getSecond();
+
+    GestorErrores expected = new GestorErrores();
+    expected.setLinea(32);
+    expected.agregarError(new ErrorTokenNoEsperado(
+            new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE),
+            ErrorTokenNoEsperado.ContextoSintactico.SENTENCIA_SIMPLE
+    ));
+
+    assertEquals(expected.mensajes(), current.mensajes());
+  }
 }
