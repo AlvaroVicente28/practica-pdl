@@ -1,0 +1,7 @@
+let int x = 5;
+let float y = 6;
+
+let int abc = 0.5 - 6 -(++x);
+
+if(!(++y == 9))
+    write -x;

@@ -40,7 +40,10 @@ public class ErrorTokenNoEsperado extends Error {
     // 1. Que se ha encontrado
     switch(this.token.getTipoToken()) {
       case IDENTIFICADOR -> res += "IDENTIFICADOR";
-      case CTE_ENTERA, CTE_REAL, CTE_CADENA, CTE_LOGICA -> res += "'" + this.token.getAttr() + "'";
+      case CTE_ENTERA -> res += "ENTERO ('" + this.token.getAttr() + "')";
+      case CTE_REAL -> res += "REAL ('" + this.token.getAttr() + "')";
+      case CTE_CADENA -> res += "CADENA ('" + this.token.getAttr() + "')";
+      case CTE_LOGICA -> res += "LOGICO ('" + this.token.getAttr() + "')";
       case OP_RESTA -> res += "'-'";
       case OP_MODULO -> res += "'%'";
       case IGUALDAD -> res += "'=='";
@@ -81,6 +84,7 @@ public class ErrorTokenNoEsperado extends Error {
       case CASE -> res += "'CASE'";
       case DEFAULT -> res += "'DEFAULT'";
       case BREAK -> res += "'BREAK'";
+      case EOF -> res += "FINAL ARCHIVO";
     }
 
     // 2. Donde se ha encontrado

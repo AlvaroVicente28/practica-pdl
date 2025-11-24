@@ -1,0 +1,8 @@
+/*Arriba chuta
+la victoria es tuya*/
+
+let int axel=2010;
+	let int shawn=axel%7;
+
+let int mark=shawn-1;
+read mark;

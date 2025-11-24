@@ -1,0 +1,14 @@
+let int    silksong;
+let
+boolean
+geoff_keighley
+;
+function int prueva  (int banazacion)
+{
+switch (banazacion)
+{
+case 2: return silksong; break;
+default: if (geoff_keighley) return 10;
+}
+return 0;
+}

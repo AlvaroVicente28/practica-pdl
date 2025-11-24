@@ -1,0 +1,15 @@
+write "Sintáctico";
+
+read x;
+read
+    y;
+
+/* Resta de dos enteros */
+function void foo(int x, int y) {
+        let float resultado = x - y;
+    return
+            resultado
+;
+)
+
+foo(x, y);

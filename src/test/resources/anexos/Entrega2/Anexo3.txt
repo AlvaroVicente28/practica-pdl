@@ -1,0 +1,15 @@
+function string bar ( int x ) {
+    write ++x;
+
+    if(x == 5)
+                            return
+              "CINCO ☠️"
+
+    switch(x) {
+        case 1: y = -++x; break;
+        default:
+      break;
+    }
+
+    return "nada";
+}
