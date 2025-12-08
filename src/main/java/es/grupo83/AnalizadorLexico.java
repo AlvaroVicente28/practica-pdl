@@ -10,7 +10,7 @@ import es.grupo83.error.*;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class AnalizadorLexico {
+public class AnalizadorLexico implements AutoCloseable {
   private GestorErrores gestorErrores;
 
   private TablaSimbolos tablaSimbolos;
@@ -249,4 +249,11 @@ public class AnalizadorLexico {
     this.gestorErrores.agregarCaracter(this.chrActual);
   }
 
+  @Override
+  public void close() throws IOException {
+    if(this.lectorFichero != null) {
+      this.lectorFichero.close();
+      this.lectorFichero = null;
+    }
+  }
 }

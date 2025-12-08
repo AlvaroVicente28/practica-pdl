@@ -21,12 +21,12 @@ public class Main {
     GestorErrores gestorErrores = new GestorErrores();
     TablaSimbolos tablaSimbolos = new TablaSimbolos();
 
-    try {
-      AnalizadorLexico alex = new AnalizadorLexico(gestorErrores, tablaSimbolos, afd, filePath);
+    try(AnalizadorLexico alex = new AnalizadorLexico(gestorErrores, tablaSimbolos, afd, filePath)) {
       AnalizadorSintactico asint = new AnalizadorSintactico(gestorErrores, alex);
       asint.run();
       escribirArchivoTokens(asint.getListaTokens());
       escribirParse(asint.getParse());
+      System.out.println("ANALISIS CORRECTO");
     }
     catch (FileNotFoundException e) {
       System.err.println("Archivo no encontrado: " + filePath);
@@ -36,7 +36,6 @@ public class Main {
       e.printStackTrace();
     }
     tablaSimbolos.finTablaSimbolos();
-    System.out.println("ANALISIS CORRECTO");
   }
 
   private static void escribirArchivoTokens(Iterable<Token> tokens) throws IOException {
