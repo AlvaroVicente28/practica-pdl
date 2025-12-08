@@ -35,4 +35,12 @@ public class ErrorSecuenciaEscapeInvalida extends Error {
 
     return "Secuencia de escape invalida: " + repr;
   }
+
+  @Override
+  public boolean igual(Object other) {
+    if(!(other instanceof ErrorSecuenciaEscapeInvalida)) {
+      return false;
+    }
+    return this.secuencia == ((ErrorSecuenciaEscapeInvalida) other).secuencia;
+  }
 }

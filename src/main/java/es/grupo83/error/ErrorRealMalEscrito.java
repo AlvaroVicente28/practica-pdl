@@ -37,4 +37,13 @@ public class ErrorRealMalEscrito extends Error {
 
     return "Real mal escrito: " + numeroActual + "." + repr;
   }
+
+  @Override
+  public boolean igual(Object other) {
+    if(!(other instanceof ErrorRealMalEscrito)) {
+      return false;
+    }
+    return this.numeroActual == ((ErrorRealMalEscrito) other).numeroActual
+            && this.chrInvalido == ((ErrorRealMalEscrito) other).chrInvalido;
+  }
 }

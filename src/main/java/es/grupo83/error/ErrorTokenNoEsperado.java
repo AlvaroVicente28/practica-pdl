@@ -101,4 +101,13 @@ public class ErrorTokenNoEsperado extends Error {
 
     return res;
   }
+
+  @Override
+  public boolean igual(Object other) {
+    if(!(other instanceof ErrorTokenNoEsperado)) {
+      return false;
+    }
+    return this.token.equals(((ErrorTokenNoEsperado) other).token)
+            && this.ctx == ((ErrorTokenNoEsperado) other).ctx;
+  }
 }

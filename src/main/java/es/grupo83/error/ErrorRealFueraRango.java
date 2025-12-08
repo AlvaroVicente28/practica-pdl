@@ -21,4 +21,12 @@ public class ErrorRealFueraRango extends Error {
   public String getMsg() {
     return "Real fuera de rango: " + this.realIlegal;
   }
+
+  @Override
+  public boolean igual(Object other) {
+    if(!(other instanceof ErrorRealFueraRango)) {
+      return false;
+    }
+    return this.realIlegal == ((ErrorRealFueraRango) other).realIlegal;
+  }
 }

@@ -123,7 +123,7 @@ public class TestASint {
                     ErrorTokenNoEsperado.ContextoSintactico.DECLARACION_FUNCION)
     );
 
-    assertEquals(expected.mensajes(), current.mensajes());
+    assertIterableEquals(expected.getErrores(), current.getErrores());
   }
 
   @Test
@@ -161,6 +161,6 @@ public class TestASint {
             ErrorTokenNoEsperado.ContextoSintactico.SENTENCIA_SIMPLE
     ));
 
-    assertEquals(expected.mensajes(), current.mensajes());
+    assertIterableEquals(expected.getErrores(), current.getErrores());
   }
 }

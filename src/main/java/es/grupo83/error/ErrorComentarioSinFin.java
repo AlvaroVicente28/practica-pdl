@@ -15,4 +15,9 @@ public class ErrorComentarioSinFin extends Error {
   public String getMsg() {
     return "Se ha encontrado EOF sin finalizar el comentario";
   }
+
+  @Override
+  public boolean igual(Object other) {
+    return other instanceof ErrorComentarioSinFin;
+  }
 }

@@ -21,4 +21,12 @@ public class ErrorEnteroFueraRango extends Error {
   public String getMsg() {
     return "Entero fuera de rango: " + this.enteroIlegal;
   }
+
+  @Override
+  public boolean igual(Object other) {
+    if(!(other instanceof ErrorEnteroFueraRango)) {
+      return false;
+    }
+    return this.enteroIlegal == ((ErrorEnteroFueraRango) other).enteroIlegal;
+  }
 }

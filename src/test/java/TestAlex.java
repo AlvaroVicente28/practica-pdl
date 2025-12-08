@@ -85,7 +85,7 @@ class TestAlex {
     expected.setLinea(14);
     expected.agregarError(new ErrorRealMalEscrito(99, '\t'));
 
-    assertEquals(expected.mensajes(), current.mensajes());
+    assertIterableEquals(expected.getErrores(), current.getErrores());
   }
 
   @Test
@@ -146,7 +146,7 @@ class TestAlex {
     expected.setLinea(20);
     expected.agregarError(new ErrorEnteroFueraRango(32769));
 
-    assertEquals(expected.mensajes(), actual.mensajes());
+    assertIterableEquals(expected.getErrores(), actual.getErrores());
   }
 
   @Test

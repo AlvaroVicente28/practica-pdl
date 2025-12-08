@@ -34,4 +34,13 @@ public class ErrorCaracterNoEsperado extends Error {
     }
     return "Caracter no esperado: " + repr;
   }
+
+  @Override
+  public boolean igual(Object other) {
+    if(!(other instanceof ErrorCaracterNoEsperado)) {
+      return false;
+    }
+    var otherErr = (ErrorCaracterNoEsperado) other;
+    return this.chr == otherErr.chr;
+  }
 }

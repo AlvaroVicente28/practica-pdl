@@ -57,14 +57,6 @@ public class GestorErrores {
   }
 
   /**
-   * Se usa para probar el gestor. No se verifica nada sobre la linea dada.
-   * @param linea La nueva linea
-   */
-  public void setLinea(int linea) {
-    this.numeroLinea = linea;
-  }
-
-  /**
    * Usado por los analizadores para guardar un error
    * @param error El error a guardar
    */
@@ -130,5 +122,21 @@ public class GestorErrores {
       System.out.println(this.mensajes());
       System.exit(-1);
     }
+  }
+
+  /**
+   * Se usa para probar el gestor. No se verifica nada sobre la linea dada.
+   * @param linea La nueva linea
+   */
+  public void setLinea(int linea) {
+    this.numeroLinea = linea;
+  }
+
+  /**
+   * Se usa para probar el gestor.
+   * @return La lista de errores
+   */
+  public Iterable<Pair<Error, CtxError>> getErrores() {
+    return this.errores;
   }
 }

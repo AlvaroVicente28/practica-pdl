@@ -1,6 +1,8 @@
 package es.grupo83.error;
 
-public abstract class Error {
+import es.grupo83.util.Equivalencia;
+
+public abstract class Error implements Equivalencia {
   public enum TipoError {
     LEXICO,
     SINTACTICO,
@@ -16,5 +18,16 @@ public abstract class Error {
   @Override
   public String toString() {
     return this.getMsg();
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if(this == other) {
+      return true;
+    }
+    if(other == null) {
+      return false;
+    }
+    return this.igual(other);
   }
 }
