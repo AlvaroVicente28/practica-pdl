@@ -57,10 +57,12 @@ public class AnalizadorLexico {
 
     int read = this.lectorFichero.read();
     this.chrActual = read == -1 ? AutomataFinito.EOF : (char) read;
+    this.gestorErrores.agregarCaracter(this.chrActual);
   }
 
   public Token nextToken() throws IOException {
     this.afd.reset();
+    this.gestorErrores.nuevoLexema();
     // Estado interno
     String lexemaId = "";
     long entero = 0;
@@ -244,6 +246,7 @@ public class AnalizadorLexico {
   private void leer() throws IOException {
     int read = this.lectorFichero.read();
     this.chrActual = read == -1 ? AutomataFinito.EOF : (char) read;
+    this.gestorErrores.agregarCaracter(this.chrActual);
   }
 
 }
