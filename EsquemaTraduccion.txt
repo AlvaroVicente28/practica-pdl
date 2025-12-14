@@ -1,5 +1,7 @@
-E -> R E2       { E.tipo = if(E2.tipo = tipo_ok or E2.tipo = R.tipo)
+E -> R E2       { E.tipo = if(E2.tipo = tipo_ok)
                                 then R.tipo
+                           else if(R.tipo = logico and E2.tipo != tipo_err)
+                                then logico
                                 else tipo_err;
                 }
 E2 -> && R E2_1 { E2.tipo = if((E2_1.tipo = tipo_ok or E2_1.tipo = R.tipo) and R.tipo = logico)
@@ -7,25 +9,31 @@ E2 -> && R E2_1 { E2.tipo = if((E2_1.tipo = tipo_ok or E2_1.tipo = R.tipo) and R
                                 else tipo_err;
                 }
 E2 -> lambda    { E2.tipo = tipo_ok }
-R -> U R2       { R.tipo = if(R2.tipo = tipo_ok or R2.tipo = U.tipo)
+R -> U R2       { R.tipo = if(R2.tipo = tipo_ok)
                                 then U.tipo
-                                else tipo_err
+                           else if(R2.tipo = U.tipo in {entero, real})
+                                then logico
+                                else tipo_err;
                 }
 R2 -> == U R2_1 { R2.tipo = if((R2_1.tipo = tipo_ok or R2_1.tipo = U.tipo) and U.tipo in {entero, real})
-                                then logico
+                                then U.tipo
                                 else tipo_err;
                 }
 R2 -> lambda    { R2.tipo = tipo_ok }
-U -> V U2       { U.tipo = if(U2.tipo = tipo_ok or U2.tipo = V.tipo)
+U -> V U2       { U.tipo = if(U2.tipo = tipo_ok)
                                 then V.tipo
-                                else tipo_err;
-                }
-U2 -> < V U2_1  { U2.tipo = if((U2_1 = tipo_ok or U2_1 = V.tipo) and V.tipo in {entero, real})
+                           else if(U2.tipo = V.tipo in {entero, real})
                                 then logico
                                 else tipo_err;
                 }
+U2 -> < V U2_1  { U2.tipo = if((U2_1 = tipo_ok or U2_1 = V.tipo) and V.tipo in {entero, real})
+                                then V.tipo
+                                else tipo_err;
+                }
 U2 -> lambda    { U2.tipo = tipo_ok }
-V -> W V2       { V.tipo = if(V2.tipo = tipo_ok or V2.tipo = W.tipo)
+V -> W V2       { V.tipo = if(V2.tipo = tipo_ok)
+                                then W.tipo
+                           else if(V2.tipo = W.tipo in {entero, real})
                                 then W.tipo
                                 else tipo_err;
                 }
@@ -34,7 +42,9 @@ V2 -> - W V2_1  { V2.tipo = if((V2_1 = tipo_ok or V2_1 = W.tipo) and W.tipo in {
                                         else tipo_err;
                 }
 V2 -> lambda    { V2.tipo = tipo_ok }
-W -> X W2       { W.tipo = if(W2.tipo = tipo_ok or W2.tipo = X.tipo)
+W -> X W2       { W.tipo = if(W2.tipo = tipo_ok)
+                                then X.tipo
+                           else if(W2.tipo = X.tipo in {entero, real})
                                 then X.tipo
                                 else tipo_err;
                 }
