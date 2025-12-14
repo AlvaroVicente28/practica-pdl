@@ -1,0 +1,214 @@
+E -> R E2       { E.tipo = if(E2.tipo = tipo_ok or E2.tipo = R.tipo)
+                                then R.tipo
+                                else tipo_err;
+                }
+E2 -> && R E2_1 { E2.tipo = if((E2_1.tipo = tipo_ok or E2_1.tipo = R.tipo) and R.tipo = logico)
+                                then logico
+                                else tipo_err;
+                }
+E2 -> lambda    { E2.tipo = tipo_ok }
+R -> U R2       { R.tipo = if(R2.tipo = tipo_ok or R2.tipo = U.tipo)
+                                then U.tipo
+                                else tipo_err
+                }
+R2 -> == U R2_1 { R2.tipo = if((R2_1.tipo = tipo_ok or R2_1.tipo = U.tipo) and U.tipo in {entero, real})
+                                then logico
+                                else tipo_err;
+                }
+R2 -> lambda    { R2.tipo = tipo_ok }
+U -> V U2       { U.tipo = if(U2.tipo = tipo_ok or U2.tipo = V.tipo)
+                                then V.tipo
+                                else tipo_err;
+                }
+U2 -> < V U2_1  { U2.tipo = if((U2_1 = tipo_ok or U2_1 = V.tipo) and V.tipo in {entero, real})
+                                then logico
+                                else tipo_err;
+                }
+U2 -> lambda    { U2.tipo = tipo_ok }
+V -> W V2       { V.tipo = if(V2.tipo = tipo_ok or V2.tipo = W.tipo)
+                                then W.tipo
+                                else tipo_err;
+                }
+V2 -> - W V2_1  { V2.tipo = if((V2_1 = tipo_ok or V2_1 = W.tipo) and W.tipo in {entero, real})
+                                        then W.tipo
+                                        else tipo_err;
+                }
+V2 -> lambda    { V2.tipo = tipo_ok }
+W -> X W2       { W.tipo = if(W2.tipo = tipo_ok or W2.tipo = X.tipo)
+                                then X.tipo
+                                else tipo_err;
+                }
+W2 -> % X W2_1  { W2.tipo = if((W2_1 = tipo_ok or W2_1 = X.tipo) and X.tipo in {entero, real})
+                    then X.tipo
+                    else tipo_err;
+                }
+W2 -> lambda    { W2.tipo = tipo_ok }
+X -> ! X1       { X.tipo = if(X1.tipo = logico)
+                                then logico
+                                else tipo_err;
+                }
+X -> ++ id      { id.tipo = BuscarTipoTS(id.pos);
+                  X.tipo = if(id.tipo = entero)
+                                then entero
+                                else tipo_err;
+                 }
+X -> - X1       { X.tipo = if(X1.tipo in {entero, real})
+                                then X1.tipo
+                                else tipo_err;
+                }
+X -> Y          { X.tipo = Y.tipo }
+Y -> id Y2		{ id.tipo = BuscarTipoTS(id.pos);
+                  if(id.tipo = param -> t)
+                        then Y.tipo = if(Y2.tipo = param)
+                                then t
+                                else tipo_err; /* Llamada con parametros incorrecta */
+                        else Y.tipo = if(Y2.tipo = tipo_ok)
+                                then id.tipo
+                                else tipo_err; /* Se ha llamado como funcion a una variable */
+                 }
+Y -> ( E )		{ Y.tipo = E.tipo }
+Y -> entero 	{ Y.tipo = entero }
+Y -> cadena		{ Y.tipo = cadena }
+Y -> real 		{ Y.tipo = real }
+Y -> booleano	{ Y.tipo = logico }
+Y2 -> lambda	{ Y2.tipo = tipo_ok }
+Y2 -> ( L )		{ Y2.tipo = L.tipo }
+
+S -> id S2      { id.tipo = BuscarTipoTS(id.pos)
+                  if(id.tipo = param -> t)
+                        then S.tipo = if(S2.llamada = true and S2.tipo = param)
+                                            then tipo_ok
+                                            else tipo_err;
+                        else S.tipo = if(S2.llamada = false and S2.tipo = id.tipo)
+                                            then tipo_ok
+                                            else tipo_err;
+                }
+S -> write E ;  { S.tipo = tipo_ok; }
+S -> read id ;  { S.tipo = tipo_ok; }
+S -> return R1  { S.tipo = if(S.tipoRet = R1.tipo and S.tipoRet != tipo_err)
+                                then tipo_ok
+                                else tipo_err;
+                }
+S2 -> = E ;     { S2.tipo = E.tipo; S2.llamada = false; }
+S2 -> ( L ) ;   { S2.tipo = L.tipo; S2.llamada = true; }
+R1 -> E ;       { R1.tipo = E.tipo; }
+R1 -> ;         { R1.tipo = vacio; }
+L -> E Q        { L.tipo = E.tipo X Q.tipo }
+L -> lambda     { L.tipo = vacio }
+Q -> , E Q1     { Q.tipo = if(Q1.tipo = tipo_ok)
+                                then E.tipo
+                                else E.tipo X Q1.tipo;
+                }
+Q -> lambda     { Q.tipo = tipo_ok }
+
+B -> if ( E )                   { S.tipoRet = B.tipoRet; }
+     S                          { B.tipo = if(E.tipo = logico)
+                                                then S.tipo
+                                                else tipo_err;
+                                }
+B ->                            { zonaDecl = true; }
+        let T id B2             {
+                                  insertaTipoTS(id.pos, T.tipo);
+                                  insertaDespTS(id.pos, desp);
+                                  desp += T.ancho;
+                                  zonaDecl = false;
+                                  B.tipo = if(B2.tipo = tipo_ok)
+                                                then tipo_ok
+                                                else if(B2.tipo = T.tipo)
+                                                        then tipo_ok
+                                                        else tipo_err;
+
+                                }
+B ->                            { S.tipoRet = B.tipoRet; }
+        S                       { B.tipo = S.tipo }
+B -> switch ( E )               { SW.tipoRet = B.tipoRet; }
+        { SW }                  { B.tipo = if(E.tipo = entero)
+                                                then SW.tipo
+                                                else tipo_err;
+                                }
+B2 -> ;                         { B2.tipo = tipo_ok; }
+B2 -> = E ;                     { B2.tipo = E.tipo }
+SW -> case entero :             { SWC.tipoRet = SW.tipoRet; }
+        SWC                     { SW1.tipoRet = SW.tipoRet; }
+        SW1                     { SW.tipo = if(SWC.tipo = SW1.tipo = tipo_ok)
+                                                then tipo_ok
+                                                else tipo_err;
+                                }
+SW -> default :                 { SWC.tipoRet = SW.tipoRet; }
+        SWC                     { SW1.tipoRet = SW.tipoRet; }
+        SW1                     { SW.tipo = if(SWC.tipo = SW1.tipo = tipo_ok)
+                                                then tipo_ok
+                                                else tipo_err;
+                                }
+SW -> lambda                    { SW.tipo = tipo_ok }
+SWC ->                          { B.tipoRet = SWC.tipoRet; }
+        B                       { SWC1.tipoRet = SWC.tipoRet; }
+        SWC1                    { SWC.tipo = if(B.tipo = tipo_ok)
+                                                then SWC1.tipo
+                                                else tipo_err;
+                                }
+SWC -> break ;                  { SWC1.tipoRet = SWC.tipoRet; }
+        SWC1                    { SWC.tipo = SWC1.tipo }
+SWC -> lambda                   { SWC.tipo = tipo_ok }
+T -> int                        { T.tipo = entero; T.ancho = 1 }
+T -> float                      { T.tipo = real; T.ancho = 2 }
+T -> boolean                    { T.tipo = logico; T.ancho = 1 }
+T -> string                     { T.tipo = cadena; T.ancho = 4 }
+
+F ->                            { zonaDecl = true; }
+    function H id               {
+                                  TSLocal = CrearTS();
+                                  TSActual = TSLocal;
+                                  DespGlobal = Desp;
+                                  Desp = 0;
+                                }
+    ( A )                       {
+                                  insertaTipoTS(id.pos, A.tipo -> H.tipo);
+                                  insertaEtiquetaTS(id.pos, etiq);
+                                  C.tipoRet = H.tipo;
+                                }
+    { C }                       {
+                                  F.tipo = C.tipo;
+                                  TSActual = TSGlobal;
+                                  destruirTS(TSLocal);
+                                  zonaDecl = false;
+                                  Desp = DespGlobal;
+                                }
+H -> T                          { H.tipo = T.tipo; }
+H -> void                       { H.tipo = vacio; }
+A -> T id K                     {
+                                  insertaTipoTS(id.pos, T.tipo)
+                                  insertaDespTS(id.pos, Desp)
+                                  Desp += T.ancho;
+                                  A.tipo = T.tipo X K.tipo;
+                                }
+A -> void                       { A.tipo = vacio }
+K -> , T id K1                  {
+                                   insertaTipoTS(id.pos, T.tipo);
+                                   insertaDespTS(id.pos, Desp);
+                                   Desp += T.ancho;
+                                   K.tipo = if(K1.tipo = tipo_ok)
+                                                then T.tipo
+                                                else T.tipo X K1.tipo;
+                                }
+K -> lambda                     { K.tipo = tipo_ok; }
+C ->                            { B.tipoRet = C.tipoRet; }
+     B                          { C1.tipoRet = C.tipoRet; }
+     C1                         { C.tipo = if(B.tipo = C1.tipo = tipo_ok)
+                                                then tipo_ok
+                                                else tipo_err;
+                                }
+
+C -> lambda                     { C.tipo = tipo_ok }
+
+P -> B P1                       { B.tipoRet = tipo_err; }
+P -> F P1                       { }
+P -> lambda                     {
+                                    destruirTS(TSGlobal);
+                                }
+P' -> P                         {
+                                    Desp = 0;
+                                    zonaDecl = false;
+                                    TSGlobal = crearTS();
+                                    TSActual = TSGlobal;
+                                }
