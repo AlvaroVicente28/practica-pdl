@@ -24,6 +24,7 @@ public class Main {
     try(AnalizadorLexico alex = new AnalizadorLexico(gestorErrores, tablaSimbolos, afd, filePath)) {
       AnalizadorSintactico asint = new AnalizadorSintactico(gestorErrores, alex);
       asint.run();
+      gestorErrores.pararEnError();
       escribirArchivoTokens(asint.getListaTokens());
       escribirParse(asint.getParse());
       System.out.println("ANALISIS CORRECTO");

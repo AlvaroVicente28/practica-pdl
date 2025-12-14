@@ -9,6 +9,7 @@ import es.grupo83.error.*;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Set;
 
 public class AnalizadorLexico implements AutoCloseable {
   private GestorErrores gestorErrores;
@@ -77,7 +78,8 @@ public class AnalizadorLexico implements AutoCloseable {
       Transicion tr = this.afd.transicionar(this.chrActual);
       if(tr == null) {
         this.gestorErrores.agregarError(new ErrorCaracterNoEsperado(this.chrActual));
-        this.gestorErrores.pararEnError();
+        this.recuperar();
+        continue;
       }
       AccionSemantica accionSem = tr.getAccionSemantica();
       switch (accionSem) {
@@ -109,7 +111,8 @@ public class AnalizadorLexico implements AutoCloseable {
         case GENERAR_TOKEN_CTE_ENTERA -> {
           if(entero > 32767) {
             this.gestorErrores.agregarError(new ErrorEnteroFueraRango(entero));
-            this.gestorErrores.pararEnError();
+            this.recuperar();
+            continue;
           }
           return new Token(Token.TipoToken.CTE_ENTERA, (int) entero);
         }
@@ -127,7 +130,8 @@ public class AnalizadorLexico implements AutoCloseable {
           double real = entero * Math.pow(10, (double) -1 * contadorDecimales);
           if(real > 117549436.0) {
             this.gestorErrores.agregarError(new ErrorRealFueraRango(real));
-            this.gestorErrores.pararEnError();
+            this.recuperar();
+            continue;
           }
           return new Token(Token.TipoToken.CTE_REAL, (float) real);
         }
@@ -157,7 +161,8 @@ public class AnalizadorLexico implements AutoCloseable {
         case GENERAR_TOKEN_CTE_CADENA -> {
           if(contadorCaracteresCadena > 64) {
             this.gestorErrores.agregarError(new ErrorCadenaDemasiadoLarga(cadena));
-            this.gestorErrores.pararEnError();
+            this.recuperar();
+            continue;
           }
           Token res = new Token(Token.TipoToken.CTE_CADENA, cadena);
           this.leer();
@@ -227,15 +232,15 @@ public class AnalizadorLexico implements AutoCloseable {
         }
         case GEN_ERROR_REAL_MAL_ESCRITO -> {
           this.gestorErrores.agregarError(new ErrorRealMalEscrito(entero, this.chrActual));
-          this.gestorErrores.pararEnError();
+          this.recuperar();
         }
         case GEN_ERROR_SECUENCIA_ESCAPE_INVALIDO -> {
           this.gestorErrores.agregarError(new ErrorSecuenciaEscapeInvalida(this.chrActual));
-          this.gestorErrores.pararEnError();
+          this.recuperar();
         }
         case GEN_ERROR_COMENTARIO_SIN_FIN -> {
           this.gestorErrores.agregarError(new ErrorComentarioSinFin());
-          this.gestorErrores.pararEnError();
+          this.recuperar();
         }
       }
     }
@@ -247,6 +252,21 @@ public class AnalizadorLexico implements AutoCloseable {
     int read = this.lectorFichero.read();
     this.chrActual = read == -1 ? AutomataFinito.EOF : (char) read;
     this.gestorErrores.agregarCaracter(this.chrActual);
+  }
+
+  private void recuperar() throws IOException {
+    // Recorremos tokens hasta encontrar un delimitador, un EOF
+    // o un caracter que sea comienzo de un patron de token distinto de <">
+    while(!Set.of(' ', '\t', '\n', AutomataFinito.EOF, '&', '-', '=', '<', '%', '!', '+',
+            '(', ')', ';', ',', '{', '}', ':')
+            .contains(this.chrActual))
+    {
+      this.leer();
+    }
+
+    // Reseteamos el AFD y el Gestor de Errores
+    this.afd.reset();
+    this.gestorErrores.nuevoLexema();
   }
 
   @Override
