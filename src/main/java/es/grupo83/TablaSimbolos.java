@@ -6,6 +6,8 @@ import tslib.TS_Gestor.Tabla;
 import es.grupo83.semantica.TipoBasico;
 import es.grupo83.semantica.Funcion;
 
+import es.grupo83.error.*;
+
 import java.util.Arrays;
 
 public class TablaSimbolos {
@@ -18,6 +20,8 @@ public class TablaSimbolos {
   private static final String TIPO_RETORNO = "tipo_ret";
   private static final String ETIQUETA = "etiqueta";
 
+  private GestorErrores gestorErrores;
+
   private TS_Gestor gestor;
 
   private boolean zonaDecl;
@@ -28,7 +32,8 @@ public class TablaSimbolos {
 
   private Tabla tablaActual;
 
-  public TablaSimbolos() {
+  public TablaSimbolos(GestorErrores gestorErrores) {
+    this.gestorErrores = gestorErrores;
     this.zonaDecl = false;
     this.gestor = new TS_Gestor("simbolos.txt");
     this.gestor.createTPalabrasReservadas();
@@ -103,6 +108,22 @@ public class TablaSimbolos {
     this.gestor.setValorAtributoCad(pos, ETIQUETA, etiqueta);
   }
 
+  /**
+   * Recupera el lexema de la variable en la posicion dada
+   * @param pos La posicion a recuperar el lexema del id de la variable
+   * @return Si sale bien, el lexema. En caso de error, null
+   */
+  public String recuperarLexema(int pos) {
+    // TODO: Modificar tslib para que nos deje hacerlo
+    return null;
+  }
+
+  /**
+   * Agrega o recupera la entrada de la TS. Usado por el ALex para construir el token ID
+   * @param lexema El lexema del identificador
+   * @return La posicion en la TS del nuevo identificador. Si esta en zona de declaracion y ha ocurrido
+   * una redeclaracion, devuelve la posicion de la variable original
+   */
   public int agregarORecuperarEntrada(String lexema) {
     int pos = 0;
     if (this.zonaDecl) {
@@ -110,15 +131,19 @@ public class TablaSimbolos {
         case LOCAL -> {
           pos = this.gestor.addEntradaTSLocal(lexema);
           if (pos == 0) {
-            // TODO: Error: Redeclaracion de variable
             pos = this.gestor.getEntradaTS(lexema);
+            ErrorRedeclaracionVariable err = new ErrorRedeclaracionVariable(pos, false);
+            err.rellenarConTS(this);
+            this.gestorErrores.agregarError(err);
           }
         }
         case GLOBAL -> {
           pos = this.gestor.addEntradaTSGlobal(lexema);
           if (pos == 0) {
-            // TODO: Error: Redeclaracion de variable global
             pos = this.gestor.getEntradaTS(lexema);
+            ErrorRedeclaracionVariable err = new ErrorRedeclaracionVariable(pos, true);
+            err.rellenarConTS(this);
+            this.gestorErrores.agregarError(err);
           }
         }
         case PALRES -> throw new RuntimeException("Tabla == PALRES !!");

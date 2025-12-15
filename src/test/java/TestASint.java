@@ -34,7 +34,7 @@ public class TestASint {
     FileReader file = new FileReader(recurso);
 
     GestorErrores gestorErrores = new GestorErrores();
-    TablaSimbolos tablaSimbolos = new TablaSimbolos();
+    TablaSimbolos tablaSimbolos = new TablaSimbolos(gestorErrores);
     AutomataFinito afd = ImplementacionAFD.getAutomataFinito();
 
     AnalizadorLexico alex = new AnalizadorLexico(gestorErrores, tablaSimbolos, afd, file);

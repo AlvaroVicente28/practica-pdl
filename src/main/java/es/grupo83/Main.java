@@ -19,7 +19,7 @@ public class Main {
     AutomataFinito afd = ImplementacionAFD.getAutomataFinito();
 
     GestorErrores gestorErrores = new GestorErrores();
-    TablaSimbolos tablaSimbolos = new TablaSimbolos();
+    TablaSimbolos tablaSimbolos = new TablaSimbolos(gestorErrores);
 
     try(AnalizadorLexico alex = new AnalizadorLexico(gestorErrores, tablaSimbolos, afd, filePath)) {
       AnalizadorSintactico asint = new AnalizadorSintactico(gestorErrores, alex);
