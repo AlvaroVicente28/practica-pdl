@@ -95,7 +95,8 @@ public class GestorErrores {
       }
       subrayado += "|\t";
       for(int i = 0; i < colFinTrimmed; ++i) {
-        if(ctxErrorLinea.charAt(i + 1 + lineaNum.length() + 2) == ' ') {
+        char caracterEncima = ctxErrorLinea.charAt(i + 1 + lineaNum.length() + 2);
+        if(caracterEncima == ' ' || caracterEncima == '\t' || Character.isISOControl(caracterEncima)) {
           // Si el caracter que esta encima es blanco, no se subraya debajo de el
           subrayado += "~";
           continue;
