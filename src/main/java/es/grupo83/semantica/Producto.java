@@ -1,15 +1,16 @@
 package es.grupo83.semantica;
 
 import java.util.ArrayDeque;
+import java.util.List;
 
 public class Producto extends Tipo {
-  private ArrayDeque<TipoBasico> operandos;
+  private ArrayDeque<Tipo> operandos;
 
   /**
    * Contruye el tipo Producto
    * @param primerTipo El primer tipo de la secuencia
    */
-  public Producto(TipoBasico primerTipo) {
+  public Producto(Tipo primerTipo) {
     if(primerTipo == null) {
       throw new RuntimeException("El primer tipo del Producto debe ser distinto de null");
     }
@@ -18,10 +19,21 @@ public class Producto extends Tipo {
   }
 
   /**
+   * void
+   */
+  public Producto() {
+    this.operandos = new ArrayDeque<>();
+  }
+
+  public Producto(List<Tipo> miembros) {
+    this.operandos = new ArrayDeque<>(miembros);
+  }
+
+  /**
    * Construye un nuevo tipo Producto agregando el nuevo tipo a la secuencia
    * @param nuevoTipo El nuevo tipo a agregar en la secuencia por la izquierda
    */
-  public void agregarTipo(TipoBasico nuevoTipo) {
+  public void agregarTipo(Tipo nuevoTipo) {
     this.operandos.addFirst(nuevoTipo);
   }
 
@@ -49,17 +61,15 @@ public class Producto extends Tipo {
 
   @Override
   public boolean igual(Object other) {
+    if(other instanceof TipoBasico other_basico
+    && other_basico.equals(new TipoBasico(TipoBasico.Basicos.VACIO))) {
+      return true;
+    }
+
     if(!(other instanceof Producto)) {
       return false;
     }
 
     return this.productosIguales((Producto) other);
-  }
-
-  @Override
-  public int hashCode() {
-    return this.operandos.stream()
-            .map(tipo -> tipo.hashCode())
-            .reduce(0, (acc, next) -> 5 * acc + next.hashCode());
   }
 }

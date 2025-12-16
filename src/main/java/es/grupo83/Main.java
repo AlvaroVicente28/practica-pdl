@@ -24,7 +24,7 @@ public class Main {
     TablaSimbolos tablaSimbolos = new TablaSimbolos(gestorErrores);
 
     try(AnalizadorLexico alex = new AnalizadorLexico(gestorErrores, tablaSimbolos, afd, filePath)) {
-      AnalizadorSintactico asint = new AnalizadorSintactico(gestorErrores, alex);
+      AnalizadorSintactico asint = new AnalizadorSintactico(gestorErrores, tablaSimbolos, alex);
       asint.run();
       listaTokens = asint.getListaTokens();
       listaParse = asint.getParse();
@@ -49,7 +49,6 @@ public class Main {
       System.err.println("Error al leer archivo: " + e.getMessage());
       e.printStackTrace();
     }
-    tablaSimbolos.finTablaSimbolos();
 
     System.out.println("ANALISIS CORRECTO");
   }

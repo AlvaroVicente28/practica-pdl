@@ -3,12 +3,12 @@ package es.grupo83;
 import tslib.TS_Gestor;
 import tslib.TS_Gestor.Tabla;
 
-import es.grupo83.semantica.TipoBasico;
-import es.grupo83.semantica.Funcion;
+import es.grupo83.semantica.*;
 
 import es.grupo83.error.*;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class TablaSimbolos {
   // Variables
@@ -35,6 +35,9 @@ public class TablaSimbolos {
   public TablaSimbolos(GestorErrores gestorErrores) {
     this.gestorErrores = gestorErrores;
     this.zonaDecl = false;
+    this.desp = 0;
+    this.despGlobal = 0;
+    this.tablaActual = Tabla.GLOBAL;
     this.gestor = new TS_Gestor("simbolos.txt");
     this.gestor.createTPalabrasReservadas();
     this.gestor.activarDebug();
@@ -46,8 +49,6 @@ public class TablaSimbolos {
     this.gestor.createAtributo(MODO_PARAMETROS, TS_Gestor.DescripcionAtributo.MODO_PARAM, TS_Gestor.TipoDatoAtributo.LISTA);
     this.gestor.createAtributo(TIPO_RETORNO, TS_Gestor.DescripcionAtributo.TIPO_RET, TS_Gestor.TipoDatoAtributo.CADENA);
     this.gestor.createAtributo(ETIQUETA, TS_Gestor.DescripcionAtributo.ETIQUETA, TS_Gestor.TipoDatoAtributo.CADENA);
-
-    this.gestor.createTSGlobal();
   }
 
   public void inicioZonaDecl() {
@@ -56,6 +57,10 @@ public class TablaSimbolos {
 
   public void finZonaDecl() {
     this.zonaDecl = false;
+  }
+
+  public void crearTS() {
+    this.gestor.createTSGlobal();
   }
 
   public void crearAmbitoLocal() {
@@ -116,6 +121,47 @@ public class TablaSimbolos {
   public String recuperarLexema(int pos) {
     // TODO: Modificar tslib para que nos deje hacerlo
     return null;
+  }
+
+  private static TipoBasico fromStringGestor(String tipo) {
+    switch (tipo) {
+      case "entero" -> {
+        return new TipoBasico(TipoBasico.Basicos.ENTERO);
+      }
+      case "real" -> {
+        return new TipoBasico(TipoBasico.Basicos.REAL);
+      }
+      case "cadena" -> {
+        return new TipoBasico(TipoBasico.Basicos.CADENA);
+      }
+      case "lógico" -> {
+        return new TipoBasico(TipoBasico.Basicos.LOGICO);
+      }
+      default -> {
+        return null;
+      }
+    }
+  }
+
+  public Tipo buscarTipoTS(int pos) {
+    String atributo = this.gestor.getTipo(pos);
+    if(atributo == null) {
+      return new TipoInterno(TipoInterno.Internos.ERROR);
+    }
+    if(atributo.equals("función")) {
+       String[] parametros = this.gestor.getValorAtributoLista(pos, LISTA_PARAMETROS);
+       String retorno = this.gestor.getValorAtributoCad(pos, TIPO_RETORNO);
+       if(parametros == null || retorno == null) {
+         return new TipoInterno(TipoInterno.Internos.ERROR);
+       }
+
+       List<Tipo> paramTipoBasico = Arrays.stream(parametros)
+               .map(str -> (Tipo) fromStringGestor(str))
+               .toList();
+       return new Funcion(new Producto(paramTipoBasico), fromStringGestor(retorno));
+    } else {
+      return fromStringGestor(atributo);
+    }
   }
 
   /**

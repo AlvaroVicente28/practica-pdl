@@ -103,7 +103,9 @@ S2 -> = E ;     { S2.tipo = E.tipo; S2.llamada = false; }
 S2 -> ( L ) ;   { S2.tipo = L.tipo; S2.llamada = true; }
 R1 -> E ;       { R1.tipo = E.tipo; }
 R1 -> ;         { R1.tipo = vacio; }
-L -> E Q        { L.tipo = E.tipo X Q.tipo }
+L -> E Q        { L.tipo = if(Q.tipo = tipo_ok)
+                                then E.tipo
+                                else E.tipo X Q.tipo }
 L -> lambda     { L.tipo = vacio }
 Q -> , E Q1     { Q.tipo = if(Q1.tipo = tipo_ok)
                                 then E.tipo
@@ -176,12 +178,13 @@ F ->                            { zonaDecl = true; }
                                   insertaTipoTS(id.pos, A.tipo -> H.tipo);
                                   insertaEtiquetaTS(id.pos, etiq);
                                   C.tipoRet = H.tipo;
+                                  zonaDecl = false;
                                 }
     { C }                       {
                                   F.tipo = C.tipo;
                                   TSActual = TSGlobal;
                                   destruirTS(TSLocal);
-                                  zonaDecl = false;
+                                  // TODO: Desplazamiento correcto?
                                   Desp = DespGlobal;
                                 }
 H -> T                          { H.tipo = T.tipo; }
@@ -190,7 +193,9 @@ A -> T id K                     {
                                   insertaTipoTS(id.pos, T.tipo)
                                   insertaDespTS(id.pos, Desp)
                                   Desp += T.ancho;
-                                  A.tipo = T.tipo X K.tipo;
+                                  A.tipo = if(K.tipo = tipo_ok)
+                                                then T.tipo
+                                                else T.tipo X K.tipo
                                 }
 A -> void                       { A.tipo = vacio }
 K -> , T id K1                  {
@@ -213,12 +218,14 @@ C -> lambda                     { C.tipo = tipo_ok }
 
 P -> B P1                       { B.tipoRet = tipo_err; }
 P -> F P1                       { }
-P -> lambda                     {
-                                    destruirTS(TSGlobal);
-                                }
-P' -> P                         {
+P -> lambda                     { }
+
+P' ->                           {
                                     Desp = 0;
                                     zonaDecl = false;
                                     TSGlobal = crearTS();
                                     TSActual = TSGlobal;
+                                }
+        P                       {
+                                    destruirTS(TSGlobal);
                                 }
