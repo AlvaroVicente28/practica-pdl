@@ -48,7 +48,7 @@ W -> X W2       { W.tipo = if(W2.tipo = tipo_ok)
                                 then X.tipo
                                 else tipo_err;
                 }
-W2 -> % X W2_1  { W2.tipo = if((W2_1 = tipo_ok or W2_1 = X.tipo) and X.tipo in {entero, real})
+W2 -> % X W2_1  { W2.tipo = if((W2_1.tipo = tipo_ok or W2_1 = X.tipo) and X.tipo in {entero, real})
                     then X.tipo
                     else tipo_err;
                 }
@@ -184,7 +184,6 @@ F ->                            { zonaDecl = true; }
                                   F.tipo = C.tipo;
                                   TSActual = TSGlobal;
                                   destruirTS(TSLocal);
-                                  // TODO: Desplazamiento correcto?
                                   Desp = DespGlobal;
                                 }
 H -> T                          { H.tipo = T.tipo; }

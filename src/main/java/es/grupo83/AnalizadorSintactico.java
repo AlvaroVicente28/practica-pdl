@@ -97,8 +97,13 @@ public class AnalizadorSintactico {
       this.equipara(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.APERTURA), ContextoSintactico.SENTENCIA_COMPUESTA);
       Tipo e_tipo = this.E();
       this.equipara(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE), ContextoSintactico.SENTENCIA_COMPUESTA);
-      Tipo s_tipo = this.S(tipoRet);
-      b_tipo = (e_tipo.equals(new TipoBasico(TipoBasico.Basicos.LOGICO))) ? s_tipo : new TipoInterno(TipoInterno.Internos.ERROR);
+      TipoInterno s_tipo = this.S(tipoRet);
+
+      if(e_tipo.equals(new TipoBasico(TipoBasico.Basicos.LOGICO))) {
+        b_tipo = s_tipo;
+      } else {
+        b_tipo = new TipoInterno(TipoInterno.Internos.ERROR);
+      }
     }
     else if(this.next_tok.getTipoToken() == Token.TipoToken.LET) {
       this.parse.add(41);
@@ -115,10 +120,10 @@ public class AnalizadorSintactico {
       this.tablaSimbolos.incrementarDesp(t_ancho);
       this.tablaSimbolos.finZonaDecl();
       if(b2_tipo.equals(new TipoInterno(TipoInterno.Internos.OK))) {
-        b_tipo = new TipoInterno(TipoInterno.Internos.OK)
+        b_tipo = new TipoInterno(TipoInterno.Internos.OK);
       } else {
         if(b2_tipo.equals(t_tipo)) {
-          b_tipo = new TipoInterno(TipoInterno.Internos.OK)
+          b_tipo = new TipoInterno(TipoInterno.Internos.OK);
         } else {
           b_tipo = new TipoInterno(TipoInterno.Internos.ERROR);
         }
@@ -183,22 +188,19 @@ public class AnalizadorSintactico {
     this.tablaSimbolos.inicioZonaDecl();
 
     this.equipara(new Token(Token.TipoToken.FUNCTION, null), ContextoSintactico.DECLARACION_FUNCION);
-    Tipo h_tipo = this.H();
+    TipoBasico h_tipo = this.H();
     int id_pos = (int) this.equipara(new Token(Token.TipoToken.IDENTIFICADOR, 0), ContextoSintactico.DECLARACION_FUNCION);
 
     this.tablaSimbolos.crearAmbitoLocal();
 
     this.equipara(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.APERTURA), ContextoSintactico.DECLARACION_FUNCION);
-    Tipo a_tipo = this.A();
+    Producto a_tipo = this.A();
     this.equipara(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE), ContextoSintactico.DECLARACION_FUNCION);
 
-    if(h_tipo instanceof TipoBasico h_tipo_basico) {
-      Funcion tipoFunc = new Funcion((Producto) a_tipo, h_tipo_basico);
-      this.tablaSimbolos.insertarTipoFuncionTS(id_pos, tipoFunc);
-      // TODO: Insertar etiqueta
-    } else {
-      // TODO: Error o except
-    }
+    Funcion tipoFunc = new Funcion(a_tipo, h_tipo);
+    this.tablaSimbolos.insertarTipoFuncionTS(id_pos, tipoFunc);
+    // TODO: Insertar etiqueta
+
     this.tablaSimbolos.finZonaDecl();
 
     this.equipara(new Token(Token.TipoToken.LLAVES, Token.ORIENTACION_SIMBOLO.APERTURA), ContextoSintactico.DECLARACION_FUNCION);
@@ -217,7 +219,7 @@ public class AnalizadorSintactico {
             new Token(Token.TipoToken.STRING, null))
             .contains(this.next_tok)) {
       this.parse.add(57);
-      TipoBasico t_tipo = this.T();
+      TipoBasico t_tipo = this.T().getFirst();
       tipo = t_tipo;
     }
     else if(this.next_tok.getTipoToken() == Token.TipoToken.VOID) {
@@ -232,8 +234,8 @@ public class AnalizadorSintactico {
     return tipo;
   }
 
-  private Tipo A() throws IOException {
-    Tipo tipo = null;
+  private Producto A() throws IOException {
+    Producto tipo = null;
     if(Set.of(new Token(Token.TipoToken.INT, null),
                     new Token(Token.TipoToken.FLOAT, null),
                     new Token(Token.TipoToken.BOOLEAN, null),
@@ -251,7 +253,7 @@ public class AnalizadorSintactico {
       this.tablaSimbolos.incrementarDesp(t_ancho);
 
       if(k_tipo.equals(new TipoInterno(TipoInterno.Internos.OK))) {
-        tipo = t_tipo; // TODO: Producto de un elemento == elemento
+        tipo = new Producto(t_tipo);
       } else {
         Producto k_tipo_producto = (Producto) k_tipo;
         k_tipo_producto.agregarTipo(t_tipo);
@@ -261,7 +263,7 @@ public class AnalizadorSintactico {
     else if(this.next_tok.getTipoToken() == Token.TipoToken.VOID) {
       this.parse.add(60);
       this.equipara(new Token(Token.TipoToken.VOID, null), ContextoSintactico.DECLARACION_FUNCION);
-      tipo = new TipoBasico(TipoBasico.Basicos.VACIO);
+      tipo = new Producto(); // void
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.DECLARACION_FUNCION));
@@ -374,12 +376,13 @@ public class AnalizadorSintactico {
     else if(this.next_tok.getTipoToken() == Token.TipoToken.RETURN) {
       this.parse.add(31);
       this.equipara(new Token(Token.TipoToken.RETURN, null), ContextoSintactico.SENTENCIA_SIMPLE);
-      TipoBasico r1_tipo = this.R1();
+      Tipo r1_tipo = this.R1();
       if(tipoRet.equals(new TipoInterno(TipoInterno.Internos.ERROR))) {
         // TODO: return sin funcion
         s_tipo = new TipoInterno(TipoInterno.Internos.ERROR);
       } else {
         // TODO: Lanzar error correcto
+
         s_tipo = r1_tipo.equals(tipoRet) ? new TipoInterno(TipoInterno.Internos.OK) : new TipoInterno(TipoInterno.Internos.ERROR);
       }
     }
@@ -446,8 +449,8 @@ public class AnalizadorSintactico {
     return tipo;
   }
 
-  private Tipo L() throws IOException {
-    Tipo tipo = null;
+  private Producto L() throws IOException {
+    Producto tipo = null;
     if(Set.of(new Token(Token.TipoToken.CTE_LOGICA, null),
                     new Token(Token.TipoToken.IDENTIFICADOR, 0),
                     new Token(Token.TipoToken.CTE_CADENA, ""),
@@ -472,7 +475,7 @@ public class AnalizadorSintactico {
     else if(this.next_tok.equals(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE))) {
       this.parse.add(37);
       // lambda
-      tipo = new TipoBasico(TipoBasico.Basicos.VACIO);
+      tipo = new Producto(); // void
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.SENTENCIA_SIMPLE));
@@ -617,7 +620,7 @@ public class AnalizadorSintactico {
   }
 
   private Tipo E() throws IOException {
-    Tipo tipo = null;
+    Tipo tipo;
     this.parse.add(1);
     Tipo r_tipo = this.R();
     Tipo e2_tipo = this.E2();
@@ -665,7 +668,7 @@ public class AnalizadorSintactico {
   }
 
   private Tipo R() throws IOException {
-    Tipo tipo = null;
+    Tipo tipo;
     this.parse.add(4);
     Tipo u_tipo = this.U();
     Tipo r2_tipo = this.R2();
@@ -692,7 +695,7 @@ public class AnalizadorSintactico {
       Tipo r2_1_tipo = this.R2();
 
       if((r2_1_tipo.equals(u_tipo) || r2_1_tipo.equals(new TipoInterno(TipoInterno.Internos.OK)))
-      && Set.of(new TipoBasico(TipoBasico.Basicos.ENTERO), new TipoBasico(TipoBasico.Basicos.REAL))
+              && Set.of(new TipoBasico(TipoBasico.Basicos.ENTERO), new TipoBasico(TipoBasico.Basicos.REAL))
               .contains(u_tipo)) {
         tipo = u_tipo;
       } else {
@@ -716,7 +719,7 @@ public class AnalizadorSintactico {
   }
 
   private Tipo U() throws IOException {
-    Tipo tipo = null;
+    Tipo tipo ;
     this.parse.add(7);
     Tipo v_tipo = this.V();
     Tipo u2_1_tipo = this.U2();
@@ -739,8 +742,16 @@ public class AnalizadorSintactico {
     if(this.next_tok.getTipoToken() == Token.TipoToken.MENOR_ESTRICTO) {
       this.parse.add(8);
       this.equipara(new Token(Token.TipoToken.MENOR_ESTRICTO, null), ContextoSintactico.EXPRESION);
-      this.V();
-      this.U2();
+      Tipo v_tipo = this.V();
+      Tipo u2_1_tipo = this.U2();
+
+      if((u2_1_tipo.equals(new TipoInterno(TipoInterno.Internos.OK)) || u2_1_tipo.equals(v_tipo))
+      && Set.of(new TipoBasico(TipoBasico.Basicos.ENTERO), new TipoBasico(TipoBasico.Basicos.REAL))
+              .contains(v_tipo)) {
+        tipo = v_tipo;
+      } else {
+        tipo = new TipoInterno(TipoInterno.Internos.ERROR);
+      }
     }
     else if(Set.of(new Token(Token.TipoToken.AND, null),
             new Token(Token.TipoToken.PUNTO_COMA, null),
@@ -750,25 +761,49 @@ public class AnalizadorSintactico {
             .contains(this.next_tok)) {
       this.parse.add(9);
       // lambda
+      tipo = new TipoInterno(TipoInterno.Internos.OK);
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.EXPRESION));
       this.gestorErrores.pararEnError();
     }
+    return tipo;
   }
 
   private Tipo V() throws IOException {
+    Tipo tipo;
     this.parse.add(10);
-    this.W();
-    this.V2();
+    Tipo w_tipo = this.W();
+    Tipo v2_tipo = this.V2();
+
+    if(v2_tipo.equals(new TipoInterno(TipoInterno.Internos.OK))) {
+      tipo = w_tipo;
+    } else {
+      if(v2_tipo.equals(w_tipo) && Set.of(new TipoBasico(TipoBasico.Basicos.ENTERO), new TipoBasico(TipoBasico.Basicos.REAL))
+              .contains(w_tipo)) {
+        tipo = w_tipo;
+      } else {
+        tipo = new TipoInterno(TipoInterno.Internos.ERROR);
+      }
+    }
+
+    return tipo;
   }
 
   private Tipo V2() throws IOException {
+    Tipo tipo = null;
     if(this.next_tok.getTipoToken() == Token.TipoToken.OP_RESTA) {
       this.parse.add(11);
       this.equipara(new Token(Token.TipoToken.OP_RESTA, null), ContextoSintactico.EXPRESION);
-      this.W();
-      this.V2();
+      Tipo w_tipo = this.W();
+      Tipo v2_1_tipo = this.V2();
+
+      if((v2_1_tipo.equals(new TipoInterno(TipoInterno.Internos.OK)) || v2_1_tipo.equals(w_tipo))
+      && Set.of(new TipoBasico(TipoBasico.Basicos.ENTERO), new TipoBasico(TipoBasico.Basicos.REAL)).contains(w_tipo)) {
+        tipo = w_tipo;
+      } else {
+        tipo = new TipoInterno(TipoInterno.Internos.ERROR);
+      }
     }
     else if(Set.of(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE),
             new Token(Token.TipoToken.COMA, null),
@@ -779,25 +814,47 @@ public class AnalizadorSintactico {
             .contains(this.next_tok)) {
       this.parse.add(12);
       // lambda
+      tipo = new TipoInterno(TipoInterno.Internos.OK);
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.EXPRESION));
       this.gestorErrores.pararEnError();
     }
+    return tipo;
   }
 
   private Tipo W() throws IOException {
+    Tipo tipo;
     this.parse.add(13);
-    this.X();
-    this.W2();
+    Tipo x_tipo = this.X();
+    Tipo w2_tipo = this.W2();
+
+    if(w2_tipo.equals(new TipoInterno(TipoInterno.Internos.OK))) {
+      tipo = x_tipo;
+    } else {
+      if(w2_tipo.equals(x_tipo) && Set.of(new TipoBasico(TipoBasico.Basicos.ENTERO), new TipoBasico(TipoBasico.Basicos.REAL))
+              .contains(x_tipo)) {
+        tipo = x_tipo;
+      } else {
+        tipo = new TipoInterno(TipoInterno.Internos.ERROR);
+      }
+    }
+    return tipo;
   }
 
   private Tipo W2() throws IOException {
+    Tipo tipo = null;
     if(this.next_tok.getTipoToken() == Token.TipoToken.OP_MODULO) {
       this.parse.add(14);
       this.equipara(new Token(Token.TipoToken.OP_MODULO, null), ContextoSintactico.EXPRESION);
-      this.X();
-      this.W2();
+      Tipo x_tipo = this.X();
+      Tipo w2_1_tipo = this.W2();
+
+      if((w2_1_tipo.equals(new TipoInterno(TipoInterno.Internos.OK)) || w2_1_tipo.equals(x_tipo))
+      && Set.of(new TipoBasico(TipoBasico.Basicos.ENTERO), new TipoBasico(TipoBasico.Basicos.REAL))
+              .contains(x_tipo)) {
+        tipo = x_tipo;
+      }
     }
     else if(Set.of(new Token(Token.TipoToken.PUNTO_COMA, null),
             new Token(Token.TipoToken.COMA, null),
@@ -809,28 +866,48 @@ public class AnalizadorSintactico {
             .contains(this.next_tok)) {
       this.parse.add(15);
       // lambda
+      tipo = new TipoInterno(TipoInterno.Internos.OK);
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.EXPRESION));
       this.gestorErrores.pararEnError();
     }
+    return tipo;
   }
 
   private Tipo X() throws IOException {
+    Tipo tipo = null;
     if(this.next_tok.getTipoToken() == Token.TipoToken.NOT) {
       this.parse.add(16);
       this.equipara(new Token(Token.TipoToken.NOT, null), ContextoSintactico.EXPRESION);
-      this.X();
+      Tipo x1_tipo = this.X();
+      if(x1_tipo.equals(new TipoBasico(TipoBasico.Basicos.LOGICO))) {
+        tipo = new TipoBasico(TipoBasico.Basicos.LOGICO);
+      } else {
+        tipo = new TipoInterno(TipoInterno.Internos.ERROR);
+      }
     }
     else if(this.next_tok.getTipoToken() == Token.TipoToken.AUTOINCREMENTO) {
       this.parse.add(17);
       this.equipara(new Token(Token.TipoToken.AUTOINCREMENTO, null), ContextoSintactico.EXPRESION);
-      this.equipara(new Token(Token.TipoToken.IDENTIFICADOR, 0), ContextoSintactico.EXPRESION);
+      int id_pos = (int) this.equipara(new Token(Token.TipoToken.IDENTIFICADOR, 0), ContextoSintactico.EXPRESION);
+
+      if(this.tablaSimbolos.buscarTipoTS(id_pos).equals(new TipoBasico(TipoBasico.Basicos.ENTERO))) {
+        tipo = new TipoBasico(TipoBasico.Basicos.ENTERO);
+      } else {
+        tipo = new TipoInterno(TipoInterno.Internos.ERROR);
+      }
     }
     else if(this.next_tok.getTipoToken() == Token.TipoToken.OP_RESTA) {
       this.parse.add(18);
       this.equipara(new Token(Token.TipoToken.OP_RESTA, null), ContextoSintactico.EXPRESION);
-      this.X();
+      Tipo x1_tipo = this.X();
+      if(Set.of(new TipoBasico(TipoBasico.Basicos.ENTERO), new TipoBasico(TipoBasico.Basicos.REAL))
+              .contains(x1_tipo)) {
+        tipo = x1_tipo;
+      } else {
+        tipo = new TipoInterno(TipoInterno.Internos.ERROR);
+      }
     }
     else if(Set.of(new Token(Token.TipoToken.CTE_LOGICA, false),
             new Token(Token.TipoToken.CTE_REAL, 0.0),
@@ -840,54 +917,81 @@ public class AnalizadorSintactico {
             new Token(Token.TipoToken.IDENTIFICADOR, 0))
             .contains(this.next_tok)) {
       this.parse.add(19);
-      this.Y();
+      Tipo y_tipo = this.Y();
+      tipo = y_tipo;
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.EXPRESION));
       this.gestorErrores.pararEnError();
     }
+    return tipo;
   }
 
   private Tipo Y() throws IOException {
+    Tipo tipo = null;
     if(this.next_tok.equals(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.APERTURA))) {
       this.parse.add(21);
       this.equipara(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.APERTURA), ContextoSintactico.EXPRESION);
-      this.E();
+      Tipo e_tipo = this.E();
       this.equipara(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE), ContextoSintactico.EXPRESION);
+      tipo = e_tipo;
     }
     else if(this.next_tok.getTipoToken() == Token.TipoToken.CTE_ENTERA) {
       this.parse.add(22);
       this.equipara(new Token(Token.TipoToken.CTE_ENTERA, null), ContextoSintactico.EXPRESION);
-    }
-    else if(this.next_tok.getTipoToken() == Token.TipoToken.CTE_REAL) {
-      this.parse.add(24);
-      this.equipara(new Token(Token.TipoToken.CTE_REAL, null), ContextoSintactico.EXPRESION);
+      tipo = new TipoBasico(TipoBasico.Basicos.ENTERO);
     }
     else if(this.next_tok.getTipoToken() == Token.TipoToken.CTE_CADENA) {
       this.parse.add(23);
       this.equipara(new Token(Token.TipoToken.CTE_CADENA, null), ContextoSintactico.EXPRESION);
+      tipo = new TipoBasico(TipoBasico.Basicos.CADENA);
+    }
+    else if(this.next_tok.getTipoToken() == Token.TipoToken.CTE_REAL) {
+      this.parse.add(24);
+      this.equipara(new Token(Token.TipoToken.CTE_REAL, null), ContextoSintactico.EXPRESION);
+      tipo = new TipoBasico(TipoBasico.Basicos.REAL);
     }
     else if(this.next_tok.getTipoToken() == Token.TipoToken.CTE_LOGICA) {
       this.parse.add(25);
       this.equipara(new Token(Token.TipoToken.CTE_LOGICA, null), ContextoSintactico.EXPRESION);
+      tipo = new TipoBasico(TipoBasico.Basicos.LOGICO);
     }
     else if(this.next_tok.getTipoToken() == Token.TipoToken.IDENTIFICADOR) {
       this.parse.add(20);
-      this.equipara(new Token(Token.TipoToken.IDENTIFICADOR, 0), ContextoSintactico.EXPRESION);
-      this.Y2();
+      int id_pos = (int) this.equipara(new Token(Token.TipoToken.IDENTIFICADOR, 0), ContextoSintactico.EXPRESION);
+      Tipo y2_tipo = this.Y2();
+
+      Tipo id_tipo = this.tablaSimbolos.buscarTipoTS(id_pos);
+      if(id_tipo instanceof Funcion func) {
+        if(y2_tipo.equals(func.getParametros())) {
+          tipo = func.getTipoRetorno();
+        } else {
+          tipo = new TipoInterno(TipoInterno.Internos.ERROR);
+        }
+      } else {
+        if(y2_tipo.equals(new TipoInterno(TipoInterno.Internos.OK))) {
+          tipo = id_tipo;
+        } else {
+          tipo = new TipoInterno(TipoInterno.Internos.ERROR);
+        }
+      }
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.EXPRESION));
       this.gestorErrores.pararEnError();
     }
+    return tipo;
   }
 
   private Tipo Y2() throws IOException {
+    Tipo tipo = null;
     if(this.next_tok.equals(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.APERTURA))) {
       this.parse.add(27);
       this.equipara(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.APERTURA), ContextoSintactico.EXPRESION);
-      this.L();
+      Producto l_tipo = this.L();
       this.equipara(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE), ContextoSintactico.EXPRESION);
+
+      tipo = l_tipo;
     }
     else if(Set.of(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE),
             new Token(Token.TipoToken.PUNTO_COMA, null),
@@ -900,11 +1004,13 @@ public class AnalizadorSintactico {
             .contains(this.next_tok)) {
       this.parse.add(26);
       // lambda
+      tipo = new TipoInterno(TipoInterno.Internos.OK);
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.EXPRESION));
       this.gestorErrores.pararEnError();
     }
+    return tipo;
   }
 
   public ArrayList<Token> getListaTokens() {

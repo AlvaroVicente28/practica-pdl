@@ -14,10 +14,10 @@ public class TablaSimbolos {
   // Variables
   private static final String DESPLAZAMIENTO = "desplazamiento";
   // Funciones
-  private static final String N_PARAMETROS = "n_param";
-  private static final String LISTA_PARAMETROS = "lista_param";
-  private static final String MODO_PARAMETROS = "modo_param";
-  private static final String TIPO_RETORNO = "tipo_ret";
+  private static final String N_PARAMETROS = "numero_parametros";
+  private static final String LISTA_PARAMETROS = "tipo_parametros";
+  private static final String MODO_PARAMETROS = "modo_parametros";
+  private static final String TIPO_RETORNO = "tipo_de_retorno";
   private static final String ETIQUETA = "etiqueta";
 
   private GestorErrores gestorErrores;
@@ -100,6 +100,7 @@ public class TablaSimbolos {
   public void insertarTipoFuncionTS(int pos, Funcion funcion) {
     String retorno = funcion.getTipoRetorno().nombre();
     String[] parametros = funcion.getParametros().toList();
+    this.gestor.setTipo(pos, "función");
     this.gestor.setValorAtributoEnt(pos, N_PARAMETROS, parametros.length);
     this.gestor.setValorAtributoLista(pos, LISTA_PARAMETROS, parametros);
     String[] modoParam = Arrays.stream(parametros)
@@ -123,6 +124,11 @@ public class TablaSimbolos {
     return null;
   }
 
+  /**
+   * Convierte el string dado al tipo basico que describe
+   * @param tipo El string a convertir
+   * @return El TipoBasico que describe. null si no es un tipo basico o si es void
+   */
   private static TipoBasico fromStringGestor(String tipo) {
     switch (tipo) {
       case "entero" -> {
@@ -143,6 +149,12 @@ public class TablaSimbolos {
     }
   }
 
+  /**
+   * Devuelve el tipo que tiene la variable en la posicion dada
+   * @param pos La posicion de la variable
+   * @return El Tipo del simbolo referenciado con pos. Si esa posicion no esta definida, devuelve
+   * tipo_error
+   */
   public Tipo buscarTipoTS(int pos) {
     String atributo = this.gestor.getTipo(pos);
     if(atributo == null) {
@@ -152,7 +164,7 @@ public class TablaSimbolos {
        String[] parametros = this.gestor.getValorAtributoLista(pos, LISTA_PARAMETROS);
        String retorno = this.gestor.getValorAtributoCad(pos, TIPO_RETORNO);
        if(parametros == null || retorno == null) {
-         return new TipoInterno(TipoInterno.Internos.ERROR);
+         throw new RuntimeException("TS: parametros == null o retorno == null !!");
        }
 
        List<Tipo> paramTipoBasico = Arrays.stream(parametros)

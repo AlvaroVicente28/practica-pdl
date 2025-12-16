@@ -7,7 +7,7 @@ public class Producto extends Tipo {
   private ArrayDeque<Tipo> operandos;
 
   /**
-   * Contruye el tipo Producto
+   * Contruye el tipo Producto inicializandolo con un unico elemento
    * @param primerTipo El primer tipo de la secuencia
    */
   public Producto(Tipo primerTipo) {
@@ -19,12 +19,16 @@ public class Producto extends Tipo {
   }
 
   /**
-   * void
+   * Construye el tipo Producto vacio. Usado para funciones sin parametros
    */
   public Producto() {
     this.operandos = new ArrayDeque<>();
   }
 
+  /**
+   * Construye el tipo Producto a partir de una lista ordenada de tipos
+   * @param miembros La lista de tipos miembros
+   */
   public Producto(List<Tipo> miembros) {
     this.operandos = new ArrayDeque<>(miembros);
   }
@@ -61,11 +65,6 @@ public class Producto extends Tipo {
 
   @Override
   public boolean igual(Object other) {
-    if(other instanceof TipoBasico other_basico
-    && other_basico.equals(new TipoBasico(TipoBasico.Basicos.VACIO))) {
-      return true;
-    }
-
     if(!(other instanceof Producto)) {
       return false;
     }

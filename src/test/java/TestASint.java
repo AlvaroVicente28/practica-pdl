@@ -38,7 +38,7 @@ public class TestASint {
     AutomataFinito afd = ImplementacionAFD.getAutomataFinito();
 
     AnalizadorLexico alex = new AnalizadorLexico(gestorErrores, tablaSimbolos, afd, file);
-    AnalizadorSintactico asint = new AnalizadorSintactico(gestorErrores, alex);
+    AnalizadorSintactico asint = new AnalizadorSintactico(gestorErrores, tablaSimbolos, alex);
 
     try {
       asint.run();
