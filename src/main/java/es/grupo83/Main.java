@@ -15,6 +15,8 @@ public class Main {
       System.exit(-1);
     }
     String filePath = args[0];
+    Iterable<Token> listaTokens = null;
+    Iterable<Integer> listaParse = null;
 
     AutomataFinito afd = ImplementacionAFD.getAutomataFinito();
 
@@ -24,19 +26,32 @@ public class Main {
     try(AnalizadorLexico alex = new AnalizadorLexico(gestorErrores, tablaSimbolos, afd, filePath)) {
       AnalizadorSintactico asint = new AnalizadorSintactico(gestorErrores, alex);
       asint.run();
-      gestorErrores.pararEnError();
-      escribirArchivoTokens(asint.getListaTokens());
-      escribirParse(asint.getParse());
-      System.out.println("ANALISIS CORRECTO");
+      listaTokens = asint.getListaTokens();
+      listaParse = asint.getParse();
     }
     catch (FileNotFoundException e) {
       System.err.println("Archivo no encontrado: " + filePath);
+      System.exit(-1);
+    }
+    catch (IOException e) {
+      System.err.println("Error al leer el archivo: " + e.getMessage());
+      e.printStackTrace();
+      System.exit(-1);
+    }
+
+    gestorErrores.pararEnError();
+
+    try {
+      escribirArchivoTokens(listaTokens);
+      escribirParse(listaParse);
     }
     catch (IOException e) {
       System.err.println("Error al leer archivo: " + e.getMessage());
       e.printStackTrace();
     }
     tablaSimbolos.finTablaSimbolos();
+
+    System.out.println("ANALISIS CORRECTO");
   }
 
   private static void escribirArchivoTokens(Iterable<Token> tokens) throws IOException {
