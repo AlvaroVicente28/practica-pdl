@@ -44,7 +44,9 @@ public class ErrorRedeclaracionVariable extends ErrorSemantico {
   public void rellenarConTS(TablaSimbolos ts) {
     this.idVariableOriginal = ts.recuperarLexema(this.posVariableOriginalTS);
     if(this.idVariableOriginal == null) {
-      throw new RuntimeException("ErrorRedeclaracionVariable: ts.recuperarLexema == null !!");
+      this.idVariableOriginal = "" + this.posVariableOriginalTS;
+      // TODO: Implementar este error
+      //      throw new RuntimeException("ErrorRedeclaracionVariable: ts.recuperarLexema == null !!");
     }
   }
 }

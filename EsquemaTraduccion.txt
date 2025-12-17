@@ -119,11 +119,11 @@ B -> if ( E )                   { S.tipoRet = B.tipoRet; }
                                                 else tipo_err;
                                 }
 B ->                            { zonaDecl = true; }
-        let T id B2             {
+        let T id                { zonaDecl = false; }
+        B2                      {
                                   insertaTipoTS(id.pos, T.tipo);
                                   insertaDespTS(id.pos, desp);
                                   desp += T.ancho;
-                                  zonaDecl = false;
                                   B.tipo = if(B2.tipo = tipo_ok)
                                                 then tipo_ok
                                                 else if(B2.tipo = T.tipo)

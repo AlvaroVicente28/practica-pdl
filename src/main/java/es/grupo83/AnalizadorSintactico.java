@@ -113,12 +113,12 @@ public class AnalizadorSintactico {
       TipoBasico t_tipo = attrs_t.getFirst();
       int t_ancho = attrs_t.getSecond();
       int id_pos = (int) this.equipara(new Token(Token.TipoToken.IDENTIFICADOR, null), ContextoSintactico.SENTENCIA_COMPUESTA);
+      this.tablaSimbolos.finZonaDecl();
       Tipo b2_tipo = this.B2();
 
       this.tablaSimbolos.insertarTipoBasicoTS(id_pos, t_tipo);
       this.tablaSimbolos.insertarDesplazamientoTS(id_pos);
       this.tablaSimbolos.incrementarDesp(t_ancho);
-      this.tablaSimbolos.finZonaDecl();
       if(b2_tipo.equals(new TipoInterno(TipoInterno.Internos.OK))) {
         b_tipo = new TipoInterno(TipoInterno.Internos.OK);
       } else {
