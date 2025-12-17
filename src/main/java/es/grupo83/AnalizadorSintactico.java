@@ -851,9 +851,11 @@ public class AnalizadorSintactico {
       Tipo w2_1_tipo = this.W2();
 
       if((w2_1_tipo.equals(new TipoInterno(TipoInterno.Internos.OK)) || w2_1_tipo.equals(x_tipo))
-      && Set.of(new TipoBasico(TipoBasico.Basicos.ENTERO), new TipoBasico(TipoBasico.Basicos.REAL))
+              && Set.of(new TipoBasico(TipoBasico.Basicos.ENTERO), new TipoBasico(TipoBasico.Basicos.REAL))
               .contains(x_tipo)) {
         tipo = x_tipo;
+      } else {
+        tipo = new TipoInterno(TipoInterno.Internos.ERROR);
       }
     }
     else if(Set.of(new Token(Token.TipoToken.PUNTO_COMA, null),
