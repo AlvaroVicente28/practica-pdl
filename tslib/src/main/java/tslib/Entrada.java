@@ -9,7 +9,7 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 /**
- * RepresentaciÛn de una entrada.
+ * Representaci√≥n de una entrada.
  * 
  * @author Carolina Garza Bravo
  */
@@ -21,7 +21,7 @@ public class Entrada {
 	private String lex;
 	/**
 	 * Tipo del lexema. Los posibles valores son: 
-	 * funciÛn, procedimiento, entero, cadena, real, lÛgico, puntero y vector.
+	 * funci√≥n, procedimiento, entero, cadena, real, l√≥gico, puntero y vector.
 	 */
 	private String tipo;
 	/**
@@ -30,8 +30,8 @@ public class Entrada {
 	private HashMap<String,Atributo> atributos;
 	
 	/**
-	 * Lista de atributos pero ordenada de otra manera. Esta variable de clase ayudar· a que la impresiÛn de
-	 * la entrada sea m·s sencilla.
+	 * Lista de atributos pero ordenada de otra manera. Esta variable de clase ayudar√° a que la impresi√≥n de
+	 * la entrada sea m√°s sencilla.
 	 */
 	private HashMap<TS_Gestor.DescripcionAtributo,Atributo> des_atrib;
 	
@@ -56,14 +56,14 @@ public class Entrada {
 	
 	/**
 	 * Da valor al tipo del id
-	 * @param tipo Tipo que se la va a dar al id. Los tipos posibles son: funciÛn, procedimiento, entero,
-	 * cadena, real, lÛgico, puntero y vector.
-	 * @return 0 si todo ha salido bien, 6 si el tipo no es correcto o 7 si el id ya tenÌa un tipo asignado.
+	 * @param tipo Tipo que se la va a dar al id. Los tipos posibles son: funci√≥n, procedimiento, entero,
+	 * cadena, real, l√≥gico, puntero y vector.
+	 * @return 0 si todo ha salido bien, 6 si el tipo no es correcto o 7 si el id ya ten√≠a un tipo asignado.
 	 */
 	public int setTipo(String tipo) {
 		int res=0;
-		if(tipo.equals("funciÛn")||tipo.equals("procedimiento")||tipo.equals("entero")||tipo.equals("cadena")||
-				tipo.equals("real")||tipo.equals("lÛgico")||tipo.equals("puntero")||tipo.equals("vector")) {
+		if(tipo.equals("funci√≥n")||tipo.equals("procedimiento")||tipo.equals("entero")||tipo.equals("cadena")||
+				tipo.equals("real")||tipo.equals("l√≥gico")||tipo.equals("puntero")||tipo.equals("vector")) {
 			if(this.tipo==null) {
 				this.tipo=tipo;
 			}
@@ -87,11 +87,11 @@ public class Entrada {
 	}
 	
 	/**
-	 * AÒade un atributo a la entrada.
+	 * A≈Ñade un atributo a la entrada.
 	 * @param atr Nombre del atributo.
-	 * @param des DescripciÛn del atributo.
+	 * @param des Descripci√≥n del atributo.
 	 * @param td Tipo de dato del atributo.
-	 * @return 0 si todo ha ido bien o 13 si el nombre del atributo no es v·lido
+	 * @return 0 si todo ha ido bien o 13 si el nombre del atributo no es v√°lido
 	 */
 	public int setAtributo(String atr,TS_Gestor.DescripcionAtributo des,TS_Gestor.TipoDatoAtributo td) {
 		int res=0;
@@ -154,7 +154,7 @@ public class Entrada {
 	 * Da valor entero un atributo.
 	 * @param atr Nombre del atributo.
 	 * @param valor Valor que se le quiere dar al atributo.
-	 * @return 0 si todo ha salido bien, 7 si el atributo ya tenÌa un valor asignado, 8 si el tipo de dato del
+	 * @return 0 si todo ha salido bien, 7 si el atributo ya ten√≠a un valor asignado, 8 si el tipo de dato del
 	 * atributo no es ENTERO o 9 si el atributo no existe.
 	 */
 	public int setValorAtributoEnt(String atr,int valor) {
@@ -188,7 +188,7 @@ public class Entrada {
 	 * Da valor de cadena a un atributo.
 	 * @param atr Nombre del atributo.
 	 * @param valor Valor que se le quiere dar al atributo.
-	 * @return 0 si todo ha salido bien, 7 si el atributo ya tenÌa un valor asignado, 8 si el tipo de dato del
+	 * @return 0 si todo ha salido bien, 7 si el atributo ya ten√≠a un valor asignado, 8 si el tipo de dato del
 	 * atributo no es CADENA o 9 si el atributo no existe.
 	 */
 	public int setValorAtributoCad(String atr,String valor) {
@@ -222,7 +222,7 @@ public class Entrada {
 	 * Da valor en forma de lista de cadenas a un atributo.
 	 * @param atr Nombre del atributo.
 	 * @param valor Valor que se le quiere dar al atributo.
-	 * @return 0 si todo ha salido bien, 7 si el atributo ya tenÌa un valor asignado, 8 si el tipo de dato del
+	 * @return 0 si todo ha salido bien, 7 si el atributo ya ten√≠a un valor asignado, 8 si el tipo de dato del
 	 * atributo no es LISTA o 9 si el atributo no existe.
 	 */
 	public int setValorAtributoLista(String atr,String[] valor) {
@@ -253,7 +253,7 @@ public class Entrada {
 	}
 	
 	/**
-	 * Imprime por pantalla la representaciÛn de la entrada.
+	 * Imprime por pantalla la representaci√≥n de la entrada.
 	 */
 	public void show() {
 		System.out.println("*LEXEMA: '" + lex + "'");
@@ -504,7 +504,7 @@ public class Entrada {
 	}
 	
 	/**
-	 * Escribe en un fichero la representaciÛn de la entrada.
+	 * Escribe en un fichero la representaci√≥n de la entrada.
 	 * @param fich Fichero en el que se quiere escribir.
 	 * @param primera_escritura Si es la primera escritura o no.
 	 */
@@ -760,7 +760,7 @@ public class Entrada {
 	}
 	
 	/**
-	 * Encapsulamiento de la funciÛn write de la clase FileWriter.
+	 * Encapsulamiento de la funci√≥n write de la clase FileWriter.
 	 * @param fich Fichero en el que se va a escribir.
 	 * @param texto Texto que se va a escribir.
 	 * @param primera_escritura Si es la primera escritura o no.
@@ -789,7 +789,7 @@ public class Entrada {
 	 */
 	private String normalizar(String nombre) {
 		if (nombre == null || nombre.isEmpty()) {
-            return nombre; //Devuelve la entrada original si est· vacÌa o es nula
+            return nombre; //Devuelve la entrada original si est√° vac√≠a o es nula
         }
 
         // Quitar los acentos usando Normalizer
@@ -799,7 +799,7 @@ public class Entrada {
         // Quitar los espacios
         String sinEspacios = sinAcentos.replaceAll("\\s+", "_");
 
-        //Agregar una letra si comienza con un n˙mero
+        //Agregar una letra si comienza con un n√∫mero
         if (Character.isDigit(sinEspacios.charAt(0))||sinEspacios.charAt(0)=='_') {
             sinEspacios = "A_" + sinEspacios;
         }

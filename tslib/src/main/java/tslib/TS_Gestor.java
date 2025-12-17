@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 
 /**
- * Gestiona las tablas de sÌmbolos.
+ * Gestiona las tablas de s√≠mbolos.
  * 
  * @author Carolina Garza Bravo
  */
@@ -28,7 +28,7 @@ public class TS_Gestor {
 	 */
 	private TS palabras_reservadas;
 	/**
-	 * N˙mero de tablas totales creadas.
+	 * N√∫mero de tablas totales creadas.
 	 */
 	private int num_tablas;
 	/**
@@ -44,7 +44,7 @@ public class TS_Gestor {
 	 */
 	private boolean debug;
 	/**
-	 * Fichero en el cual se escribir·.
+	 * Fichero en el cual se escribir√°.
 	 */
 	private FileWriter	fich;
 	
@@ -53,31 +53,31 @@ public class TS_Gestor {
 	 */
 	public enum DescripcionAtributo {
 		/**
-		 * DirecciÛn o desplazamiento del identificador.
+		 * Direcci√≥n o desplazamiento del identificador.
 		 */
 		DIR,
 		/**
-		 * N˙mero de par·metros de una funciÛn.
+		 * N√∫mero de par√°metros de una funci√≥n.
 		 */
 		NUM_PARAM,
 		/**
-		 * Tipo de los par·metros de una funciÛn.
+		 * Tipo de los par√°metros de una funci√≥n.
 		 */
 		TIPO_PARAM,
 		/**
-		 * Modo de los par·metros de una funciÛn.
+		 * Modo de los par√°metros de una funci√≥n.
 		 */
 		MODO_PARAM,
 		/**
-		 * Tipo de retorno de una funciÛn.
+		 * Tipo de retorno de una funci√≥n.
 		 */
 		TIPO_RET,
 		/**
-		 * Nombre secundario de la funciÛn.
+		 * Nombre secundario de la funci√≥n.
 		 */
 		ETIQUETA,
 		/**
-		 * Si la variable es un par·metro de una funciÛn o no.
+		 * Si la variable es un par√°metro de una funci√≥n o no.
 		 */
 		PARAM,
 		/**
@@ -101,7 +101,7 @@ public class TS_Gestor {
 		 */
 		LISTA};
 	/**
-	 * Tipos de tablas de sÌmbolos.
+	 * Tipos de tablas de s√≠mbolos.
 	 */
 	public enum Tabla {
 		/**
@@ -118,8 +118,8 @@ public class TS_Gestor {
 		LOCAL};
 	
 	/**
-	 * Crea el gestor de tablas de sÌmbolos.
-	 * @param nombre_fichero Fichero en el que se escribir·n las tablas cuando se necesite.
+	 * Crea el gestor de tablas de s√≠mbolos.
+	 * @param nombre_fichero Fichero en el que se escribir√°n las tablas cuando se necesite.
 	 */
 	public TS_Gestor(String nombre_fichero) {
 		num_tablas=0;
@@ -149,7 +149,7 @@ public class TS_Gestor {
 	
 	/**
 	 * Crea la tabla de palabras reservadas
-	 * @return 0 si todo ha ido bien o 1 si se est· intentando crear una tabla de palabras reservadas
+	 * @return 0 si todo ha ido bien o 1 si se est√° intentando crear una tabla de palabras reservadas
 	 * cuando ya existe una.
 	 */
 	public int createTPalabrasReservadas() {
@@ -171,7 +171,7 @@ public class TS_Gestor {
 	
 	/**
 	 * Crea la tabla global.
-	 * @return 0 si todo ha ido bien, 1 si se est· intentando crear una tabla que ya existe, 2 si no se ha
+	 * @return 0 si todo ha ido bien, 1 si se est√° intentando crear una tabla que ya existe, 2 si no se ha
 	 * declarado la tabla de palabras reservadas antes o 3 si no se han definido los atributos.
 	 */
 	public int createTSGlobal() {
@@ -243,10 +243,10 @@ public class TS_Gestor {
 	/**
 	 * Define un atributo.
 	 * @param nombre_atr Nombre del atributo.
-	 * @param tipo_des DescripciÛn del atributo.
+	 * @param tipo_des Descripci√≥n del atributo.
 	 * @param tipo_valor Tipo de dato del atributo.
-	 * @return 0 si todo ha salido bien, 4 si se est· definiendo un atributo ya definido, 11 si se quiere utilizar
-	 * un nombre para un atributo que ya est· asignado a otro atributo o 13 si el nombre del atributo no es v·lido.
+	 * @return 0 si todo ha salido bien, 4 si se est√° definiendo un atributo ya definido, 11 si se quiere utilizar
+	 * un nombre para un atributo que ya est√° asignado a otro atributo o 13 si el nombre del atributo no es v√°lido.
 	 */
 	public int createAtributo(String nombre_atr,DescripcionAtributo tipo_des,TipoDatoAtributo tipo_valor) {
 		int res=0;
@@ -318,24 +318,24 @@ public class TS_Gestor {
 		}
 		if(debug) {
 			if(res==4) {
-				System.out.println("Se est· intentando definir un atributo ya definido.");
+				System.out.println("Se est√° intentando definir un atributo ya definido.");
 			}
 			if(res==11) {
-				System.out.println("Se est· intentando definir un atributo con un nombre que ya est· asignado "
+				System.out.println("Se est√° intentando definir un atributo con un nombre que ya est√° asignado "
 						+ "a otro atributo.");
 			}
 			if(res==13) {
-				System.out.println("El nombre del atributo no es v·lido.");
+				System.out.println("El nombre del atributo no es v√°lido.");
 			}
 		}
 		return res;
 	}
 	
 	/**
-	 * AÒade una entrada a la tabla de palabras reservadas.
+	 * A≈Ñade una entrada a la tabla de palabras reservadas.
 	 * @param lex Palabra reservada.
-	 * @return La posiciÛn en la que se ha aÒadido, 0 si la tabla de palabras reservadas no existe o
-	 * si la palabra reservada a aÒadir ya est· en la tabla de palabras reservadas.
+	 * @return La posici√≥n en la que se ha a≈Ñadido, 0 si la tabla de palabras reservadas no existe o
+	 * si la palabra reservada a a≈Ñadir ya est√° en la tabla de palabras reservadas.
 	 */
 	public int addEntradaTPalabrasReservadas(String lex) {
 		if(palabras_reservadas!=null) {
@@ -343,8 +343,8 @@ public class TS_Gestor {
 		}
 		else {
 			if(debug) {
-				System.out.println("Se est· intentando aÒadir una entrada en la tabla de palabras reservadas "
-						+ "cuando la tabla no existe o cuando la palabra reservada ya est· en la tabla de"
+				System.out.println("Se est√° intentando a≈Ñadir una entrada en la tabla de palabras reservadas "
+						+ "cuando la tabla no existe o cuando la palabra reservada ya est√° en la tabla de"
 						+ "palabras reservadas.");
 			}
 			return 0;
@@ -352,10 +352,10 @@ public class TS_Gestor {
 	}
 	
 	/**
-	 * AÒade una entrada a la tabla global.
+	 * A≈Ñade una entrada a la tabla global.
 	 * @param lex Lexema del identificador.
-	 * @return La posiciÛn en la que se ha aÒadido, 0 si la tabla global no existe o si el identificador a aÒadir
-	 * ya est· en la tabla de sÌmbolos global.
+	 * @return La posici√≥n en la que se ha a≈Ñadido, 0 si la tabla global no existe o si el identificador a a≈Ñadir
+	 * ya est√° en la tabla de s√≠mbolos global.
 	 */
 	public int addEntradaTSGlobal(String lex) {
 		if(global!=null) {
@@ -363,18 +363,18 @@ public class TS_Gestor {
 		}
 		else {
 			if(debug) {
-				System.out.println("Se est· intentando aÒadir una entrada en la tabla global cuando la tabla "
-						+ "no existe o cuando el identificador ya est· en la tabla global.");
+				System.out.println("Se est√° intentando a≈Ñadir una entrada en la tabla global cuando la tabla "
+						+ "no existe o cuando el identificador ya est√° en la tabla global.");
 			}
 			return 0;
 		}
 	}
 	
 	/**
-	 * AÒade una entrada a la tabla local.
+	 * A≈Ñade una entrada a la tabla local.
 	 * @param lex Lexema del identificador.
-	 * @return La posiciÛn en la que se ha aÒadido, 0 si la tabla local lo existe o si el identificador a aÒadir ya
-	 * est· en la tabla de sÌmbolos local.
+	 * @return La posici√≥n en la que se ha a≈Ñadido, 0 si la tabla local lo existe o si el identificador a a≈Ñadir ya
+	 * est√° en la tabla de s√≠mbolos local.
 	 */
 	public int addEntradaTSLocal(String lex) {
 		if(local!=null) {
@@ -382,8 +382,8 @@ public class TS_Gestor {
 		}
 		else {
 			if(debug) {
-				System.out.println("Se est· intentando aÒadir una entrada en la tabla local cuando la tabla "
-						+ "no existe o cuando el identificador ya est· en la tabla local.");
+				System.out.println("Se est√° intentando a≈Ñadir una entrada en la tabla local cuando la tabla "
+						+ "no existe o cuando el identificador ya est√° en la tabla local.");
 			}
 			return 0;
 		}
@@ -392,8 +392,8 @@ public class TS_Gestor {
 	/**
 	 * Busca en la tabla de palabras reservadas una palabra reservada.
 	 * @param lex Palabra Reservada
-	 * @return La posiciÛn de la palabra reservada o 0 si no se ha encontrado. TambiÈn devuelve 0 si la tabla
-	 * de palabras reservadas no est· creada.
+	 * @return La posici√≥n de la palabra reservada o 0 si no se ha encontrado. Tambi√©n devuelve 0 si la tabla
+	 * de palabras reservadas no est√° creada.
 	 */
 	public int getEntradaTPalabrasReservadas(String lex) {
 		if(palabras_reservadas!=null) {
@@ -401,7 +401,7 @@ public class TS_Gestor {
 		}
 		else {
 			if(debug) {
-				System.out.println("Se est· intentando obtener una entrada de la tabla de palabras reservadas "
+				System.out.println("Se est√° intentando obtener una entrada de la tabla de palabras reservadas "
 						+ "cuando la tabla no existe.");
 			}
 			return 0;
@@ -411,8 +411,8 @@ public class TS_Gestor {
 	/**
 	 * Busca en la tabla global un identificador.
 	 * @param lex Lexema del identificador.
-	 * @return La posiciÛn del identificador en la tabla global o 0 si no se ha encontrado. TambiÈn devuelve 0
-	 * si la tabla global no est· creada.
+	 * @return La posici√≥n del identificador en la tabla global o 0 si no se ha encontrado. Tambi√©n devuelve 0
+	 * si la tabla global no est√° creada.
 	 */
 	public int getEntradaTSGlobal(String lex) {
 		if(global!=null) {
@@ -420,7 +420,7 @@ public class TS_Gestor {
 		}
 		else {
 			if(debug) {
-				System.out.println("Se est· intentando obtener una entrada de la tabla global cuando la tabla "
+				System.out.println("Se est√° intentando obtener una entrada de la tabla global cuando la tabla "
 						+ "no existe.");
 			}
 			return 0;
@@ -430,8 +430,8 @@ public class TS_Gestor {
 	/**
 	 * Busca en la tabla local un identificador.
 	 * @param lex Lexema del identificador.
-	 * @return La posiciÛn del identificador en la tabla local o 0 si no se ha encontrado. TambiÈn devuelve 0 si
-	 * la tabla local no est· creada.
+	 * @return La posici√≥n del identificador en la tabla local o 0 si no se ha encontrado. Tambi√©n devuelve 0 si
+	 * la tabla local no est√° creada.
 	 */
 	public int getEntradaTSLocal(String lex) {
 		if(local!=null) {
@@ -439,7 +439,7 @@ public class TS_Gestor {
 		}
 		else {
 			if(debug) {
-				System.out.println("Se est· intentando obtener una entrada de la tabla local cuando la tabla "
+				System.out.println("Se est√° intentando obtener una entrada de la tabla local cuando la tabla "
 						+ "no existe.");
 			}
 			return 0;
@@ -449,8 +449,8 @@ public class TS_Gestor {
 	/**
 	 * Busca en la tabla global y local (si existe).
 	 * @param lex Lexema del identificador.
-	 * @return La posiciÛn del identificador en la tabla en la que est· o 0 si no se ha encontrado. TambiÈn
-	 * devuelve 0 si la tabla global no est· creada.
+	 * @return La posici√≥n del identificador en la tabla en la que est√° o 0 si no se ha encontrado. Tambi√©n
+	 * devuelve 0 si la tabla global no est√° creada.
 	 */
 	public int getEntradaTS(String lex) {
 		if(global!=null) {
@@ -469,7 +469,7 @@ public class TS_Gestor {
 		}
 		else {
 			if(debug) {
-				System.out.println("Se est· intentando obtener una entrada de cualquier tabla cuando la tabla"
+				System.out.println("Se est√° intentando obtener una entrada de cualquier tabla cuando la tabla"
 						+ "global no existe.");
 			}
 			return 0;
@@ -477,24 +477,24 @@ public class TS_Gestor {
 	}
 	
 	/**
-	 * AÒade el tipo de un identificador y aÒade los atributos pertinentes. Si el tipo es entero, cadena,
-	 * real, lÛgico, puntero o vector se aÒadir·n los atributos direcciÛn y param. Si el tipo es funciÛn o
-	 * procedimiento se aÒadir·n los atributos n˙mero de par·metros, tipo de par·metros, modo de par·metros,
-	 * tipo de retorno y etiqueta. En cualquier caso, se aÒadir·n los atributos OTROS si se han definido.
-	 * @param pos PosiciÛn del identificador.
-	 * @param tipo_id Tipo que se le quiere poner al identificador. Los tipos posibles son: funciÛn,
-	 * procedimiento, entero, cadena, real, lÛgico, puntero y vector.
-	 * @return 0 si todo ha salido bien, 5 si la posiciÛn no es correcta, 6 si el tipo no es correcto, 7 si
-	 * el tipo ya existÌa o 10 si la tabla en la que estarÌa el identificador no existe o 12 si se intenta aÒadir
-	 * el tipo funciÛn a un identificador de la tabla local.
+	 * A≈Ñade el tipo de un identificador y a≈Ñade los atributos pertinentes. Si el tipo es entero, cadena,
+	 * real, l√≥gico, puntero o vector se a≈Ñadir√°n los atributos direcci√≥n y param. Si el tipo es funci√≥n o
+	 * procedimiento se a≈Ñadir√°n los atributos n√∫mero de par√°metros, tipo de par√°metros, modo de par√°metros,
+	 * tipo de retorno y etiqueta. En cualquier caso, se a≈Ñadir√°n los atributos OTROS si se han definido.
+	 * @param pos Posici√≥n del identificador.
+	 * @param tipo_id Tipo que se le quiere poner al identificador. Los tipos posibles son: funci√≥n,
+	 * procedimiento, entero, cadena, real, l√≥gico, puntero y vector.
+	 * @return 0 si todo ha salido bien, 5 si la posici√≥n no es correcta, 6 si el tipo no es correcto, 7 si
+	 * el tipo ya exist√≠a o 10 si la tabla en la que estar√≠a el identificador no existe o 12 si se intenta a≈Ñadir
+	 * el tipo funci√≥n a un identificador de la tabla local.
 	 */
 	public int setTipo(int pos,String tipo_id) {
 		int res=0;
-		if(pos>0) { //Est· en la tabla global
+		if(pos>0) { //Est√° en la tabla global
 			if(global!=null) {
 				res=global.setTipo(pos,tipo_id);
 				if(tipo_id.equals("entero")||tipo_id.equals("cadena")||tipo_id.equals("real")||
-						tipo_id.equals("lÛgico")||tipo_id.equals("puntero")||tipo_id.equals("vector")) {
+						tipo_id.equals("l√≥gico")||tipo_id.equals("puntero")||tipo_id.equals("vector")) {
 					Iterator<Entry<String,Entry<DescripcionAtributo,TipoDatoAtributo>>> it=atributos_def.entrySet().iterator();
 					while(it.hasNext()) {
 						Entry<String,Entry<DescripcionAtributo,TipoDatoAtributo>> atrb=it.next();
@@ -524,15 +524,15 @@ public class TS_Gestor {
 				res=10;
 			}
 		}
-		else { //Est· en la tabla local
+		else { //Est√° en la tabla local
 			if(local!=null) {
-				if(tipo_id.equals("funciÛn")) {
+				if(tipo_id.equals("funci√≥n")) {
 					res=12;
 				}
 				else {
 					local.setTipo(pos,tipo_id);
 					if(tipo_id.equals("entero")||tipo_id.equals("cadena")||tipo_id.equals("real")||
-							tipo_id.equals("lÛgico")||tipo_id.equals("puntero")||tipo_id.equals("vector")) {
+							tipo_id.equals("l√≥gico")||tipo_id.equals("puntero")||tipo_id.equals("vector")) {
 						Iterator<Entry<String,Entry<DescripcionAtributo,TipoDatoAtributo>>> it=atributos_def.entrySet().iterator();
 						while(it.hasNext()) {
 							Entry<String,Entry<DescripcionAtributo,TipoDatoAtributo>> atrb=it.next();
@@ -551,19 +551,19 @@ public class TS_Gestor {
 		}
 		if(debug) {
 			if(res==12) {
-				System.out.println("Esta librerÌa no permite lenguajes con anidaciÛn de funciones.");
+				System.out.println("Esta librer√≠a no permite lenguajes con anidaci√≥n de funciones.");
 			}
 			if(res==10) {
 				System.out.println("La tabla a la que se quiere acceder no existe.");
 			}
 			if(res==5) {
-				System.out.println("La posiciÛn no es correcta.");
+				System.out.println("La posici√≥n no es correcta.");
 			}
 			if(res==6) {
 				System.out.println("El tipo no es correcto.");
 			}
 			if(res==7) {
-				System.out.println("La entrada ya tenÌa un tipo asignado.");
+				System.out.println("La entrada ya ten√≠a un tipo asignado.");
 			}
 		}
 		return res;
@@ -571,13 +571,13 @@ public class TS_Gestor {
 	
 	/**
 	 * Devuelve el tipo de un identificador.
-	 * @param pos PosiciÛn del identificador.
-	 * @return El tipo de la entrada en la posiciÛn pos o null si hay error, que puede ser que la posiciÛn
-	 * no sea correcta o que la tabla en la que estarÌa el identificador no existe.
+	 * @param pos Posici√≥n del identificador.
+	 * @return El tipo de la entrada en la posici√≥n pos o null si hay error, que puede ser que la posici√≥n
+	 * no sea correcta o que la tabla en la que estar√≠a el identificador no existe.
 	 */
 	public String getTipo(int pos) {
 		String res=null;
-		if(pos>0) { //Est· en la tabla global
+		if(pos>0) { //Est√° en la tabla global
 			if(global!=null) {
 				res=global.getTipo(pos);
 			}
@@ -585,7 +585,7 @@ public class TS_Gestor {
 				res=null;
 			}
 		}
-		else if(pos<0) { //Est· en la tabla local
+		else if(pos<0) { //Est√° en la tabla local
 			if(local!=null) {
 				res=local.getTipo(pos);
 			}
@@ -598,7 +598,7 @@ public class TS_Gestor {
 		}
 		if(debug) {
 			if(res==null) {
-				System.out.println("La posiciÛn no es correcta.");
+				System.out.println("La posici√≥n no es correcta.");
 			}
 		}
 		return res;
@@ -606,16 +606,16 @@ public class TS_Gestor {
 	
 	/**
 	 * Da valor entero a un atributo de un identificador.
-	 * @param pos PosiciÛn del identificador.
+	 * @param pos Posici√≥n del identificador.
 	 * @param atr Nombre del atributo.
 	 * @param valor Valor del atributo.
-	 * @return 0 si todo ha salido bien, 5 si la posiciÛn no es correcta, 7 si el atributo ya tenÌa un valor
-	 * asignado, 8 si el tipo de dato del atributo no est· definido como ENTERO, 9 si el atributo no existe o
-	 * 10 si la tabla en la que estarÌa el identificador no existe.
+	 * @return 0 si todo ha salido bien, 5 si la posici√≥n no es correcta, 7 si el atributo ya ten√≠a un valor
+	 * asignado, 8 si el tipo de dato del atributo no est√° definido como ENTERO, 9 si el atributo no existe o
+	 * 10 si la tabla en la que estar√≠a el identificador no existe.
 	 */
 	public int setValorAtributoEnt(int pos,String atr,int valor) {
 		int res=0;
-		if(pos>0) { //Est· en la tabla global
+		if(pos>0) { //Est√° en la tabla global
 			if(global!=null) {
 				res=global.setValorAtributoEnt(pos, atr, valor);
 			}
@@ -623,7 +623,7 @@ public class TS_Gestor {
 				res=10;
 			}
 		}
-		else { //Est· en la tabla local
+		else { //Est√° en la tabla local
 			if(local!=null) {
 				res=local.setValorAtributoEnt(pos, atr, valor);
 			}
@@ -636,7 +636,7 @@ public class TS_Gestor {
 				System.out.println("La tabla a la que se quiere acceder no existe.");
 			}
 			if(res==5) {
-				System.out.println("La posiciÛn no es correcta.");
+				System.out.println("La posici√≥n no es correcta.");
 			}
 			if(res==9) {
 				System.out.println("El atributo " + atr + " no existe.");
@@ -646,7 +646,7 @@ public class TS_Gestor {
 						+ "entero.");
 			}
 			if(res==7) {
-				System.out.println("El atributo " + atr + " ya tenÌa un valor asignado.");
+				System.out.println("El atributo " + atr + " ya ten√≠a un valor asignado.");
 			}
 		}
 		return res;
@@ -654,15 +654,15 @@ public class TS_Gestor {
 	
 	/**
 	 * Devuelve el valor entero de un atributo de un identificador.
-	 * @param pos PosiciÛn del identificador.
+	 * @param pos Posici√≥n del identificador.
 	 * @param atr Nombre del atributo.
-	 * @return El valor entero del atributo atr del identificador de la posiciÛn pos o -1 si hay error,
-	 * que puede ser que el atributo o la posiciÛn no sean correctos, que la tabla en la que estarÌa el
-	 * identificador no existe o que el atributo no estÈ declarado como ENTERO.
+	 * @return El valor entero del atributo atr del identificador de la posici√≥n pos o -1 si hay error,
+	 * que puede ser que el atributo o la posici√≥n no sean correctos, que la tabla en la que estar√≠a el
+	 * identificador no existe o que el atributo no est√© declarado como ENTERO.
 	 */
 	public int getValorAtributoEnt(int pos,String atr) {
 		int res=-1;
-		if(pos>0) { //Est· en la tabla global
+		if(pos>0) { //Est√° en la tabla global
 			if(global!=null) {
 				res=global.getValorAtributoEnt(pos, atr);
 			}
@@ -670,7 +670,7 @@ public class TS_Gestor {
 				res=-1;
 			}
 		}
-		else { //Est· en la tabla local
+		else { //Est√° en la tabla local
 			if(local!=null) {
 				res=local.getValorAtributoEnt(pos, atr);
 			}
@@ -680,7 +680,7 @@ public class TS_Gestor {
 		}
 		if(debug) {
 			if(res==-1) {
-				System.out.println("Ha habido alg˙n error con la posiciÛn o con el atributo.");
+				System.out.println("Ha habido alg√∫n error con la posici√≥n o con el atributo.");
 			}
 		}
 		return res;
@@ -688,16 +688,16 @@ public class TS_Gestor {
 	
 	/**
 	 * Da valor de cadena a un atributo de un identificador.
-	 * @param pos PosiciÛn del identificador.
+	 * @param pos Posici√≥n del identificador.
 	 * @param atr Nombre del atributo.
 	 * @param valor Valor del atributo.
-	 * @return 0 si todo ha salido bien, 5 si la posiciÛn no es correcta, 7 si el atributo ya tenÌa un
-	 * valor asignado, 8 si el tipo de dato del atributo no est· definido como CADENA, 9 si el atributo no
-	 * existe o 10 si la tabla en la que estarÌa el identificador no existe.
+	 * @return 0 si todo ha salido bien, 5 si la posici√≥n no es correcta, 7 si el atributo ya ten√≠a un
+	 * valor asignado, 8 si el tipo de dato del atributo no est√° definido como CADENA, 9 si el atributo no
+	 * existe o 10 si la tabla en la que estar√≠a el identificador no existe.
 	 */
 	public int setValorAtributoCad(int pos,String atr,String valor) {
 		int res=0;
-		if(pos>0) { //Est· en la tabla global
+		if(pos>0) { //Est√° en la tabla global
 			if(global!=null) {
 				res=global.setValorAtributoCad(pos, atr, valor);
 			}
@@ -705,7 +705,7 @@ public class TS_Gestor {
 				res=10;
 			}
 		}
-		else { //Est· en la tabla local
+		else { //Est√° en la tabla local
 			if(local!=null) {
 				res=local.setValorAtributoCad(pos, atr, valor);
 			}
@@ -718,7 +718,7 @@ public class TS_Gestor {
 				System.out.println("La tabla a la que se quiere acceder no existe.");
 			}
 			if(res==5) {
-				System.out.println("La posiciÛn no es correcta.");
+				System.out.println("La posici√≥n no es correcta.");
 			}
 			if(res==9) {
 				System.out.println("El atributo " + atr + " no existe.");
@@ -728,7 +728,7 @@ public class TS_Gestor {
 						+ "cadena.");
 			}
 			if(res==7) {
-				System.out.println("El atributo " + atr + " ya tenÌa un valor asignado.");
+				System.out.println("El atributo " + atr + " ya ten√≠a un valor asignado.");
 			}
 		}
 		return res;
@@ -736,15 +736,15 @@ public class TS_Gestor {
 	
 	/**
 	 * Devuelve el valor de cadena de un atributo de un identificador.
-	 * @param pos PosiciÛn del identificador.
+	 * @param pos Posici√≥n del identificador.
 	 * @param atr Nombre del atributo.
-	 * @return El valor de cadena del atributo atr del identificador de la posiciÛn pos o null si hay error,
-	 * que puede ser que el atributo o la posiciÛn no sean correctos, que la tabla en la que estarÌa el
-	 * identificador no existe o que el atributo no estÈ declarado como CADENA.
+	 * @return El valor de cadena del atributo atr del identificador de la posici√≥n pos o null si hay error,
+	 * que puede ser que el atributo o la posici√≥n no sean correctos, que la tabla en la que estar√≠a el
+	 * identificador no existe o que el atributo no est√© declarado como CADENA.
 	 */
 	public String getValorAtributoCad(int pos,String atr) {
 		String res=null;
-		if(pos>0) { //Est· en la tabla global
+		if(pos>0) { //Est√° en la tabla global
 			if(global!=null) {
 				res=global.getValorAtributoCad(pos, atr);
 			}
@@ -752,7 +752,7 @@ public class TS_Gestor {
 				res=null;
 			}
 		}
-		else { //Est· en la tabla local
+		else { //Est√° en la tabla local
 			if(local!=null) {
 				res=local.getValorAtributoCad(pos, atr);
 			}
@@ -762,7 +762,7 @@ public class TS_Gestor {
 		}
 		if(debug) {
 			if(res==null) {
-				System.out.println("Ha habido alg˙n error con la posiciÛn o con el atributo.");
+				System.out.println("Ha habido alg√∫n error con la posici√≥n o con el atributo.");
 			}
 		}
 		return res;
@@ -770,16 +770,16 @@ public class TS_Gestor {
 	
 	/**
 	 * Da valor en forma de lista de cadenas de un atributo de un identificador.
-	 * @param pos PosiciÛn del identificador.
+	 * @param pos Posici√≥n del identificador.
 	 * @param atr Nombre del atributo.
 	 * @param valor Valor del atributo.
-	 * @return 0 si todo ha salido bien, 5 si la posiciÛn no es correcta, 7 si el atributo ya tenÌa un valor
-	 * asignado, 8 si el tipo de dato del atributo no est· definido como LISTA, 9 si el atributo no existe o
-	 * 10 si la tabla en la que estarÌa el identificador no existe.
+	 * @return 0 si todo ha salido bien, 5 si la posici√≥n no es correcta, 7 si el atributo ya ten√≠a un valor
+	 * asignado, 8 si el tipo de dato del atributo no est√° definido como LISTA, 9 si el atributo no existe o
+	 * 10 si la tabla en la que estar√≠a el identificador no existe.
 	 */
 	public int setValorAtributoLista(int pos,String atr,String[] valor) {
 		int res=0;
-		if(pos>0) { //Est· en la tabla global
+		if(pos>0) { //Est√° en la tabla global
 			if(global!=null) {
 				res=global.setValorAtributoLista(pos, atr, valor);
 			}
@@ -787,7 +787,7 @@ public class TS_Gestor {
 				res=10;
 			}
 		}
-		else { //Est· en la tabla local
+		else { //Est√° en la tabla local
 			if(local!=null) {
 				res=local.setValorAtributoLista(pos, atr, valor);
 			}
@@ -800,7 +800,7 @@ public class TS_Gestor {
 				System.out.println("La tabla a la que se quiere acceder no existe.");
 			}
 			if(res==5) {
-				System.out.println("La posiciÛn no es correcta.");
+				System.out.println("La posici√≥n no es correcta.");
 			}
 			if(res==9) {
 				System.out.println("El atributo " + atr + " no existe.");
@@ -810,7 +810,7 @@ public class TS_Gestor {
 						+ "lista.");
 			}
 			if(res==7) {
-				System.out.println("El atributo " + atr + " ya tenÌa un valor asignado.");
+				System.out.println("El atributo " + atr + " ya ten√≠a un valor asignado.");
 			}
 		}
 		return res;
@@ -818,15 +818,15 @@ public class TS_Gestor {
 	
 	/**
 	 * Devuelve el valor en forma de lista de cadenas de un atributo de un identificador.
-	 * @param pos PosiciÛn del identificador.
+	 * @param pos Posici√≥n del identificador.
 	 * @param atr Nombre del atributo.
-	 * @return El valor en forma de lista de cadenas del atributo atr del identificador de la posiciÛn pos o
-	 * null si hay error, que puede ser que el atributo o la posiciÛn no sean correctos, que la tabla en la que
-	 * estarÌa el identificador no existe o que el atributo no estÈ declarado como LISTA.
+	 * @return El valor en forma de lista de cadenas del atributo atr del identificador de la posici√≥n pos o
+	 * null si hay error, que puede ser que el atributo o la posici√≥n no sean correctos, que la tabla en la que
+	 * estar√≠a el identificador no existe o que el atributo no est√© declarado como LISTA.
 	 */
 	public String[] getValorAtributoLista(int pos,String atr) {
 		String[] res=null;
-		if(pos>0) { //Est· en la tabla global
+		if(pos>0) { //Est√° en la tabla global
 			if(global!=null) {
 				res=global.getValorAtributoLista(pos, atr);
 			}
@@ -834,7 +834,7 @@ public class TS_Gestor {
 				res=null;
 			}
 		}
-		else { //Est· en la tabla local
+		else { //Est√° en la tabla local
 			if(local!=null) {
 				res=local.getValorAtributoLista(pos, atr);
 			}
@@ -844,14 +844,14 @@ public class TS_Gestor {
 		}
 		if(debug) {
 			if(res==null) {
-				System.out.println("Ha habido alg˙n error con la posiciÛn o con el atributo.");
+				System.out.println("Ha habido alg√∫n error con la posici√≥n o con el atributo.");
 			}
 		}
 		return res;
 	}
 	
 	/**
-	 * Muestra por pantalla una tabla de sÌmbolos.
+	 * Muestra por pantalla una tabla de s√≠mbolos.
 	 * @param tabla Tabla que se quiere mostrar.
 	 * @return 0 si todo ha salido bien o 10 si la tabla que se quiere mostrar no existe.
 	 */
@@ -883,14 +883,14 @@ public class TS_Gestor {
 		}
 		if(debug) {
 			if(res==10) {
-				System.out.println("Se est· intentando mostrar una tabla que no existe.");
+				System.out.println("Se est√° intentando mostrar una tabla que no existe.");
 			}
 		}
 		return res;
 	}
 	
 	/**
-	 * Escribe en un fichero la representaciÛn de una tabla de sÌmbolos.
+	 * Escribe en un fichero la representaci√≥n de una tabla de s√≠mbolos.
 	 * @param tabla Tabla que se quiere escribir.
 	 * @return 0 si se ha escrito correctamente o 10 si la tabla que se quiere escribir no existe.
 	 */
@@ -922,7 +922,7 @@ public class TS_Gestor {
 		}
 		if(debug) {
 			if(res==10) {
-				System.out.println("Se est· intentando escribir una tabla que no existe.");
+				System.out.println("Se est√° intentando escribir una tabla que no existe.");
 			}
 		}
 		if(primera_escritura&&res==0) {
@@ -932,10 +932,10 @@ public class TS_Gestor {
 	}
 	
 	/**
-	 * Destruye una tabla de sÌmbolos.
+	 * Destruye una tabla de s√≠mbolos.
 	 * @param tabla Tabla que se quiere destruir.
-	 * @return 0 si todo ha salido bien, 10 si la tabla que se quiere destruir no existe, 15 si se est· intentando
-	 * destruir la tabla global sin haber destruido la tabla local o 16 si se est· intentando destruir la tabla de
+	 * @return 0 si todo ha salido bien, 10 si la tabla que se quiere destruir no existe, 15 si se est√° intentando
+	 * destruir la tabla global sin haber destruido la tabla local o 16 si se est√° intentando destruir la tabla de
 	 * palabras reservadas sin haber destruido la tabla global.
 	 */
 	public int destroy(Tabla tabla) {
@@ -979,14 +979,14 @@ public class TS_Gestor {
 		}
 		if(debug) {
 			if(res==10) {
-				System.out.println("Se est· intentando destruir una tabla que no existe.");
+				System.out.println("Se est√° intentando destruir una tabla que no existe.");
 			}
 			if(res==15) {
-				System.out.println("Se est· intentando destruir la tabla global sin haber destruido la tabla"
+				System.out.println("Se est√° intentando destruir la tabla global sin haber destruido la tabla"
 						+ "local.");
 			}
 			if(res==16) {
-				System.out.println("Se est· intentando destruir la tabla de palabras reservadas sin haber destruido"
+				System.out.println("Se est√° intentando destruir la tabla de palabras reservadas sin haber destruido"
 						+ " la tabla local.");
 			}
 		}
@@ -1007,7 +1007,7 @@ public class TS_Gestor {
 	 */
 	private String normalizar(String nombre) {
 		if (nombre == null || nombre.isEmpty()) {
-            return nombre; //Devuelve la entrada original si est· vacÌa o es nula
+            return nombre; //Devuelve la entrada original si est√° vac√≠a o es nula
         }
 
         // Quitar los acentos usando Normalizer
@@ -1017,7 +1017,7 @@ public class TS_Gestor {
         // Quitar los espacios
         String sinEspacios = sinAcentos.replaceAll("\\s+", "_");
 
-        //Agregar una letra si comienza con un n˙mero
+        //Agregar una letra si comienza con un n√∫mero
         if (Character.isDigit(sinEspacios.charAt(0))||sinEspacios.charAt(0)=='_') {
             sinEspacios = "A_" + sinEspacios;
         }

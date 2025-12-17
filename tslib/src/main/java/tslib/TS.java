@@ -7,14 +7,14 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 
 /**
- * RepresertaciÛn de una Tabla de SÌmbolos.
+ * Represertaci√≥n de una Tabla de S√≠mbolos.
  * 
  * @author Carolina Garza Bravo
  */
 
 public class TS {
 	/**
-	 * Estructura de datos en la que se guardan todos los datos de la tabla de sÌmbolos.
+	 * Estructura de datos en la que se guardan todos los datos de la tabla de s√≠mbolos.
 	 */
 	private HashMap<Integer,Entrada> ts;
 	/**
@@ -22,12 +22,12 @@ public class TS {
 	 */
 	private int id;
 	/**
-	 * PosiciÛn siguiente donde se aÒadir· la siguiente entrada.
+	 * Posici√≥n siguiente donde se a≈Ñadir√° la siguiente entrada.
 	 */
 	private int pos;
 	
 	/**
-	 * Crea una tabla de sÌmbolos
+	 * Crea una tabla de s√≠mbolos
 	 * @param id Identificador de la tabla.
 	 */
 	public TS(int id) {
@@ -42,9 +42,9 @@ public class TS {
 	}
 	
 	/**
-	 * AÒade un nuevo identificador a la tabla.
-	 * @param lex Lexema del identificador a aÒadir.
-	 * @return La posiciÛn en la que se ha aÒadido o 0 si el lexema a aÒadir ya est· en la tabla.
+	 * A≈Ñade un nuevo identificador a la tabla.
+	 * @param lex Lexema del identificador a a≈Ñadir.
+	 * @return La posici√≥n en la que se ha a≈Ñadido o 0 si el lexema a a≈Ñadir ya est√° en la tabla.
 	 */
 	public int addEntrada(String lex) {
 		int res=0;
@@ -65,7 +65,7 @@ public class TS {
 	/**
 	 * Busca un identificador en la tabla.
 	 * @param lex Lexema del identificador a buscar.
-	 * @return La posiciÛn en la que est· el lexema o 0 si se ha encontrado.
+	 * @return La posici√≥n en la que est√° el lexema o 0 si se ha encontrado.
 	 */
 	public int getEntrada(String lex) {
 		int res=0;
@@ -81,10 +81,10 @@ public class TS {
 	
 	/**
 	 * Da valor al tipo de un identificador de la tabla.
-	 * @param pos PosiciÛn del identificador.
-	 * @param tipo Tipo del identificador. Los tipos posibles son: funciÛn, procedimiento, entero, cadena,
-	 * real, lÛgico, puntero y vector.
-	 * @return 0 si ha salido bien, 5 si la posiciÛn no es correcta, 6 si el tipo no es correcto o 7 si el tipo
+	 * @param pos Posici√≥n del identificador.
+	 * @param tipo Tipo del identificador. Los tipos posibles son: funci√≥n, procedimiento, entero, cadena,
+	 * real, l√≥gico, puntero y vector.
+	 * @return 0 si ha salido bien, 5 si la posici√≥n no es correcta, 6 si el tipo no es correcto o 7 si el tipo
 	 * ya estaba definido
 	 */
 	public int setTipo(int pos,String tipo) {
@@ -99,9 +99,9 @@ public class TS {
 	}
 	
 	/**
-	 * Devuelve el tipo del identificador que est· en una posiciÛn concreta.
-	 * @param pos PosiciÛn del identificador.
-	 * @return El tipo del identificador de esa posiciÛn o null si la posiciÛn es errÛnea.
+	 * Devuelve el tipo del identificador que est√° en una posici√≥n concreta.
+	 * @param pos Posici√≥n del identificador.
+	 * @return El tipo del identificador de esa posici√≥n o null si la posici√≥n es err√≥nea.
 	 */
 	public String getTipo(int pos) {
 		if(((id==0||id==1)&&(pos<this.pos))||((id>1)&&(pos>this.pos))) {
@@ -113,12 +113,12 @@ public class TS {
 	}
 	
 	/**
-	 * AÒade un atributo a un identificador.
-	 * @param pos PosiciÛn del identificador.
+	 * A≈Ñade un atributo a un identificador.
+	 * @param pos Posici√≥n del identificador.
 	 * @param atr Nombre del atributo.
-	 * @param des DescripciÛn del atributo.
+	 * @param des Descripci√≥n del atributo.
 	 * @param td Tipo de dato del atributo.
-	 * @return 0 si todo ha ido bien, 5 si la posiciÛn no es correcta 0 13 si el nombre del atributo no es v·lido.
+	 * @return 0 si todo ha ido bien, 5 si la posici√≥n no es correcta 0 13 si el nombre del atributo no es v√°lido.
 	 */
 	public int setAtributo(int pos,String atr,TS_Gestor.DescripcionAtributo des,TS_Gestor.TipoDatoAtributo td) {
 		int res=0;
@@ -132,12 +132,12 @@ public class TS {
 	}
 	
 	/**
-	 * Da valor entero a un atributo del identificador de una posiciÛn concreta.
-	 * @param pos PosiciÛn del identificador.
+	 * Da valor entero a un atributo del identificador de una posici√≥n concreta.
+	 * @param pos Posici√≥n del identificador.
 	 * @param atr Nombre del atributo al que se le quiere poner valor.
 	 * @param valor Valor que le va a asignar al atributo.
-	 * @return 0 si todo ha salido bien, 5 si la posiciÛn no es correcta, 7 si el atributo ya tenÌa un
-	 * valor asignado, 8 si el tipo de dato del atributo no est· definido como ENTERO o 9 si el atributo
+	 * @return 0 si todo ha salido bien, 5 si la posici√≥n no es correcta, 7 si el atributo ya ten√≠a un
+	 * valor asignado, 8 si el tipo de dato del atributo no est√° definido como ENTERO o 9 si el atributo
 	 * no existe.
 	 */
 	public int setValorAtributoEnt(int pos,String atr,int valor) {
@@ -152,11 +152,11 @@ public class TS {
 	}
 	
 	/**
-	 * Devuelve el valor entero de un atributo del identificador que est· en una posiciÛn concreta.
-	 * @param pos PosiciÛn del identificador.
+	 * Devuelve el valor entero de un atributo del identificador que est√° en una posici√≥n concreta.
+	 * @param pos Posici√≥n del identificador.
 	 * @param atr Nombre del atributo.
 	 * @return El valor entero del atributo o -1 si hay error, que puede ser que el atributo o
-	 * la posiciÛn no sean correctos o que el atributo no estÈ declarado como ENTERO.
+	 * la posici√≥n no sean correctos o que el atributo no est√© declarado como ENTERO.
 	 */
 	public int getValorAtributoEnt(int pos,String atr) {
 		if(((id==0||id==1)&&(pos<this.pos))||((id>1)&&(pos>this.pos))) {
@@ -168,12 +168,12 @@ public class TS {
 	}
 	
 	/**
-	 * Da valor de cadena a un atributo del identificador de una posiciÛn concreta.
-	 * @param pos PosiciÛn del identificador.
+	 * Da valor de cadena a un atributo del identificador de una posici√≥n concreta.
+	 * @param pos Posici√≥n del identificador.
 	 * @param atr Nombre del atributo al que se le va a dar valor.
 	 * @param valor El valor que se le va a asignar al atributo.
-	 * @return 0 si todo ha salido bien, 5 si la posiciÛn no es correcta, 7 si el atributo ya tenÌa un
-	 * valor asignado, 8 si el tipo de dato del atributo no est· definido como CADENA o 9 si el atributo
+	 * @return 0 si todo ha salido bien, 5 si la posici√≥n no es correcta, 7 si el atributo ya ten√≠a un
+	 * valor asignado, 8 si el tipo de dato del atributo no est√° definido como CADENA o 9 si el atributo
 	 * no existe.
 	 */
 	public int setValorAtributoCad(int pos,String atr,String valor) {
@@ -188,11 +188,11 @@ public class TS {
 	}
 	
 	/**
-	 * Devuelve el valor de cadena de un atributo del identificador que est· en una posiciÛn concreta.
-	 * @param pos PosiciÛn del identificador.
+	 * Devuelve el valor de cadena de un atributo del identificador que est√° en una posici√≥n concreta.
+	 * @param pos Posici√≥n del identificador.
 	 * @param atr Nombre del atributo.
 	 * @return El valor de cadena del atributo o null si hay error, que puede ser que el atributo o la
-	 * posiciÛn no sean correctos o que el atributo no estÈ declarado como CADENA.
+	 * posici√≥n no sean correctos o que el atributo no est√© declarado como CADENA.
 	 */
 	public String getValorAtributoCad(int pos,String atr) {
 		if(((id==0||id==1)&&(pos<this.pos))||((id>1)&&(pos>this.pos))) {
@@ -204,12 +204,12 @@ public class TS {
 	}
 	
 	/**
-	 * Da valor en forma de lista de cadenas a un atributo del identificador de una posiciÛn concreta.
-	 * @param pos PosiciÛn del identificador.
+	 * Da valor en forma de lista de cadenas a un atributo del identificador de una posici√≥n concreta.
+	 * @param pos Posici√≥n del identificador.
 	 * @param atr Nombre del atributo al que se le va a dar valor.
 	 * @param valor Valor que se le va a asignar al atributo.
-	 * @return 0 si todo ha salido bien, 5 si la posiciÛn no es correcta, 7 si el atributo ya tenÌa un
-	 * valor asignado, 8 si el tipo de dato del atributo no est· definido como LISTA o 9 si el atributo no existe.
+	 * @return 0 si todo ha salido bien, 5 si la posici√≥n no es correcta, 7 si el atributo ya ten√≠a un
+	 * valor asignado, 8 si el tipo de dato del atributo no est√° definido como LISTA o 9 si el atributo no existe.
 	 */
 	public int setValorAtributoLista(int pos,String atr,String[] valor) {
 		int res=0;
@@ -223,12 +223,12 @@ public class TS {
 	}
 	
 	/**
-	 * Devuelve el valor en forma de lista de cadenas de un atributo del identificador que est· en una posiciÛn
+	 * Devuelve el valor en forma de lista de cadenas de un atributo del identificador que est√° en una posici√≥n
 	 * concreta.
-	 * @param pos PosiciÛn del identificador.
+	 * @param pos Posici√≥n del identificador.
 	 * @param atr Nombre del atributo.
 	 * @return El valor en forma de lista de cadenas del atributo o null si hay error, que puede ser que el
-	 * atributo o la posiciÛn no sean correctos o que el atributo no estÈ declarado como LISTA.
+	 * atributo o la posici√≥n no sean correctos o que el atributo no est√© declarado como LISTA.
 	 */
 	public String[] getValorAtributoLista(int pos,String atr) {
 		if(((id==0||id==1)&&(pos<this.pos))||((id>1)&&(pos>this.pos))) {
@@ -240,7 +240,7 @@ public class TS {
 	}
 	
 	/**
-	 * Muestra por pantalla la representaciÛn de la tabla de sÌmbolos.
+	 * Muestra por pantalla la representaci√≥n de la tabla de s√≠mbolos.
 	 */
 	public void show() {
 		if(id==0) {
@@ -263,7 +263,7 @@ public class TS {
 	}
 	
 	/**
-	 * Escribe en un fichero la representaciÛn de una entrada.
+	 * Escribe en un fichero la representaci√≥n de una entrada.
 	 * @param fich Fichero donde se va a escribir.
 	 * @param primera_escritura Si es la primera escritura o no.
 	 */
@@ -288,7 +288,7 @@ public class TS {
 	}
 	
 	/**
-	 * Destruye la tabla de sÌmbolos.
+	 * Destruye la tabla de s√≠mbolos.
 	 */
 	public void destroy() {
 		Iterator<Entry<Integer,Entrada>> it=ts.entrySet().iterator();
@@ -306,7 +306,7 @@ public class TS {
 	}
 	
 	/**
-	 * Encapsulamiento de la funciÛn write de la clase FileWriter.
+	 * Encapsulamiento de la funci√≥n write de la clase FileWriter.
 	 * @param fich Fichero en el que se va a escribir.
 	 * @param texto Texto que se va a escribir.
 	 * @param primera_escritura Si es la primera escritura o no.
