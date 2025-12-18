@@ -291,7 +291,7 @@ public class AnalizadorSintactico {
       this.parse.add(55);
       this.equipara(new Token(Token.TipoToken.STRING, null), ContextoSintactico.DECLARACION_TIPO);
       tipo = new TipoBasico(TipoBasico.Basicos.CADENA);
-      ancho = 4;
+      ancho = 64;
     }
     else if(this.next_tok.getTipoToken() == Token.TipoToken.BOOLEAN){
       this.parse.add(54);

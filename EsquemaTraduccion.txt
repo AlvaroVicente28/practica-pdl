@@ -165,7 +165,7 @@ SWC -> lambda                   { SWC.tipo = tipo_ok }
 T -> int                        { T.tipo = entero; T.ancho = 1 }
 T -> float                      { T.tipo = real; T.ancho = 2 }
 T -> boolean                    { T.tipo = logico; T.ancho = 1 }
-T -> string                     { T.tipo = cadena; T.ancho = 4 }
+T -> string                     { T.tipo = cadena; T.ancho = 64 }
 
 F ->                            { zonaDecl = true; }
     function H id               {
