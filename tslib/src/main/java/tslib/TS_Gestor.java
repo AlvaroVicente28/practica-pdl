@@ -494,7 +494,7 @@ public class TS_Gestor {
 			if(global!=null) {
 				res=global.setTipo(pos,tipo_id);
 				if(tipo_id.equals("entero")||tipo_id.equals("cadena")||tipo_id.equals("real")||
-						tipo_id.equals("lógico")||tipo_id.equals("puntero")||tipo_id.equals("vector")) {
+						tipo_id.equals("logico")||tipo_id.equals("puntero")||tipo_id.equals("vector")) {
 					Iterator<Entry<String,Entry<DescripcionAtributo,TipoDatoAtributo>>> it=atributos_def.entrySet().iterator();
 					while(it.hasNext()) {
 						Entry<String,Entry<DescripcionAtributo,TipoDatoAtributo>> atrb=it.next();
@@ -526,13 +526,13 @@ public class TS_Gestor {
 		}
 		else { //Está en la tabla local
 			if(local!=null) {
-				if(tipo_id.equals("función")) {
+				if(tipo_id.equals("funcion")) {
 					res=12;
 				}
 				else {
 					local.setTipo(pos,tipo_id);
 					if(tipo_id.equals("entero")||tipo_id.equals("cadena")||tipo_id.equals("real")||
-							tipo_id.equals("lógico")||tipo_id.equals("puntero")||tipo_id.equals("vector")) {
+							tipo_id.equals("logico")||tipo_id.equals("puntero")||tipo_id.equals("vector")) {
 						Iterator<Entry<String,Entry<DescripcionAtributo,TipoDatoAtributo>>> it=atributos_def.entrySet().iterator();
 						while(it.hasNext()) {
 							Entry<String,Entry<DescripcionAtributo,TipoDatoAtributo>> atrb=it.next();

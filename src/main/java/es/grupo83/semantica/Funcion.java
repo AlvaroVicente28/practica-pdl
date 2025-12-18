@@ -24,10 +24,7 @@ public class Funcion extends Tipo {
 
   @Override
   public String nombre() {
-    if(this.tipoRetorno.equals(new TipoBasico(TipoBasico.Basicos.VACIO))) {
-      return "procedimiento";
-    }
-    return "función";
+    return "funcion";
   }
 
   @Override

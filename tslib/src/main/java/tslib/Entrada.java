@@ -62,8 +62,8 @@ public class Entrada {
 	 */
 	public int setTipo(String tipo) {
 		int res=0;
-		if(tipo.equals("función")||tipo.equals("procedimiento")||tipo.equals("entero")||tipo.equals("cadena")||
-				tipo.equals("real")||tipo.equals("lógico")||tipo.equals("puntero")||tipo.equals("vector")) {
+		if(tipo.equals("funcion")||tipo.equals("procedimiento")||tipo.equals("entero")||tipo.equals("cadena")||
+				tipo.equals("real")||tipo.equals("logico")||tipo.equals("puntero")||tipo.equals("vector")) {
 			if(this.tipo==null) {
 				this.tipo=tipo;
 			}

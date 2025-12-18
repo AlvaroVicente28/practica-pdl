@@ -100,7 +100,7 @@ public class TablaSimbolos {
   public void insertarTipoFuncionTS(int pos, Funcion funcion) {
     String retorno = funcion.getTipoRetorno().nombre();
     String[] parametros = funcion.getParametros().toList();
-    this.gestor.setTipo(pos, "función");
+    this.gestor.setTipo(pos, funcion.nombre());
     this.gestor.setValorAtributoEnt(pos, N_PARAMETROS, parametros.length);
     this.gestor.setValorAtributoLista(pos, LISTA_PARAMETROS, parametros);
     String[] modoParam = Arrays.stream(parametros)
@@ -140,8 +140,11 @@ public class TablaSimbolos {
       case "cadena" -> {
         return new TipoBasico(TipoBasico.Basicos.CADENA);
       }
-      case "lógico" -> {
+      case "logico" -> {
         return new TipoBasico(TipoBasico.Basicos.LOGICO);
+      }
+      case "vacio" -> {
+        return new TipoBasico(TipoBasico.Basicos.VACIO);
       }
       default -> {
         return null;
@@ -160,7 +163,7 @@ public class TablaSimbolos {
     if(atributo == null) {
       return new TipoInterno(TipoInterno.Internos.ERROR);
     }
-    if(atributo.equals("función")) {
+    if(atributo.equals("funcion") || atributo.equals("procedimiento")) {
        String[] parametros = this.gestor.getValorAtributoLista(pos, LISTA_PARAMETROS);
        String retorno = this.gestor.getValorAtributoCad(pos, TIPO_RETORNO);
        if(parametros == null || retorno == null) {

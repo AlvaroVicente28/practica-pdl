@@ -21,7 +21,7 @@ public class TipoBasico extends Tipo {
       case ENTERO -> "entero";
       case REAL -> "real";
       case CADENA -> "cadena";
-      case LOGICO -> "lógico";
+      case LOGICO -> "logico";
       case VACIO -> "vacio";
     };
   }

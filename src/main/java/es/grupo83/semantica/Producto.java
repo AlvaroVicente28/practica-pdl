@@ -1,6 +1,7 @@
 package es.grupo83.semantica;
 
 import java.util.ArrayDeque;
+import java.util.Iterator;
 import java.util.List;
 
 public class Producto extends Tipo {
@@ -60,7 +61,15 @@ public class Producto extends Tipo {
   }
 
   private boolean productosIguales(Producto other) {
-    return this.operandos.equals(other.operandos);
+    Iterator<Tipo> it1 = this.operandos.iterator();
+    Iterator<Tipo> it2 = other.operandos.iterator();
+    while(it1.hasNext() && it2.hasNext()) {
+      if(!it1.next().equals(it2.next())) {
+        return false;
+      }
+    }
+
+    return !it1.hasNext() && !it2.hasNext();
   }
 
   @Override
