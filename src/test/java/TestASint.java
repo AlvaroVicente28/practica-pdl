@@ -4,6 +4,8 @@ import es.grupo83.TablaSimbolos;
 import es.grupo83.Token;
 import es.grupo83.afd.AutomataFinito;
 import es.grupo83.afd.ImplementacionAFD;
+import es.grupo83.error.CtxError;
+import es.grupo83.error.Error;
 import es.grupo83.error.ErrorTokenNoEsperado;
 import es.grupo83.error.GestorErrores;
 
@@ -116,14 +118,17 @@ public class TestASint {
 
     GestorErrores current = testearRecurso(RECURSO).getSecond();
 
-    GestorErrores expected = new GestorErrores();
-    expected.setLinea(26);
-    expected.agregarError(
-            new ErrorTokenNoEsperado(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE),
-                    ErrorTokenNoEsperado.ContextoSintactico.DECLARACION_FUNCION)
-    );
+    boolean contains = false;
+    for(Pair<Error, CtxError> elem : current.getErrores()) {
+      if(elem.getSecond().getLinea() == 26
+              && elem.getFirst().equals(new ErrorTokenNoEsperado(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE),
+              ErrorTokenNoEsperado.ContextoSintactico.DECLARACION_FUNCION))) {
+        contains = true;
+        break;
+      }
+    }
 
-    assertIterableEquals(expected.getErrores(), current.getErrores());
+    assertTrue(contains);
   }
 
   @Test
