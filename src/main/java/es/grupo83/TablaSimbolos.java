@@ -32,11 +32,14 @@ public class TablaSimbolos {
 
   private Tabla tablaActual;
 
+  private int ordenEtiqueta;
+
   public TablaSimbolos(GestorErrores gestorErrores) {
     this.gestorErrores = gestorErrores;
     this.zonaDecl = false;
     this.desp = 0;
     this.despGlobal = 0;
+    this.ordenEtiqueta = 0;
     this.tablaActual = Tabla.GLOBAL;
     this.gestor = new TS_Gestor("simbolos.txt");
     this.gestor.createTPalabrasReservadas();
@@ -87,10 +90,7 @@ public class TablaSimbolos {
   }
 
   public void insertarTipoBasicoTS(int pos, TipoBasico tipo) {
-    int ok = this.gestor.setTipo(pos, tipo.nombre());
-    if(ok != 0) {
-      System.err.println("Error de TS: " + ok);
-    }
+    this.gestor.setTipo(pos, tipo.nombre());
   }
 
   public void insertarDesplazamientoTS(int pos) {
@@ -108,10 +108,11 @@ public class TablaSimbolos {
             .toList().toArray(new String[0]);
     this.gestor.setValorAtributoLista(pos, MODO_PARAMETROS, modoParam);
     this.gestor.setValorAtributoCad(pos, TIPO_RETORNO, retorno);
-  }
 
-  public void insertarEtiquetaTS(int pos, String etiqueta) {
+    String lexemaFunc = this.recuperarLexema(pos);
+    String etiqueta = "Et" + this.ordenEtiqueta + "_" + lexemaFunc;
     this.gestor.setValorAtributoCad(pos, ETIQUETA, etiqueta);
+    ++this.ordenEtiqueta;
   }
 
   /**

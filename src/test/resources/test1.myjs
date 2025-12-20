@@ -6,5 +6,18 @@ function void a( void ) {
         case 2: write("OK");
         default: write("Unreachable");
     }
-    let float x = 27;
 }
+
+function boolean es_par(int x) {
+    return x % 2 == 0;
+}
+
+function int orden(int x, int current) {
+    switch(x % 2) {
+        case 0: return orden(x - 1, current - -1);
+        case 1: return 1;
+        default: write "Unreachable!";
+    }
+}
+
+write (orden(25, 0));

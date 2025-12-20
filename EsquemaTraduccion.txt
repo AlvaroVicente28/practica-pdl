@@ -62,8 +62,8 @@ X -> ++ id      { id.tipo = BuscarTipoTS(id.pos);
                                 then entero
                                 else tipo_err;
                  }
-X -> - X1       { X.tipo = if(X1.tipo in {entero, real})
-                                then X1.tipo
+X -> - X_1       { X.tipo = if(X_1.tipo in {entero, real})
+                                then X_1.tipo
                                 else tipo_err;
                 }
 X -> Y          { X.tipo = Y.tipo }
@@ -93,8 +93,16 @@ S -> id S2      { id.tipo = BuscarTipoTS(id.pos)
                                             then tipo_ok
                                             else tipo_err;
                 }
-S -> write E ;  { S.tipo = tipo_ok; }
-S -> read id ;  { S.tipo = tipo_ok; }
+S -> write E ;  {
+                    S.tipo = if(E.tipo in {entero, real, cadena})
+                                    then tipo_ok
+                                    else tipo_err;
+                }
+S -> read id ;  {
+                    S.tipo = if(BuscarTipoTS(id.pos) in {entero, real, cadena})
+                                    then tipo_ok
+                                    else tipo_err;
+                }
 S -> return R1  { S.tipo = if(S.tipoRet = R1.tipo and S.tipoRet != tipo_err)
                                 then tipo_ok
                                 else tipo_err;
@@ -197,13 +205,13 @@ A -> T id K                     {
                                                 else T.tipo X K.tipo
                                 }
 A -> void                       { A.tipo = vacio }
-K -> , T id K1                  {
+K -> , T id K_1                 {
                                    insertaTipoTS(id.pos, T.tipo);
                                    insertaDespTS(id.pos, Desp);
                                    Desp += T.ancho;
-                                   K.tipo = if(K1.tipo = tipo_ok)
+                                   K.tipo = if(K_1.tipo = tipo_ok)
                                                 then T.tipo
-                                                else T.tipo X K1.tipo;
+                                                else T.tipo X K_1.tipo;
                                 }
 K -> lambda                     { K.tipo = tipo_ok; }
 C ->                            { B.tipoRet = C.tipoRet; }
