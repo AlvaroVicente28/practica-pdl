@@ -120,8 +120,7 @@ public class TablaSimbolos {
    * @return Si sale bien, el lexema. En caso de error, null
    */
   public String recuperarLexema(int pos) {
-    // TODO: Modificar tslib para que nos deje hacerlo
-    return null;
+    return this.gestor.getLexema(pos);
   }
 
   /**

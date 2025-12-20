@@ -603,6 +603,41 @@ public class TS_Gestor {
 		}
 		return res;
 	}
+
+	/**
+	 * Devuelve el lexema de un identificador.
+	 * @param pos Posición del identificador.
+	 * @return El lexema de la entrada en la posición pos o null si hay error, que puede ser que la posición
+	 * no sea correcta o que la tabla en la que estaría el identificador no existe.
+	 */
+	public String getLexema(int pos) {
+		String res=null;
+		if(pos>0) { //Está en la tabla global
+			if(global!=null) {
+				res=global.getLexema(pos);
+			}
+			else {
+				res=null;
+			}
+		}
+		else if(pos<0) { //Está en la tabla local
+			if(local!=null) {
+				res=local.getLexema(pos);
+			}
+			else {
+				res=null;
+			}
+		}
+		else {
+			res=null;
+		}
+		if(debug) {
+			if(res==null) {
+				System.out.println("La posición no es correcta.");
+			}
+		}
+		return res;
+	}
 	
 	/**
 	 * Da valor entero a un atributo de un identificador.

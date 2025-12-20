@@ -6,4 +6,5 @@ function void a( void ) {
         case 2: write("OK");
         default: write("Unreachable");
     }
+    let float x = 27;
 }

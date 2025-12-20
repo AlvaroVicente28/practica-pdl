@@ -111,6 +111,20 @@ public class TS {
 			return null;
 		}
 	}
+
+	/**
+	 * Devuelve el lexema del identificador que está en una posición concreta.
+	 * @param pos Posición del identificador.
+	 * @return El lexema del identificador de esa posición o null si la posición es errónea.
+	 */
+	public String getLexema(int pos) {
+		if(((id==0||id==1)&&(pos<this.pos))||((id>1)&&(pos>this.pos))) {
+			return ts.get(pos).getLexema();
+		}
+		else {
+			return null;
+		}
+	}
 	
 	/**
 	 * Ańade un atributo a un identificador.
