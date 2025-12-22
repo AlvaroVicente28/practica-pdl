@@ -107,4 +107,13 @@ class TestASem {
 
     assertFalse(errores.getErrores().iterator().hasNext());
   }
+
+  @Test
+  void test6() throws IOException {
+    final String RECURSO = "PIdG83-6.txt";
+
+    GestorErrores errores = testearRecurso(RECURSO);
+
+    assertFalse(errores.getErrores().iterator().hasNext());
+  }
 }
