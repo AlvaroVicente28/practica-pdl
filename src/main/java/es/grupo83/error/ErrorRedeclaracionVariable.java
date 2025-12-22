@@ -6,12 +6,14 @@ public class ErrorRedeclaracionVariable extends ErrorSemantico {
   private int posVariableOriginalTS;
 
   private String idVariableOriginal;
+  private String tipoVariableOriginal;
 
   private boolean esGlobal;
 
   public ErrorRedeclaracionVariable(int pos, boolean esGlobal) {
     this.posVariableOriginalTS = pos;
     this.idVariableOriginal = null;
+    this.tipoVariableOriginal = null;
     this.esGlobal = esGlobal;
   }
 
@@ -22,7 +24,13 @@ public class ErrorRedeclaracionVariable extends ErrorSemantico {
 
   @Override
   public String getMsg() {
-    return "Variable " + (this.esGlobal ? "global " : "") + "redeclarada con nombre " + this.idVariableOriginal;
+    String res = "Variable " + (this.esGlobal ? "global " : "") + "redeclarada con nombre '" + this.idVariableOriginal + "'";
+    if("funcion".equals(this.tipoVariableOriginal)) {
+      res += "\nOBS: La variable fue declarada como funcion";
+    } else {
+      res += "\nOBS: La variable fue declarada con tipo '" + this.tipoVariableOriginal + "'";
+    }
+    return res;
   }
 
   @Override
@@ -43,8 +51,6 @@ public class ErrorRedeclaracionVariable extends ErrorSemantico {
   @Override
   public void rellenarConTS(TablaSimbolos ts) {
     this.idVariableOriginal = ts.recuperarLexema(this.posVariableOriginalTS);
-    if(this.idVariableOriginal == null) {
-      this.idVariableOriginal = ts.recuperarLexema(this.posVariableOriginalTS);
-    }
+    this.tipoVariableOriginal = ts.buscarTipoTS(this.posVariableOriginalTS).nombre();
   }
 }

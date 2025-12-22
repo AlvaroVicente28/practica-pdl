@@ -3,7 +3,12 @@ import es.grupo83.AnalizadorSintactico;
 import es.grupo83.TablaSimbolos;
 import es.grupo83.afd.AutomataFinito;
 import es.grupo83.afd.ImplementacionAFD;
+
+import es.grupo83.error.ErrorRedeclaracionVariable;
 import es.grupo83.error.GestorErrores;
+
+import es.grupo83.semantica.TipoBasico;
+
 import mockit.Mock;
 import mockit.MockUp;
 import org.junit.jupiter.api.Test;
@@ -14,7 +19,7 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TestASem {
+class TestASem {
   private GestorErrores testearRecurso(String nombreRecurso) throws IOException {
     new MockUp<System>() {
       @Mock
@@ -68,5 +73,29 @@ public class TestASem {
     GestorErrores errores = testearRecurso(RECURSO);
 
     assertFalse(errores.getErrores().iterator().hasNext());
+  }
+
+  @Test
+  void test4() throws IOException {
+    final String RECURSO = "PIdG83-4.txt";
+
+    GestorErrores errores = testearRecurso(RECURSO);
+
+    GestorErrores expected = new GestorErrores();
+    TablaSimbolos expectedTabla = new TablaSimbolos(expected);
+
+    expectedTabla.crearTS();
+    expectedTabla.inicioZonaDecl();
+    int pos = expectedTabla.agregarORecuperarEntrada("b");
+    expectedTabla.finZonaDecl();
+    expectedTabla.insertarTipoBasicoTS(pos, new TipoBasico(TipoBasico.Basicos.LOGICO));
+    ErrorRedeclaracionVariable err = new ErrorRedeclaracionVariable(pos, true);
+    err.rellenarConTS(expectedTabla);
+
+    expected.setLinea(9);
+    expected.agregarError(err);
+    expectedTabla.finTablaSimbolos();
+
+    assertIterableEquals(expected.getErrores(), errores.getErrores());
   }
 }
