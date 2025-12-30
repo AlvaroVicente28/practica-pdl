@@ -12,11 +12,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import mockit.Mock;
 import mockit.MockUp;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+
+import tslib.TS_Gestor;
 
 class TestAlex {
   private Pair<Iterable<Token>, GestorErrores> testearRecurso(String nombreRecurso) throws IOException {
@@ -24,6 +28,56 @@ class TestAlex {
       @Mock
       public void exit(int status) {
         throw new TestExitException();
+      }
+    };
+
+    new MockUp<TablaSimbolos>() {
+      private TS_Gestor gestor;
+      private boolean zonaDecl;
+
+      @Mock
+      public void $init(GestorErrores gestorErrores) {
+        this.zonaDecl = false;
+        this.gestor = new TS_Gestor("simbolos.txt");
+        this.gestor.createTPalabrasReservadas();
+        this.gestor.createAtributo("desplazamiento", TS_Gestor.DescripcionAtributo.DIR, TS_Gestor.TipoDatoAtributo.ENTERO);
+        this.gestor.createTSGlobal();
+      }
+
+      @Mock
+      public int agregarORecuperarEntrada(String lexema) {
+        // Buscar en las tablas
+        int pos = this.gestor.getEntradaTS(lexema);
+        if(pos == 0) {
+          return this.gestor.addEntradaTSGlobal(lexema);
+        }
+        return pos;
+      }
+    };
+
+    new MockUp<AnalizadorSintactico>() {
+      private AnalizadorLexico alex;
+      private ArrayList<Token> listaTokens;
+
+      @Mock
+      public void $init(GestorErrores gestorErrores, TablaSimbolos tablaSimbolos, AnalizadorLexico alex) {
+        this.alex = alex;
+        this.listaTokens = new ArrayList<>();
+      }
+
+      @Mock
+      public void run() throws IOException {
+        Token token;
+        do {
+          token = this.alex.nextToken();
+          this.listaTokens.add(token);
+        }
+        while(token.getTipoToken() != Token.TipoToken.EOF);
+      }
+
+      @Mock
+      public Iterable<Token> getListaTokens() {
+        return this.listaTokens;
       }
     };
 
