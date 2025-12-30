@@ -125,4 +125,29 @@ class TestASem {
 
     assertFalse(errores.getErrores().iterator().hasNext());
   }
+
+  @Test
+  void test8() throws IOException {
+    final String RECURSO = "PIdG83-8.txt";
+
+    GestorErrores errores = testearRecurso(RECURSO);
+
+    GestorErrores expected = new GestorErrores();
+    TablaSimbolos expectedTabla = new TablaSimbolos(expected);
+
+    expectedTabla.crearTS();
+    expectedTabla.inicioZonaDecl();
+    int pos = expectedTabla.agregarORecuperarEntrada("z");
+    expectedTabla.finZonaDecl();
+    expectedTabla.insertarTipoBasicoTS(pos, new TipoBasico(TipoBasico.Basicos.ENTERO));
+
+    ErrorRedeclaracionVariable err = new ErrorRedeclaracionVariable(pos, true);
+    err.rellenarConTS(expectedTabla);
+
+    expected.setLinea(9);
+    expected.agregarError(err);
+    expectedTabla.finTablaSimbolos();
+
+    assertIterableEquals(expected.getErrores(), errores.getErrores());
+  }
 }
