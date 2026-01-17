@@ -211,7 +211,10 @@ public class AnalizadorSintactico {
     this.tablaSimbolos.finZonaDecl();
 
     this.equipara(new Token(Token.TipoToken.LLAVES, Token.ORIENTACION_SIMBOLO.APERTURA), ContextoSintactico.DECLARACION_FUNCION);
+    String lexemaFuncion = this.tablaSimbolos.recuperarLexema(id_pos);
+    this.gestorErrores.setFuncion(lexemaFuncion);
     TipoInterno c_tipo = this.C(h_tipo);
+    this.gestorErrores.exitFuncion();
     this.equipara(new Token(Token.TipoToken.LLAVES, Token.ORIENTACION_SIMBOLO.CIERRE), ContextoSintactico.DECLARACION_FUNCION);
 
     this.tablaSimbolos.destruirAmbitoLocal();

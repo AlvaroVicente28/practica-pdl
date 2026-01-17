@@ -17,6 +17,8 @@ public class GestorErrores {
 
   private String lineaActual;
 
+  private String funcionActual;
+
   private ArrayList<Pair<Error, CtxError>> errores;
 
   public GestorErrores() {
@@ -24,6 +26,7 @@ public class GestorErrores {
     this.numeroLinea = 1;
     this.colActual = 0;
     this.lineaActual = "";
+    this.funcionActual = "";
     this.errores = new ArrayList<>();
   }
 
@@ -57,14 +60,33 @@ public class GestorErrores {
   }
 
   /**
+   * Comunica al gestor de errores la funcion actual
+   * @param funcion El nombre de la funcion actual
+   */
+  public void setFuncion(String funcion) {
+    this.funcionActual = funcion;
+  }
+
+  /**
+   * Comunica al gestor de errores que finaliza la funcion actual
+   */
+  public void exitFuncion() {
+    this.funcionActual = "";
+  }
+
+  /**
    * Usado por los analizadores para guardar un error
    * @param error El error a guardar
    */
   public void agregarError(Error error) {
-    CtxError ctx = new CtxError(this.numeroLinea, this.colInicioLexema, this.colActual, this.lineaActual);
+    CtxError ctx = new CtxError(this.numeroLinea, this.colInicioLexema, this.colActual, this.lineaActual, this.funcionActual);
     this.errores.add(new Pair<>(error, ctx));
   }
 
+  /**
+   * Devuelve una cadena con los mensajes de error del gestor actual
+   * @return La cadena con todos los mensajes de error e informacion adicional (linea, contexto, etc.)
+   */
   public String mensajes() {
     String res = "";
 
@@ -72,7 +94,11 @@ public class GestorErrores {
       Error lanzado = error.getFirst();
       CtxError ctx = error.getSecond();
 
-      String errorHeader = "ERROR (linea " + ctx.getLinea() + "): " + lanzado;
+      String errorHeader = "ERROR (linea " + ctx.getLinea();
+      if(!ctx.getNombreFuncion().isBlank()) {
+        errorHeader += ", funcion '" + ctx.getNombreFuncion() + "'";
+      }
+      errorHeader += "): " + lanzado;
 
       // Obtenemos el numero de caracteres que ocupa el numero
       String lineaNum = "" + ctx.getLinea();

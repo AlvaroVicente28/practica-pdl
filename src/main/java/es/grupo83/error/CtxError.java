@@ -8,13 +8,22 @@ public class CtxError {
   // Deben ser estrictamente mayores que 0
   private int colInicio, colFin;
 
+  /**
+   * Linea donde se lanza el error
+   */
   private String ctxArchivo;
 
-  public CtxError(int nLinea, int colInicio, int colFin, String ctxArchivo) {
+  /**
+   * Nombre de la funcion donde se lanza el error
+   */
+  private String nombreFuncion;
+
+  public CtxError(int nLinea, int colInicio, int colFin, String ctxArchivo, String nombreFuncion) {
     this.nLinea = nLinea;
     this.colInicio = colInicio;
     this.colFin = colFin;
     this.ctxArchivo = ctxArchivo;
+    this.nombreFuncion = nombreFuncion;
   }
 
   public int getLinea() {
@@ -31,6 +40,10 @@ public class CtxError {
 
   public String getCtxArchivo() {
     return this.ctxArchivo;
+  }
+
+  public String getNombreFuncion() {
+    return this.nombreFuncion;
   }
 
   @Override
