@@ -60,6 +60,8 @@ public class ImplementacionAFD {
 
     afd.agregarTransicion(17, 18, '+', AccionSemantica.GENERAR_TOKEN_AUTOINCREMENTO);
 
+    afd.agregarTransicionOtroCaracter(17, 404, AccionSemantica.GEN_ERROR_SUMA);
+
     afd.agregarTransicion(0, 19, '&', AccionSemantica.SOLO_LEER);
 
     afd.agregarTransicion(19, 20, '&', AccionSemantica.GENERAR_TOKEN_AND);

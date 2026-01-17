@@ -9,6 +9,7 @@ public enum CodigoError {
   REAL_MAL_ESCRITO,
   ESCAPE_INVALIDO,
   COMENTARIO_SIN_FIN,
+  USO_OPERADOR_SUMA,
   // Errores Sintacticos
   TOKEN_NO_ESPERADO,
   // Errores Semanticos

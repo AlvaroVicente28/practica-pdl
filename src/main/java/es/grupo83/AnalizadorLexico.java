@@ -242,6 +242,10 @@ public class AnalizadorLexico implements AutoCloseable {
           this.gestorErrores.agregarError(new ErrorComentarioSinFin());
           this.recuperar();
         }
+        case GEN_ERROR_SUMA -> {
+          this.gestorErrores.agregarError(new ErrorOperadorSuma());
+          this.recuperar();
+        }
       }
     }
 
