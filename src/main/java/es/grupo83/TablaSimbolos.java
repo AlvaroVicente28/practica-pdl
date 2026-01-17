@@ -118,9 +118,12 @@ public class TablaSimbolos {
   /**
    * Recupera el lexema de la variable en la posicion dada
    * @param pos La posicion a recuperar el lexema del id de la variable
-   * @return Si sale bien, el lexema. En caso de error, null
+   * @return Si sale bien, el lexema. Si pos = 0, devuelve una cadena vacia. En caso de otro error, null
    */
   public String recuperarLexema(int pos) {
+    if(pos == 0) {
+      return "";
+    }
     return this.gestor.getLexema(pos);
   }
 

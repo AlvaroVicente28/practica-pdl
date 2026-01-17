@@ -53,8 +53,7 @@ public class AnalizadorSintactico {
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ctx));
-      this.gestorErrores.pararEnError();
-      return null;
+      return token;
     }
   }
 
@@ -84,7 +83,13 @@ public class AnalizadorSintactico {
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.NADA));
-      this.gestorErrores.pararEnError();
+      while(!first1.contains(this.next_tok) || !first2.contains(this.next_tok) || !follow.contains(this.next_tok)) {
+        this.next_tok = this.alex.nextToken();
+        this.listaTokens.add(this.next_tok);
+      }
+      if(first1.contains(this.next_tok) || first2.contains(this.next_tok)) {
+        this.P();
+      }
     }
   }
 
@@ -114,7 +119,7 @@ public class AnalizadorSintactico {
       Pair<TipoBasico, Integer> attrs_t = this.T();
       TipoBasico t_tipo = attrs_t.getFirst();
       int t_ancho = attrs_t.getSecond();
-      int id_pos = (int) this.equipara(new Token(Token.TipoToken.IDENTIFICADOR, null), ContextoSintactico.SENTENCIA_COMPUESTA);
+      int id_pos = (int) this.equipara(new Token(Token.TipoToken.IDENTIFICADOR, 0), ContextoSintactico.SENTENCIA_COMPUESTA);
       this.tablaSimbolos.finZonaDecl();
       Tipo b2_tipo = this.B2();
 
@@ -164,7 +169,18 @@ public class AnalizadorSintactico {
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.SENTENCIA_COMPUESTA));
-      this.gestorErrores.pararEnError();
+      Set<Token> follow = Set.of(new Token(Token.TipoToken.IDENTIFICADOR, 0), new Token(Token.TipoToken.DEFAULT, null),
+              new Token(Token.TipoToken.WRITE, null), new Token(Token.TipoToken.LET, null), new Token(Token.TipoToken.FUNCTION, null),
+              new Token(Token.TipoToken.IF, null), new Token(Token.TipoToken.READ, null), new Token(Token.TipoToken.BREAK, null),
+              new Token(Token.TipoToken.SWITCH, null), new Token(Token.TipoToken.RETURN, null),
+              new Token(Token.TipoToken.LLAVES, Token.ORIENTACION_SIMBOLO.CIERRE), new Token(Token.TipoToken.CASE, null),
+              new Token(Token.TipoToken.EOF, null));
+
+      while(!follow.contains(this.next_tok)) {
+        this.next_tok = this.alex.nextToken();
+        this.listaTokens.add(this.next_tok);
+      }
+      b_tipo = new TipoInterno(TipoInterno.Internos.ERROR);
     }
     return b_tipo;
   }
@@ -186,7 +202,18 @@ public class AnalizadorSintactico {
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.SENTENCIA_COMPUESTA));
-      this.gestorErrores.pararEnError();
+      Set<Token> follow = Set.of(new Token(Token.TipoToken.IDENTIFICADOR, 0), new Token(Token.TipoToken.DEFAULT, null),
+              new Token(Token.TipoToken.WRITE, null), new Token(Token.TipoToken.LET, null), new Token(Token.TipoToken.FUNCTION, null),
+              new Token(Token.TipoToken.IF, null), new Token(Token.TipoToken.READ, null), new Token(Token.TipoToken.BREAK, null),
+              new Token(Token.TipoToken.SWITCH, null), new Token(Token.TipoToken.RETURN, null),
+              new Token(Token.TipoToken.LLAVES, Token.ORIENTACION_SIMBOLO.CIERRE), new Token(Token.TipoToken.CASE, null),
+              new Token(Token.TipoToken.EOF, null));
+
+      while(!follow.contains(this.next_tok)) {
+        this.next_tok = this.alex.nextToken();
+        this.listaTokens.add(this.next_tok);
+      }
+      b2_tipo = new TipoInterno(TipoInterno.Internos.ERROR);
     }
     return b2_tipo;
   }
@@ -239,7 +266,12 @@ public class AnalizadorSintactico {
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.DECLARACION_FUNCION));
-      this.gestorErrores.pararEnError();
+      while(!this.next_tok.equals(new Token(Token.TipoToken.IDENTIFICADOR, 0))) {
+        this.next_tok = this.alex.nextToken();
+        this.listaTokens.add(this.next_tok);
+      }
+      // Valor por defecto del tipo de retorno (elegido para la recuperacion): void
+      tipo = new TipoBasico(TipoBasico.Basicos.VACIO);
     }
     return tipo;
   }
@@ -255,7 +287,7 @@ public class AnalizadorSintactico {
       Pair<TipoBasico, Integer> attrs_t = this.T();
       TipoBasico t_tipo = attrs_t.getFirst();
       int t_ancho = attrs_t.getSecond();
-      int id_pos = (int) this.equipara(new Token(Token.TipoToken.IDENTIFICADOR, null), ContextoSintactico.DECLARACION_FUNCION);
+      int id_pos = (int) this.equipara(new Token(Token.TipoToken.IDENTIFICADOR, 0), ContextoSintactico.DECLARACION_FUNCION);
       Tipo k_tipo = this.K();
 
       this.tablaSimbolos.insertarTipoBasicoTS(id_pos, t_tipo);
@@ -277,7 +309,12 @@ public class AnalizadorSintactico {
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.DECLARACION_FUNCION));
-      this.gestorErrores.pararEnError();
+      while(!this.next_tok.equals(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE))) {
+        this.next_tok = this.alex.nextToken();
+        this.listaTokens.add(this.next_tok);
+      }
+      // Valor por defecto de la recuperacion
+      tipo = new Producto();
     }
     return tipo;
   }
@@ -310,7 +347,13 @@ public class AnalizadorSintactico {
       ancho = 1;
     } else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.DECLARACION_TIPO));
-      this.gestorErrores.pararEnError();
+      while(!this.next_tok.equals(new Token(Token.TipoToken.IDENTIFICADOR, 0))) {
+        this.next_tok = this.alex.nextToken();
+        this.listaTokens.add(this.next_tok);
+      }
+      // Tipo por defecto para la recuperacion: entero
+      tipo = new TipoBasico(TipoBasico.Basicos.ENTERO);
+      ancho = 1;
     }
     return new Pair<>(tipo, ancho);
   }
@@ -340,7 +383,20 @@ public class AnalizadorSintactico {
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.DECLARACION_FUNCION));
-      this.gestorErrores.pararEnError();
+      Set<Token> followC = Set.of(new Token(Token.TipoToken.LLAVES, Token.ORIENTACION_SIMBOLO.CIERRE));
+      Set<Token> firstC = Set.of(new Token(Token.TipoToken.RETURN, null), new Token(Token.TipoToken.WRITE, null),
+              new Token(Token.TipoToken.READ, null), new Token(Token.TipoToken.IDENTIFICADOR, 0), new Token(Token.TipoToken.SWITCH, null),
+              new Token(Token.TipoToken.IF, null), new Token(Token.TipoToken.LET, null));
+      while(!followC.contains(this.next_tok) && !firstC.contains(this.next_tok)) {
+        // TODO: EOF inesperado ?
+        this.next_tok = this.alex.nextToken();
+        this.listaTokens.add(this.next_tok);
+      }
+
+      if(firstC.contains(this.next_tok)) {
+        this.C(tipoRet);
+      }
+      tipo = new TipoInterno(TipoInterno.Internos.ERROR);
     }
     return tipo;
   }
@@ -349,7 +405,7 @@ public class AnalizadorSintactico {
     TipoInterno s_tipo = null;
     if(this.next_tok.getTipoToken() == Token.TipoToken.IDENTIFICADOR) {
       this.parse.add(28);
-      int id_pos = (int) this.equipara(new Token(Token.TipoToken.IDENTIFICADOR, null), ContextoSintactico.SENTENCIA_SIMPLE);
+      int id_pos = (int) this.equipara(new Token(Token.TipoToken.IDENTIFICADOR, 0), ContextoSintactico.SENTENCIA_SIMPLE);
       Pair<Tipo, Boolean> attrs_s2 = this.S2();
       Tipo s2_tipo = attrs_s2.getFirst();
       boolean s2_llamada = attrs_s2.getSecond();
@@ -428,7 +484,18 @@ public class AnalizadorSintactico {
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.SENTENCIA_SIMPLE));
-      this.gestorErrores.pararEnError();
+      Set<Token> follow = Set.of(new Token(Token.TipoToken.IDENTIFICADOR, 0), new Token(Token.TipoToken.DEFAULT, null),
+              new Token(Token.TipoToken.WRITE, null), new Token(Token.TipoToken.LET, null), new Token(Token.TipoToken.FUNCTION, null),
+              new Token(Token.TipoToken.IF, null), new Token(Token.TipoToken.READ, null), new Token(Token.TipoToken.BREAK, null),
+              new Token(Token.TipoToken.SWITCH, null), new Token(Token.TipoToken.RETURN, null),
+              new Token(Token.TipoToken.LLAVES, Token.ORIENTACION_SIMBOLO.CIERRE), new Token(Token.TipoToken.CASE, null),
+              new Token(Token.TipoToken.EOF, null));
+
+      while(!follow.contains(this.next_tok)) {
+        this.next_tok = this.alex.nextToken();
+        this.listaTokens.add(this.next_tok);
+      }
+      s_tipo = new TipoInterno(TipoInterno.Internos.ERROR);
     }
     return s_tipo;
   }
@@ -455,7 +522,20 @@ public class AnalizadorSintactico {
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.SENTENCIA_SIMPLE));
-      this.gestorErrores.pararEnError();
+      Set<Token> follow = Set.of(new Token(Token.TipoToken.IDENTIFICADOR, 0), new Token(Token.TipoToken.DEFAULT, null),
+              new Token(Token.TipoToken.WRITE, null), new Token(Token.TipoToken.LET, null), new Token(Token.TipoToken.FUNCTION, null),
+              new Token(Token.TipoToken.IF, null), new Token(Token.TipoToken.READ, null), new Token(Token.TipoToken.BREAK, null),
+              new Token(Token.TipoToken.SWITCH, null), new Token(Token.TipoToken.RETURN, null),
+              new Token(Token.TipoToken.LLAVES, Token.ORIENTACION_SIMBOLO.CIERRE), new Token(Token.TipoToken.CASE, null),
+              new Token(Token.TipoToken.EOF, null));
+
+      while(!follow.contains(this.next_tok)) {
+        this.next_tok = this.alex.nextToken();
+        this.listaTokens.add(this.next_tok);
+      }
+      // Valor por defecto para la recuperacion
+      tipo = new TipoInterno(TipoInterno.Internos.ERROR);
+      llamada = false;
     }
     return new Pair<>(tipo, llamada);
   }
@@ -484,7 +564,19 @@ public class AnalizadorSintactico {
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.SENTENCIA_RETORNO));
-      this.gestorErrores.pararEnError();
+      Set<Token> follow = Set.of(new Token(Token.TipoToken.IDENTIFICADOR, 0), new Token(Token.TipoToken.DEFAULT, null),
+              new Token(Token.TipoToken.WRITE, null), new Token(Token.TipoToken.LET, null), new Token(Token.TipoToken.FUNCTION, null),
+              new Token(Token.TipoToken.IF, null), new Token(Token.TipoToken.READ, null), new Token(Token.TipoToken.BREAK, null),
+              new Token(Token.TipoToken.SWITCH, null), new Token(Token.TipoToken.RETURN, null),
+              new Token(Token.TipoToken.LLAVES, Token.ORIENTACION_SIMBOLO.CIERRE), new Token(Token.TipoToken.CASE, null),
+              new Token(Token.TipoToken.EOF, null));
+
+      while(!follow.contains(this.next_tok)) {
+        this.next_tok = this.alex.nextToken();
+        this.listaTokens.add(this.next_tok);
+      }
+      // Valor por defecto para la recuperacion
+      tipo = new TipoBasico(TipoBasico.Basicos.VACIO);
     }
     return tipo;
   }
@@ -519,7 +611,12 @@ public class AnalizadorSintactico {
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.SENTENCIA_SIMPLE));
-      this.gestorErrores.pararEnError();
+      while(!this.next_tok.equals(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE))) {
+        this.next_tok = this.alex.nextToken();
+        this.listaTokens.add(this.next_tok);
+      }
+      // Valor por defecto
+      tipo = new Producto();
     }
     return tipo;
   }
@@ -546,7 +643,12 @@ public class AnalizadorSintactico {
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.SENTENCIA_SIMPLE));
-      this.gestorErrores.pararEnError();
+      while(!this.next_tok.equals(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE))) {
+        this.next_tok = this.alex.nextToken();
+        this.listaTokens.add(this.next_tok);
+      }
+      // Valor por defecto
+      tipo = new TipoInterno(TipoInterno.Internos.OK);
     }
     return tipo;
   }
@@ -585,7 +687,11 @@ public class AnalizadorSintactico {
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.SENTENCIA_SWITCH));
-      this.gestorErrores.pararEnError();
+      while(!this.next_tok.equals(new Token(Token.TipoToken.LLAVES, Token.ORIENTACION_SIMBOLO.CIERRE))) {
+        this.next_tok = this.alex.nextToken();
+        this.listaTokens.add(this.next_tok);
+      }
+      tipo = new TipoInterno(TipoInterno.Internos.ERROR);
     }
     return tipo;
   }
@@ -620,7 +726,20 @@ public class AnalizadorSintactico {
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.SENTENCIA_SWITCH));
-      this.gestorErrores.pararEnError();
+      Set<Token> followSWC = Set.of(new Token(Token.TipoToken.CASE, null), new Token(Token.TipoToken.DEFAULT, null),
+              new Token(Token.TipoToken.LLAVES, Token.ORIENTACION_SIMBOLO.CIERRE));
+      // Regla ciclica
+      Set<Token> firstSWC = Set.of(new Token(Token.TipoToken.IDENTIFICADOR, 0), new Token(Token.TipoToken.LET, null),
+              new Token(Token.TipoToken.READ, null), new Token(Token.TipoToken.IF, null), new Token(Token.TipoToken.BREAK, null),
+              new Token(Token.TipoToken.RETURN, null), new Token(Token.TipoToken.WRITE, null), new Token(Token.TipoToken.SWITCH, null));
+      while(!followSWC.contains(this.next_tok) && !firstSWC.contains(this.next_tok)) {
+        this.next_tok = this.alex.nextToken();
+        this.listaTokens.add(this.next_tok);
+      }
+      if(firstSWC.contains(this.next_tok)) {
+        this.SWC(tipoRet);
+      }
+      tipo = new TipoInterno(TipoInterno.Internos.ERROR);
     }
     return tipo;
   }
@@ -654,7 +773,11 @@ public class AnalizadorSintactico {
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.DECLARACION_FUNCION));
-      this.gestorErrores.pararEnError();
+      while(!this.next_tok.equals(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE))) {
+        this.next_tok = this.alex.nextToken();
+        this.listaTokens.add(this.next_tok);
+      }
+      tipo = new TipoInterno(TipoInterno.Internos.OK);
     }
     return tipo;
   }
@@ -711,7 +834,14 @@ public class AnalizadorSintactico {
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.EXPRESION));
-      this.gestorErrores.pararEnError();
+      var followE2 = Set.of(new Token(Token.TipoToken.COMA, null),
+              new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE),
+              new Token(Token.TipoToken.PUNTO_COMA, null));
+      while(!followE2.contains(this.next_tok)) {
+        this.next_tok = this.alex.nextToken();
+        this.listaTokens.add(this.next_tok);
+      }
+      tipo = new TipoInterno(TipoInterno.Internos.ERROR);
     }
     return tipo;
   }
@@ -775,7 +905,15 @@ public class AnalizadorSintactico {
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.EXPRESION));
-      this.gestorErrores.pararEnError();
+      var followR2 = Set.of(new Token(Token.TipoToken.PUNTO_COMA, null),
+              new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE),
+              new Token(Token.TipoToken.AND, null),
+              new Token(Token.TipoToken.COMA, null));
+      while(!followR2.contains(this.next_tok)) {
+        this.next_tok = this.alex.nextToken();
+        this.listaTokens.add(this.next_tok);
+      }
+      tipo = new TipoInterno(TipoInterno.Internos.ERROR);
     }
     return tipo;
   }
@@ -840,7 +978,16 @@ public class AnalizadorSintactico {
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.EXPRESION));
-      this.gestorErrores.pararEnError();
+      var followU2 = Set.of(new Token(Token.TipoToken.AND, null),
+              new Token(Token.TipoToken.PUNTO_COMA, null),
+              new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE),
+              new Token(Token.TipoToken.IGUALDAD, null),
+              new Token(Token.TipoToken.COMA, null));
+      while(!followU2.contains(this.next_tok)) {
+        this.next_tok = this.alex.nextToken();
+        this.listaTokens.add(this.next_tok);
+      }
+      tipo = new TipoInterno(TipoInterno.Internos.ERROR);
     }
     return tipo;
   }
@@ -906,7 +1053,17 @@ public class AnalizadorSintactico {
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.EXPRESION));
-      this.gestorErrores.pararEnError();
+      var followV2 = Set.of(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE),
+              new Token(Token.TipoToken.COMA, null),
+              new Token(Token.TipoToken.MENOR_ESTRICTO, null),
+              new Token(Token.TipoToken.PUNTO_COMA, null),
+              new Token(Token.TipoToken.IGUALDAD, null),
+              new Token(Token.TipoToken.AND, null));
+      while(!followV2.contains(this.next_tok)) {
+        this.next_tok = this.alex.nextToken();
+        this.listaTokens.add(this.next_tok);
+      }
+      tipo = new TipoInterno(TipoInterno.Internos.ERROR);
     }
     return tipo;
   }
@@ -973,7 +1130,18 @@ public class AnalizadorSintactico {
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.EXPRESION));
-      this.gestorErrores.pararEnError();
+      var followW2 = Set.of(new Token(Token.TipoToken.PUNTO_COMA, null),
+              new Token(Token.TipoToken.COMA, null),
+              new Token(Token.TipoToken.IGUALDAD, null),
+              new Token(Token.TipoToken.MENOR_ESTRICTO, null),
+              new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE),
+              new Token(Token.TipoToken.OP_RESTA, null),
+              new Token(Token.TipoToken.AND, null));
+      while(!followW2.contains(this.next_tok)) {
+        this.next_tok = this.alex.nextToken();
+        this.listaTokens.add(this.next_tok);
+      }
+      tipo = new TipoInterno(TipoInterno.Internos.ERROR);
     }
     return tipo;
   }
@@ -1036,7 +1204,15 @@ public class AnalizadorSintactico {
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.EXPRESION));
-      this.gestorErrores.pararEnError();
+      var followX = Set.of(new Token(Token.TipoToken.OP_RESTA, null), new Token(Token.TipoToken.OP_MODULO, null),
+              new Token(Token.TipoToken.AND, null), new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE),
+              new Token(Token.TipoToken.IGUALDAD, null), new Token(Token.TipoToken.PUNTO_COMA, null),
+              new Token(Token.TipoToken.MENOR_ESTRICTO, null), new Token(Token.TipoToken.COMA, null));
+      while(!followX.contains(this.next_tok)) {
+        this.next_tok = this.alex.nextToken();
+        this.listaTokens.add(this.next_tok);
+      }
+      tipo = new TipoInterno(TipoInterno.Internos.ERROR);
     }
     return tipo;
   }
@@ -1098,7 +1274,15 @@ public class AnalizadorSintactico {
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.EXPRESION));
-      this.gestorErrores.pararEnError();
+      var followY = Set.of(new Token(Token.TipoToken.OP_RESTA, null), new Token(Token.TipoToken.OP_MODULO, null),
+              new Token(Token.TipoToken.AND, null), new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE),
+              new Token(Token.TipoToken.IGUALDAD, null), new Token(Token.TipoToken.PUNTO_COMA, null),
+              new Token(Token.TipoToken.MENOR_ESTRICTO, null), new Token(Token.TipoToken.COMA, null));
+      while(!followY.contains(this.next_tok)) {
+        this.next_tok = this.alex.nextToken();
+        this.listaTokens.add(this.next_tok);
+      }
+      tipo = new TipoInterno(TipoInterno.Internos.ERROR);
     }
     return tipo;
   }
@@ -1128,7 +1312,15 @@ public class AnalizadorSintactico {
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.EXPRESION));
-      this.gestorErrores.pararEnError();
+      var followY2 = Set.of(new Token(Token.TipoToken.OP_RESTA, null), new Token(Token.TipoToken.OP_MODULO, null),
+              new Token(Token.TipoToken.AND, null), new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE),
+              new Token(Token.TipoToken.IGUALDAD, null), new Token(Token.TipoToken.PUNTO_COMA, null),
+              new Token(Token.TipoToken.MENOR_ESTRICTO, null), new Token(Token.TipoToken.COMA, null));
+      while(!followY2.contains(this.next_tok)) {
+        this.next_tok = this.alex.nextToken();
+        this.listaTokens.add(this.next_tok);
+      }
+      tipo = new TipoInterno(TipoInterno.Internos.ERROR);
     }
     return tipo;
   }
