@@ -144,7 +144,6 @@ public class GestorErrores {
           subrayado += "^";
         }
       }
-      System.out.println("Col inicio: " + colInicioTrimmed + " Fin: " + colFinTrimmed);
       res += errorHeader + ctxErrorLinea + "\n" + subrayado + "\n";
     }
 

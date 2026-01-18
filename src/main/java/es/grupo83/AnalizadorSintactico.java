@@ -61,6 +61,7 @@ public class AnalizadorSintactico {
     var first1 = Set.of(new Token(Token.TipoToken.WRITE, null),
             new Token(Token.TipoToken.READ, null),
             new Token(Token.TipoToken.IDENTIFICADOR, 0),
+            new Token(Token.TipoToken.RETURN, null),
             new Token(Token.TipoToken.SWITCH, null),
             new Token(Token.TipoToken.IF, null),
             new Token(Token.TipoToken.LET, null));
