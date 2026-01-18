@@ -1,0 +1,12 @@
+let int x = 5;
+
+function void x() {
+    let y = x -- 3;
+    return y % 7;
+}
+
+if(x(5) - 2 < 4)
+    return -1;
+
+write "Exit";
+return 0;

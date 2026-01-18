@@ -1,0 +1,26 @@
+function int suma(int x, int y) {
+    return x - (-y);
+}
+
+function int calcular_fibo_aux(int n0, int n1, int limite, int paso) {
+    let int siguiente = suma(n0, n1);
+    if(limite == paso)
+        return siguiente;
+    return calcular_fibo_aux(n1, siguiente, limite, suma(paso, 1));
+}
+
+function int calcular_fibo_n(int n) {
+    if(n < 0)
+        return -1;
+    if(n < 1)
+        return 0;
+    if(n < 2)
+        return 1;
+    return calcular_fibo_aux(0, 1, n - 2, 0);
+}
+
+let int n;
+write "Introduce n: ";
+
+write "\nNumero de Fibonacci enesimo: ";
+write calcular_fibo_n(n);

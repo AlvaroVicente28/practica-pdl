@@ -1,0 +1,29 @@
+function void imprimir(string str, boolean endl) {
+    if(endl)
+        write "\n";
+    write str;
+}
+
+function float leer_real(string prompt) {
+    imprimir(prompt, true);
+
+    let float res;
+    read res;
+
+    return res;
+}
+
+let float masa1 = leer_real("Introduce la masa 1: ");
+let float masa2 = leer_real("Introduce la masa 2: ");
+let float distancia = leer_real("Introduce la distancia: ");
+
+function float suma(float x, float y) {
+    return x - (-y);
+}
+
+function float calcular_fuerza(float masa1, float masa2, float distancia) {
+    return suma(masa1, masa2) % distancia;
+}
+
+imprimir("La fuerza es ", true);
+write calcular_fuerza(masa1, masa2, distancia);

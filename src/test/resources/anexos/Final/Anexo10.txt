@@ -1,0 +1,21 @@
+let float x = 5.5 - 2 - 0.5;
+
+if(!(x == 3))
+    return -1;
+
+switch(x % 2) {
+    case 0: write "x es par\n";
+                break;
+    case 1: write "x es impar\n";
+                break;
+}
+
+let string texto = "\\\\\\ñ
+";
+
+read texto;
+
+let float x = 0;
+let float double = 0;
+
+write double - (++x);

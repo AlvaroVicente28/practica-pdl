@@ -1,0 +1,13 @@
+let int a = 5;
+
+let *int ptr = &a;
+
+++a;
+
+write (++a % 2);
+
+function foo(string str, float x) {
+    write str;
+    write "\n";
+    write x;
+}

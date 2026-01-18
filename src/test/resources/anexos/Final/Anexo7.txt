@@ -1,0 +1,16 @@
+function float abs(float x) {
+    if(x < 0)
+        return -x;
+    return x;
+}
+
+function float fake_sin(float x) {
+    if(abs(x) < 0.005)
+        return x;
+    return !((x - -10) % (20.5 - (true && false)) < 0);
+}
+
+fake_sin(0.02);
+
+let int x = 7;
+write !x;

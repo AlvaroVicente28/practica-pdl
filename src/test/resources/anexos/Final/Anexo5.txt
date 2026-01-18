@@ -1,0 +1,30 @@
+function int dividir(int x, int y) {
+    switch(y) {
+        case 0: return 0;
+        default: return x % y; /* El lenguaje no soporta division */
+    }
+}
+
+/* Busqueda en el intervalo [a, b] */
+function int falsa_busqueda_binaria(int a, int b, int obj) {
+    if(-a < -b) /* a > b <=> -a < -b */
+        return -1;
+
+    let int mitad = dividir(a - -b, 2);
+    if(mitad == obj)
+        return mitad;
+    if(mitad < obj)
+        return falsa_busqueda_binaria(mitad, b, obj);
+    return falsa_busqueda_binaria(a, mitad, obj);
+}
+
+let int a = 15;
+let int b;
+write "     b = ";
+read b;
+
+write "\n   obj = ";
+read obj; /* Entera y global */
+
+write "\n RESULTADO: ";
+write falsa_busqueda_binaria(a, b, obj);

@@ -1,0 +1,15 @@
+function int suma(int x, int y) {
+    return x - (-y);
+}
+
+function int siguiente_fibo(int n0, int n1) {
+    return suma(n0, n1);
+}
+
+let int n0 = 0;
+let int n1 = 1;
+
+let int n2 = siguiente_fibo(n0, n1);
+let int n3 = siguiente_fibo(n1, n2);
+
+write (suma(n0, suma(n1, suma(n2, suma(n3, 0)))) % 7);

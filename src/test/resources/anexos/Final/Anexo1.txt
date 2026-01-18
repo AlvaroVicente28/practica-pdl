@@ -1,0 +1,49 @@
+let int x = 20;
+
+let int y = 504;
+
+function int leer_entero(string prompt) {
+    let int res = 0;
+
+    write prompt;
+    read res;
+
+    return res;
+}
+
+function float leer_real(string prompt) {
+    let float res = 0.0;
+
+    write prompt;
+    read res;
+
+    return res;
+}
+
+x = leer_entero("Introduce un numero entero: ");
+y = leer_entero("\nIntroduce un numero entero: ");
+
+
+let int operacion = leer_entero("\nIntroduce el numero de operacion: ");
+
+let int resultado;
+switch(operacion) {
+    case 1: /* Resta */
+            resultado = x - y;
+            break;
+    case 2: /* Modulo */
+            switch(y) {
+                case 0: write("\nEl denominador es nulo.");
+                        resultado = -1;
+                        break;
+                default: resultado = x % y;
+                         break;
+            }
+            break;
+    default: write "\nOperacion no soportada: ";
+             write operacion;
+             break;
+}
+
+write "\nEl resultado de la operacion es ";
+write operacion;

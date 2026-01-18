@@ -1,0 +1,16 @@
+function int suma(int x, int y) {
+    return x - -y;
+}
+
+function imprimir_entero(int x, string prompt, boolean endl) {
+    write suma(prompt, ++x);
+    if(endl)
+        write "\n";
+    return x;
+}
+
+imprimir_entero(4, "AA", !(1==1.0))
+
+let int suma = 4 - -4;
+
+write ++suma;
