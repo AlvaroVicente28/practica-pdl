@@ -24,7 +24,7 @@ public class ErrorAsignacionFuncion extends ErrorSemantico {
 
   @Override
   public String getMsg() {
-    return "La funcion '" + this.nombreFuncion + "' no se puede asignar";
+    return "Se intenta asignar un valor a la funcion '" + this.nombreFuncion + "'";
   }
 
   @Override

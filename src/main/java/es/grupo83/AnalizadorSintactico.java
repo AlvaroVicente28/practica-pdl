@@ -1263,7 +1263,7 @@ public class AnalizadorSintactico {
           tipo = func.getTipoRetorno();
         } else {
           if(y2_tipo.equals(new TipoInterno(TipoInterno.Internos.OK))) {
-            this.gestorErrores.agregarError(new ErrorAsignacionFuncion(id_pos, this.tablaSimbolos));
+            this.gestorErrores.agregarError(new ErrorOperacionFuncion(id_pos, this.tablaSimbolos));
           } else {
             this.gestorErrores.agregarError(new ErrorParametrosIncorrectos(id_pos, y2_tipo.nombre(), this.tablaSimbolos));
           }

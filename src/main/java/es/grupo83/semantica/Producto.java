@@ -57,7 +57,7 @@ public class Producto extends Tipo {
     return this.operandos.stream()
             .skip(1)
             .map(tipo -> tipo.nombre())
-            .reduce(this.operandos.getFirst().nombre(), (acc, next) -> next + "," + acc);
+            .reduce(this.operandos.getFirst().nombre(), (acc, next) -> acc + "," + next);
   }
 
   private boolean productosIguales(Producto other) {
