@@ -16,10 +16,17 @@ public class ErrorTokenNoEsperado extends Error {
 
   private Token token;
 
+  private Token esperado;
+
   private ContextoSintactico ctx;
 
   public ErrorTokenNoEsperado(Token token, ContextoSintactico ctx) {
+    this(token, null, ctx);
+  }
+
+  public ErrorTokenNoEsperado(Token token, Token esperado, ContextoSintactico ctx) {
     this.token = token;
+    this.esperado = esperado;
     this.ctx = ctx;
   }
 
@@ -37,17 +44,20 @@ public class ErrorTokenNoEsperado extends Error {
     return TipoError.SINTACTICO;
   }
 
-  @Override
-  public String getMsg() {
+  /**
+   * Convierte el token dado a una cadena con el fin de ser entendida por el usuario
+   * @param token El token a convertir
+   * @return El resultado
+   */
+  private String tokenStr(Token token) {
     String res = "";
 
-    // 1. Que se ha encontrado
-    switch(this.token.getTipoToken()) {
+    switch(token.getTipoToken()) {
       case IDENTIFICADOR -> res += "IDENTIFICADOR";
-      case CTE_ENTERA -> res += "ENTERO ('" + this.token.getAttr() + "')";
-      case CTE_REAL -> res += "REAL ('" + this.token.getAttr() + "')";
-      case CTE_CADENA -> res += "CADENA ('" + this.token.getAttr() + "')";
-      case CTE_LOGICA -> res += "LOGICO ('" + this.token.getAttr() + "')";
+      case CTE_ENTERA -> res += "ENTERO ('" + token.getAttr() + "')";
+      case CTE_REAL -> res += "REAL ('" + token.getAttr() + "')";
+      case CTE_CADENA -> res += "CADENA ('" + token.getAttr() + "')";
+      case CTE_LOGICA -> res += "LOGICO ('" + token.getAttr() + "')";
       case OP_RESTA -> res += "'-'";
       case OP_MODULO -> res += "'%'";
       case IGUALDAD -> res += "'=='";
@@ -58,16 +68,16 @@ public class ErrorTokenNoEsperado extends Error {
       case ASIGNACION -> res += "'='";
       case PUNTO_COMA -> res += "';'";
       case LLAVES -> {
-        if(this.token.getAttr().equals(Token.ORIENTACION_SIMBOLO.APERTURA)) {
+        if(token.getAttr().equals(Token.ORIENTACION_SIMBOLO.APERTURA)) {
           res += "'{'";
-        } else if(this.token.getAttr().equals(Token.ORIENTACION_SIMBOLO.CIERRE)) {
+        } else if(token.getAttr().equals(Token.ORIENTACION_SIMBOLO.CIERRE)) {
           res += "'}'";
         }
       }
       case PARENTESIS -> {
-        if(this.token.getAttr().equals(Token.ORIENTACION_SIMBOLO.APERTURA)) {
+        if(token.getAttr().equals(Token.ORIENTACION_SIMBOLO.APERTURA)) {
           res += "'('";
-        } else if(this.token.getAttr().equals(Token.ORIENTACION_SIMBOLO.CIERRE)) {
+        } else if(token.getAttr().equals(Token.ORIENTACION_SIMBOLO.CIERRE)) {
           res += "')'";
         }
       }
@@ -91,6 +101,16 @@ public class ErrorTokenNoEsperado extends Error {
       case EOF -> res += "FINAL ARCHIVO";
     }
 
+    return res;
+  }
+
+  @Override
+  public String getMsg() {
+    String res = "";
+
+    // 1. Que se ha encontrado
+    res += tokenStr(this.token);
+
     // 2. Donde se ha encontrado
     switch(this.ctx) {
       case EXPRESION -> res += " encontrado en EXPRESION";
@@ -101,6 +121,12 @@ public class ErrorTokenNoEsperado extends Error {
       case DECLARACION_FUNCION -> res += " encontrado en DECLARACION DE FUNCION";
       case DECLARACION_TIPO -> res += " encontrado en DECLARACION DE TIPO";
       case NADA -> res += " encontrado";
+    }
+    res += ".";
+
+    // 3. Que se esperaba (si es posible saberlo)
+    if(this.esperado != null) {
+      res += " Se esperaba " + this.tokenStr(this.esperado);
     }
 
     return res;

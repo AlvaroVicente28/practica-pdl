@@ -52,7 +52,7 @@ public class AnalizadorSintactico {
       return attr;
     }
     else {
-      this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ctx));
+      this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, token, ctx));
       return token;
     }
   }
@@ -83,7 +83,7 @@ public class AnalizadorSintactico {
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.NADA));
-      while(!first1.contains(this.next_tok) || !first2.contains(this.next_tok) || !follow.contains(this.next_tok)) {
+      while(!first1.contains(this.next_tok) && !first2.contains(this.next_tok) && !follow.contains(this.next_tok)) {
         this.next_tok = this.alex.nextToken();
         this.listaTokens.add(this.next_tok);
       }
