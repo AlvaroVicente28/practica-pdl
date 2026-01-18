@@ -23,6 +23,10 @@ public class ErrorTokenNoEsperado extends Error {
     this.ctx = ctx;
   }
 
+  public Token getToken() {
+    return this.token;
+  }
+
   @Override
   public CodigoError getCodigo() {
     return CodigoError.TOKEN_NO_ESPERADO;

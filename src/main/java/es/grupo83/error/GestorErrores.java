@@ -2,6 +2,7 @@ package es.grupo83.error;
 
 import java.util.ArrayList;
 
+import es.grupo83.Token;
 import es.grupo83.afd.AutomataFinito;
 import es.grupo83.util.Pair;
 
@@ -89,10 +90,20 @@ public class GestorErrores {
    */
   public String mensajes() {
     String res = "";
+    boolean lanzadoErrorEOF = false;
 
     for(Pair<Error, CtxError> error : this.errores) {
       Error lanzado = error.getFirst();
       CtxError ctx = error.getSecond();
+
+      // No repetir errores de 'fin de fichero no esperado'
+      if(lanzado instanceof ErrorTokenNoEsperado errToken
+              && errToken.getToken().equals(new Token(Token.TipoToken.EOF, null))) {
+        if(lanzadoErrorEOF) {
+          continue;
+        }
+        lanzadoErrorEOF = true;
+      }
 
       String errorHeader = "ERROR (linea " + ctx.getLinea();
       if(!ctx.getNombreFuncion().isBlank()) {

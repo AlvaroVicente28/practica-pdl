@@ -266,7 +266,8 @@ public class AnalizadorSintactico {
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.DECLARACION_FUNCION));
-      while(!this.next_tok.equals(new Token(Token.TipoToken.IDENTIFICADOR, 0))) {
+      while(!this.next_tok.equals(new Token(Token.TipoToken.IDENTIFICADOR, 0))
+              && !this.next_tok.equals(new Token(Token.TipoToken.EOF, null))) {
         this.next_tok = this.alex.nextToken();
         this.listaTokens.add(this.next_tok);
       }
@@ -309,7 +310,8 @@ public class AnalizadorSintactico {
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.DECLARACION_FUNCION));
-      while(!this.next_tok.equals(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE))) {
+      while(!this.next_tok.equals(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE))
+              && !this.next_tok.equals(new Token(Token.TipoToken.EOF, null))) {
         this.next_tok = this.alex.nextToken();
         this.listaTokens.add(this.next_tok);
       }
@@ -347,7 +349,8 @@ public class AnalizadorSintactico {
       ancho = 1;
     } else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.DECLARACION_TIPO));
-      while(!this.next_tok.equals(new Token(Token.TipoToken.IDENTIFICADOR, 0))) {
+      while(!this.next_tok.equals(new Token(Token.TipoToken.IDENTIFICADOR, 0))
+              && !this.next_tok.equals(new Token(Token.TipoToken.EOF, null))) {
         this.next_tok = this.alex.nextToken();
         this.listaTokens.add(this.next_tok);
       }
@@ -387,8 +390,7 @@ public class AnalizadorSintactico {
       Set<Token> firstC = Set.of(new Token(Token.TipoToken.RETURN, null), new Token(Token.TipoToken.WRITE, null),
               new Token(Token.TipoToken.READ, null), new Token(Token.TipoToken.IDENTIFICADOR, 0), new Token(Token.TipoToken.SWITCH, null),
               new Token(Token.TipoToken.IF, null), new Token(Token.TipoToken.LET, null));
-      while(!followC.contains(this.next_tok) && !firstC.contains(this.next_tok)) {
-        // TODO: EOF inesperado ?
+      while(!followC.contains(this.next_tok) && !firstC.contains(this.next_tok) && !this.next_tok.equals(new Token(Token.TipoToken.EOF, null))) {
         this.next_tok = this.alex.nextToken();
         this.listaTokens.add(this.next_tok);
       }
@@ -611,7 +613,8 @@ public class AnalizadorSintactico {
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.SENTENCIA_SIMPLE));
-      while(!this.next_tok.equals(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE))) {
+      while(!this.next_tok.equals(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE))
+              && !this.next_tok.equals(new Token(Token.TipoToken.EOF, null))) {
         this.next_tok = this.alex.nextToken();
         this.listaTokens.add(this.next_tok);
       }
@@ -643,7 +646,8 @@ public class AnalizadorSintactico {
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.SENTENCIA_SIMPLE));
-      while(!this.next_tok.equals(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE))) {
+      while(!this.next_tok.equals(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE))
+              && !this.next_tok.equals(new Token(Token.TipoToken.EOF, null))) {
         this.next_tok = this.alex.nextToken();
         this.listaTokens.add(this.next_tok);
       }
@@ -687,7 +691,8 @@ public class AnalizadorSintactico {
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.SENTENCIA_SWITCH));
-      while(!this.next_tok.equals(new Token(Token.TipoToken.LLAVES, Token.ORIENTACION_SIMBOLO.CIERRE))) {
+      while(!this.next_tok.equals(new Token(Token.TipoToken.LLAVES, Token.ORIENTACION_SIMBOLO.CIERRE))
+              && !this.next_tok.equals(new Token(Token.TipoToken.EOF, null))) {
         this.next_tok = this.alex.nextToken();
         this.listaTokens.add(this.next_tok);
       }
@@ -732,7 +737,7 @@ public class AnalizadorSintactico {
       Set<Token> firstSWC = Set.of(new Token(Token.TipoToken.IDENTIFICADOR, 0), new Token(Token.TipoToken.LET, null),
               new Token(Token.TipoToken.READ, null), new Token(Token.TipoToken.IF, null), new Token(Token.TipoToken.BREAK, null),
               new Token(Token.TipoToken.RETURN, null), new Token(Token.TipoToken.WRITE, null), new Token(Token.TipoToken.SWITCH, null));
-      while(!followSWC.contains(this.next_tok) && !firstSWC.contains(this.next_tok)) {
+      while(!followSWC.contains(this.next_tok) && !firstSWC.contains(this.next_tok) && !this.next_tok.equals(new Token(Token.TipoToken.EOF, null))) {
         this.next_tok = this.alex.nextToken();
         this.listaTokens.add(this.next_tok);
       }
@@ -773,7 +778,8 @@ public class AnalizadorSintactico {
     }
     else {
       this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.DECLARACION_FUNCION));
-      while(!this.next_tok.equals(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE))) {
+      while(!this.next_tok.equals(new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE))
+              && !this.next_tok.equals(new Token(Token.TipoToken.EOF, null))) {
         this.next_tok = this.alex.nextToken();
         this.listaTokens.add(this.next_tok);
       }
@@ -837,7 +843,7 @@ public class AnalizadorSintactico {
       var followE2 = Set.of(new Token(Token.TipoToken.COMA, null),
               new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE),
               new Token(Token.TipoToken.PUNTO_COMA, null));
-      while(!followE2.contains(this.next_tok)) {
+      while(!followE2.contains(this.next_tok) && !this.next_tok.equals(new Token(Token.TipoToken.EOF, null))) {
         this.next_tok = this.alex.nextToken();
         this.listaTokens.add(this.next_tok);
       }
@@ -909,7 +915,7 @@ public class AnalizadorSintactico {
               new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE),
               new Token(Token.TipoToken.AND, null),
               new Token(Token.TipoToken.COMA, null));
-      while(!followR2.contains(this.next_tok)) {
+      while(!followR2.contains(this.next_tok) && !this.next_tok.equals(new Token(Token.TipoToken.EOF, null))) {
         this.next_tok = this.alex.nextToken();
         this.listaTokens.add(this.next_tok);
       }
@@ -983,7 +989,7 @@ public class AnalizadorSintactico {
               new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE),
               new Token(Token.TipoToken.IGUALDAD, null),
               new Token(Token.TipoToken.COMA, null));
-      while(!followU2.contains(this.next_tok)) {
+      while(!followU2.contains(this.next_tok) && !this.next_tok.equals(new Token(Token.TipoToken.EOF, null))) {
         this.next_tok = this.alex.nextToken();
         this.listaTokens.add(this.next_tok);
       }
@@ -1059,7 +1065,7 @@ public class AnalizadorSintactico {
               new Token(Token.TipoToken.PUNTO_COMA, null),
               new Token(Token.TipoToken.IGUALDAD, null),
               new Token(Token.TipoToken.AND, null));
-      while(!followV2.contains(this.next_tok)) {
+      while(!followV2.contains(this.next_tok) && !this.next_tok.equals(new Token(Token.TipoToken.EOF, null))) {
         this.next_tok = this.alex.nextToken();
         this.listaTokens.add(this.next_tok);
       }
@@ -1137,7 +1143,7 @@ public class AnalizadorSintactico {
               new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE),
               new Token(Token.TipoToken.OP_RESTA, null),
               new Token(Token.TipoToken.AND, null));
-      while(!followW2.contains(this.next_tok)) {
+      while(!followW2.contains(this.next_tok) && !this.next_tok.equals(new Token(Token.TipoToken.EOF, null))) {
         this.next_tok = this.alex.nextToken();
         this.listaTokens.add(this.next_tok);
       }
@@ -1208,7 +1214,7 @@ public class AnalizadorSintactico {
               new Token(Token.TipoToken.AND, null), new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE),
               new Token(Token.TipoToken.IGUALDAD, null), new Token(Token.TipoToken.PUNTO_COMA, null),
               new Token(Token.TipoToken.MENOR_ESTRICTO, null), new Token(Token.TipoToken.COMA, null));
-      while(!followX.contains(this.next_tok)) {
+      while(!followX.contains(this.next_tok) && !this.next_tok.equals(new Token(Token.TipoToken.EOF, null))) {
         this.next_tok = this.alex.nextToken();
         this.listaTokens.add(this.next_tok);
       }
@@ -1278,7 +1284,7 @@ public class AnalizadorSintactico {
               new Token(Token.TipoToken.AND, null), new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE),
               new Token(Token.TipoToken.IGUALDAD, null), new Token(Token.TipoToken.PUNTO_COMA, null),
               new Token(Token.TipoToken.MENOR_ESTRICTO, null), new Token(Token.TipoToken.COMA, null));
-      while(!followY.contains(this.next_tok)) {
+      while(!followY.contains(this.next_tok) && !this.next_tok.equals(new Token(Token.TipoToken.EOF, null))) {
         this.next_tok = this.alex.nextToken();
         this.listaTokens.add(this.next_tok);
       }
@@ -1316,7 +1322,7 @@ public class AnalizadorSintactico {
               new Token(Token.TipoToken.AND, null), new Token(Token.TipoToken.PARENTESIS, Token.ORIENTACION_SIMBOLO.CIERRE),
               new Token(Token.TipoToken.IGUALDAD, null), new Token(Token.TipoToken.PUNTO_COMA, null),
               new Token(Token.TipoToken.MENOR_ESTRICTO, null), new Token(Token.TipoToken.COMA, null));
-      while(!followY2.contains(this.next_tok)) {
+      while(!followY2.contains(this.next_tok) && !this.next_tok.equals(new Token(Token.TipoToken.EOF, null))) {
         this.next_tok = this.alex.nextToken();
         this.listaTokens.add(this.next_tok);
       }
