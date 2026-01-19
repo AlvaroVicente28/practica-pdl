@@ -10,3 +10,7 @@ if(x(5) - 2 < 4)
 
 write "Exit";
 return 0;
+
+let int y = 0;
+if(y - 1)
+    write "Adios";
