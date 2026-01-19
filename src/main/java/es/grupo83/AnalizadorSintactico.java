@@ -387,7 +387,7 @@ public class AnalizadorSintactico {
       tipo = new TipoInterno(TipoInterno.Internos.OK);
     }
     else {
-      this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.DECLARACION_FUNCION));
+      this.gestorErrores.agregarError(new ErrorTokenNoEsperado(this.next_tok, ContextoSintactico.SENTENCIA_COMPUESTA));
       Set<Token> followC = Set.of(new Token(Token.TipoToken.LLAVES, Token.ORIENTACION_SIMBOLO.CIERRE));
       Set<Token> firstC = Set.of(new Token(Token.TipoToken.RETURN, null), new Token(Token.TipoToken.WRITE, null),
               new Token(Token.TipoToken.READ, null), new Token(Token.TipoToken.IDENTIFICADOR, 0), new Token(Token.TipoToken.SWITCH, null),
