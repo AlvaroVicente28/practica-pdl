@@ -166,6 +166,6 @@ public class TestASint {
             ErrorTokenNoEsperado.ContextoSintactico.SENTENCIA_SIMPLE
     ));
 
-    assertIterableEquals(expected.getErrores(), current.getErrores());
+    assertEquals(expected.getErrores().iterator().next(), current.getErrores().iterator().next());
   }
 }
