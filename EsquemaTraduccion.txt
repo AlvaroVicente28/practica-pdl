@@ -84,7 +84,7 @@ Y -> booleano	{ Y.tipo = logico }
 Y2 -> lambda	{ Y2.tipo = tipo_ok }
 Y2 -> ( L )		{ Y2.tipo = L.tipo }
 
-S -> id S2      { id.tipo = BuscarTipoTS(id.pos)
+S -> id S2 ;    { id.tipo = BuscarTipoTS(id.pos)
                   if(id.tipo = param -> t)
                         then S.tipo = if(S2.llamada = true and S2.tipo = param)
                                             then tipo_ok
@@ -103,14 +103,14 @@ S -> read id ;  {
                                     then tipo_ok
                                     else tipo_err;
                 }
-S -> return R1  { S.tipo = if(S.tipoRet = R1.tipo and S.tipoRet != tipo_err)
+S -> return R1 ;{ S.tipo = if(S.tipoRet = R1.tipo and S.tipoRet != tipo_err)
                                 then tipo_ok
                                 else tipo_err;
                 }
-S2 -> = E ;     { S2.tipo = E.tipo; S2.llamada = false; }
-S2 -> ( L ) ;   { S2.tipo = L.tipo; S2.llamada = true; }
-R1 -> E ;       { R1.tipo = E.tipo; }
-R1 -> ;         { R1.tipo = vacio; }
+S2 -> = E       { S2.tipo = E.tipo; S2.llamada = false; }
+S2 -> ( L )     { S2.tipo = L.tipo; S2.llamada = true; }
+R1 -> E         { R1.tipo = E.tipo; }
+R1 -> lambda    { R1.tipo = vacio; }
 L -> E Q        { L.tipo = if(Q.tipo = tipo_ok)
                                 then E.tipo
                                 else E.tipo X Q.tipo }
@@ -128,7 +128,7 @@ B -> if ( E )                   { S.tipoRet = B.tipoRet; }
                                 }
 B ->                            { zonaDecl = true; }
         let T id                { zonaDecl = false; }
-        B2                      {
+        B2 ;                    {
                                   insertaTipoTS(id.pos, T.tipo);
                                   insertaDespTS(id.pos, desp);
                                   desp += T.ancho;
@@ -146,8 +146,8 @@ B -> switch ( E )               { SW.tipoRet = B.tipoRet; }
                                                 then SW.tipo
                                                 else tipo_err;
                                 }
-B2 -> ;                         { B2.tipo = tipo_ok; }
-B2 -> = E ;                     { B2.tipo = E.tipo }
+B2 -> lambda                    { B2.tipo = tipo_ok; }
+B2 -> = E                       { B2.tipo = E.tipo }
 SW -> case entero :             { SWC.tipoRet = SW.tipoRet; }
         SWC                     { SW1.tipoRet = SW.tipoRet; }
         SW1                     { SW.tipo = if(SWC.tipo = SW1.tipo = tipo_ok)

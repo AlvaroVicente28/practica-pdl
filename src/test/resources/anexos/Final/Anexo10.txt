@@ -19,3 +19,5 @@ let float x = 0;
 let float double = 0;
 
 write double - (++x);
+
+write true;
