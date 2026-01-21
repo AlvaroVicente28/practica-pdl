@@ -218,6 +218,16 @@ public class TablaSimbolos {
         // Variable no declarada: se agrega como variable entera y global
         pos = this.gestor.addEntradaTSGlobal(lexema);
         this.insertarTipoBasicoTS(pos, new TipoBasico(TipoBasico.Basicos.ENTERO));
+        switch(this.tablaActual) {
+          case GLOBAL -> {
+            this.insertarDesplazamientoTS(pos);
+            this.incrementarDesp(1);
+          }
+          case LOCAL -> {
+            this.gestor.setValorAtributoEnt(pos, DESPLAZAMIENTO, this.despGlobal);
+            this.despGlobal += 1;
+          }
+        }
       }
     }
     assert pos != 0;
